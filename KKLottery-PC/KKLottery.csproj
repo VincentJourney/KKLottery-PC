@@ -130,6 +130,7 @@
     <Content Include="images\Turn-WC.png" />
     <Content Include="images\WXRegister.png" />
     <Content Include="Register.aspx" />
+    <Content Include="Scripts\need\layer.css" />
     <Content Include="TurnQRCode.aspx" />
     <Content Include="RollQRCode.aspx" />
     <Content Include="Scripts\mui.min.js" />

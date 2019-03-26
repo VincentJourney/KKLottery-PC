@@ -287,8 +287,11 @@
 	var CanJoin = false;
 
 	$(function () {
+		SimpleTimer.Start();
+		SimpleTimer.Back();
 
 		GetGameSetting({ GameType: 1 }, data => {
+			console.log(data);
 			if (!data.HasError) {
 				if (data.Data.length == 0) {
 					mui.alert("游戏暂未配置");
@@ -315,6 +318,8 @@
 
 	/*******抽奖 */
 	var drawFunc = () => {
+		SimpleTimer.ReSet();
+
 		$('.draw-btn').removeAttr('onclick')		//抽奖过程中不允许重复抽奖
 
 		if (!CanJoin) {
@@ -322,8 +327,9 @@
 			return;
 		}
 		GameJoinApi(res => {
+			console.log(res)
 			if (res.HasError)
-				mui.alert(res.Result.ErrorMessage);
+				mui.alert(res.ErrorMessage);
 			else {
 				var WinPrizeName = res.Data.WinPrizeName;
 				for (var i = 0; i < PrizeList.length; i++) {
@@ -331,7 +337,30 @@
 					if (PrizeList[i].PrizeName == WinPrizeName) break;
 				}
 				SocketSend("Roll-PC", "<%=UnionId%>", '抽奖结果', LotteryFinalNum, false);
-				SelectMemberInfo();     //重新查询会员信息
+				//查询游戏日志
+				GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
+					if (!res.HasError) {
+						$('#TotalCount').html(res.Data.PersonalTotalCount);
+						$('#TodayCount').html(res.Data.PersonalTodayCount);
+						if (res.Data.CanJoin) {
+							$('#CanJoin').html('您还可以继续抽奖哟！');
+							CanJoin = true;
+						}
+						else {
+							$('#CanJoin').html('不好意思，您的抽奖次数已用完');
+						}
+
+						//发送游戏设置给PC端
+						SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
+							TotalCount: res.Data.PersonalTotalCount,
+							TodayCount: res.Data.PersonalTodayCount,
+							CanJoin: res.Data.CanJoin
+						}, false);
+					}
+					else {
+						mui.alert(res.ErrorMessage);
+					}
+				})
 				if (click)				//click控制一次抽奖过程中不能重复点击抽奖按钮，后面的点击不响应
 					return false;
 				else {
@@ -430,8 +459,32 @@
 
 	//小游戏信息查询
 	var CrmLoad = () => {
+		//请求会员信息
+		MemberInfo({ QueryType: '4', Code: '<%= UnionId %>' }, data => {
+			if (!data.HasError) {
+				CustomerID = data.Data.MemberID;
+				CardID = data.Data.CardInfoList[0].CardID;
+				MobileNo = data.Data.MobileNo;
+				$('#UserName').html(data.Data.FullName);
+				$('#UserSex').html(FormatterSex(data.Data.Gender));
+				$('#UserPhone').html(data.Data.MobileNo);
+				$('#UserCardCode').html(data.Data.CardInfoList[0].CardCode);
 
-		SelectMemberInfo();
+				//发送用户消息给PC端
+				SocketSend("Roll-PC", "<%=UnionId%>", '用户信息', {
+					UserName: data.Data.FullName,
+					UserSex: FormatterSex(data.Data.Gender),
+					UserPhone: data.Data.MobileNo,
+					UserCardCode: data.Data.CardInfoList[0].CardCode
+				}, false);
+			}
+			else {
+				if (data.ErrorMessage.includes('会员不存在'))
+					window.location.href = 'Register.aspx'
+				else
+					mui.alert(data.ErrorMessage);
+			}
+		});
 		//查询游戏规则
 		GetGameSetting({ GameType: 1 }, data => {
 			if (!data.HasError) {
@@ -502,34 +555,7 @@
 		})
 	}
 
-	var SelectMemberInfo = () => {
-		//请求会员信息
-		MemberInfo({ QueryType: '4', Code: '<%= UnionId %>' }, data => {
-			if (!data.HasError) {
-				CustomerID = data.Data.MemberID;
-				CardID = data.Data.CardInfoList[0].CardID;
-				MobileNo = data.Data.MobileNo;
-				$('#UserName').html(data.Data.FullName);
-				$('#UserSex').html(FormatterSex(data.Data.Gender));
-				$('#UserPhone').html(data.Data.MobileNo);
-				$('#UserCardCode').html(data.Data.CardInfoList[0].CardCode);
 
-				//发送用户消息给PC端
-				SocketSend("Roll-PC", "<%=UnionId%>", '用户信息', {
-					UserName: data.Data.FullName,
-					UserSex: FormatterSex(data.Data.Gender),
-					UserPhone: data.Data.MobileNo,
-					UserCardCode: data.Data.CardInfoList[0].CardCode
-				}, false);
-			}
-			else {
-				if (data.ErrorMessage.includes('会员不存在'))
-					window.location.href = 'Register.aspx'
-				else
-					mui.alert(data.ErrorMessage);
-			}
-		});
-	}
 
 	//参加抽奖
 	var GameJoinApi = func => {
@@ -566,9 +592,7 @@
 				func();
 			}
 			else {
-				SelectLoginState(function () {
-
-				});
+				SelectLoginState(func);
 			}
 		}, 500);
 	}

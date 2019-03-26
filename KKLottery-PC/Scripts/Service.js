@@ -57,3 +57,37 @@ function WcMessage(sendTo, mobileNo, mesTitle, mesData, result) {
 		return JSON.stringify(this);
 	}
 }
+
+/**
+ *简易计时器
+ */
+(() => {
+	var LimitTime = 0;		//限制时间
+	var timer;				//计时器
+	window.SimpleTimer = {
+		Start: () => timer = setInterval(() => { LimitTime++ }, 1000),	//计时开始
+		ReSet: () => LimitTime = 0,			//重置计时
+		GetLimitTime: () => LimitTime,		//获取计时时间
+		Stop: () => clearInterval(timer),	//计时暂停
+		Back: () => {						//30秒无操作，自动推出微信页面
+			setInterval(() => {
+				if (LimitTime >= 30) {
+					LimitTime = 0;
+					WeixinJSBridge.call('closeWindow');
+				}
+			}, 1000)
+		}
+	}
+})();
+
+/**
+ *
+ * */
+//function SimpleTimer() {
+//	this.limitTime = 0;
+//	this.timer = null;
+//	this.Start = () => this.timer = setInterval(() => { this.limitTime++ }, 1000);
+//	this.ReSet = () => this.limitTime = 0;
+//	this.Stop = () => clearInterval(this.timer);
+//}
+
