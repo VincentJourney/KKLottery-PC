@@ -7,6 +7,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover" />
 	<title></title>
+	<link href="css/mui.min.css" rel="stylesheet" />
 	<link href="css/WeUI/weui.min.css" rel="stylesheet" />
 	<style type="text/css">
 		body {
@@ -31,6 +32,11 @@
 
 		.weui-grids:before {
 			border: 0;
+		}
+
+		.weui-grids:after {
+			width: 0;
+			border-left: 0;
 		}
 
 		a {
@@ -100,17 +106,25 @@
 
 		h1#LayerH1 {
 			color: #e04538;
-			position: absolute;
-			top: 26%;
-			width: 35%;
-			left: 50%;
-			margin-left: -16%;
-			text-align: center;
 			font-size: 5VW;
 		}
 
 		.hover :hover {
 			background-color: darkgreen;
+		}
+
+		.PrizeInfo {
+			width: 64vw;
+			height: 64vw;
+			background: rgba(255,255,255,1);
+			opacity: 1;
+			border-radius: 2vw;
+			text-align: center;
+			padding: 6VW;
+		}
+
+		.marTop {
+			margin-top: 3vw;
 		}
 	</style>
 </head>
@@ -127,7 +141,7 @@
 			</tr>
 		</table>
 	</div>
-	<div class="weui-grids" id="draw">
+	<div class="weui-grids" id="draw" style="padding: 5%; border-left: 0;">
 		<a href="javascript:;" id="a1" class="weui-grid">
 			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
@@ -176,8 +190,13 @@
 	</div>
 
 	<div id="UserJoinInfo" class="textTemple textStyle">
-		<p>用户参与总次数：<span id="TotalCount"></span></p>
+		<%--		<p>用户参与总次数：<span id="TotalCount"></span></p>
 		<p>用户当日参与次数：<span id="TodayCount"></span></p>
+		<p>当前是否可参与：<span id="CanJoin"></span></p>--%>
+		<p>活动期间最大参与次数：<span id="GameMax"></span></p>
+		<p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
+		<p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
+		<p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
 		<p>当前是否可参与：<span id="CanJoin"></span></p>
 	</div>
 
@@ -194,10 +213,22 @@
 		</div>
 	</div>
 
-	<div id='info' style="display: none">
+	<%--	<div id='info' style="display: none">
 		<a href="#">
 			<img src="images/tk_img.png" style="width: 100%;" /></a>
 		<h1 id="LayerH1">100元</h1>
+	</div>--%>
+	<div id='info' style="display: none">
+		<div class="PrizeInfo">
+			<div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
+			<div id="LayerH1" class="marTop"></div>
+			<div class="marTop">
+				<img src="#" id="PrizeIMG" />
+			</div>
+			<div class="marTop">
+				<button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
@@ -218,6 +249,8 @@
 	var PrizeList;				//奖品列表
 	var LotteryFinalPrize;	    //实际抽奖的奖品
 	var CanJoin = false;
+	var GameMax = 0;			//活动期间最大参与次数
+	var GameDayPersonMax = 0;	//每人当日最大参与次数
 
 	var clickstate = 0;
 	var time = 400;
@@ -228,7 +261,7 @@
 	//抽奖
 	var turn = function (target, time, opts) {
 		target.find('a').click(function () {
-
+			target.find('a').unbind('click');
 			SimpleTimer.ReSet();
 
 			if (clickstate == 1)
@@ -244,6 +277,16 @@
 				if (res.HasError)
 					mui.alert(res.ErrorMessage);
 				else {
+					if (res.Data.WinPrizeType == '4') {
+						$('#PrizeTitle').text("谢谢参与");
+						$('#LayerH1').text("很遗憾您未能获得奖品");
+						$('#PrizeIMG').attr('hidden', 'hidden');
+					}
+					else {
+						$('#LayerH1').text(res.Data.WinPrizeName);
+						$('#PrizeIMG').attr('src', 'images/PrizeIMG.png');
+					}
+
 					var WinPrizeName = res.Data.WinPrizeName;
 					for (var i = 0; i < PrizeList.length; i++) {
 						if (PrizeList[i].PrizeName == WinPrizeName) {
@@ -255,13 +298,14 @@
 					SocketSend("Turn-PC", "<%=UnionId%>", '抽奖结果', { LotteryFinalPrize, Id: this.id }, false);
 					turnImg = current;
 					$(this).find('.img').stop().animate(opts[0], time, function () {
+						$(this).next().attr('src', ResourceUrl + LotteryFinalPrize.PrizeImg);
 						$(this).hide().next().show();
 						$(this).next().animate(opts[1], time);
-						$(this).parent().find('.PrizeName').html(WinPrizeName);
-						$(this).parent().find('.PrizeName').show();
+						//$(this).parent().find('.PrizeName').html(WinPrizeName);
+						//$(this).parent().find('.PrizeName').show();
 						clickstate = 1;
 
-						$('#info h1').text($(this).parent().find('.PrizeName').text());
+
 						setTimeout(function () {
 							layer.open({
 								type: 1,
@@ -271,7 +315,6 @@
 								area: ['893px', '600px'],
 								content: $('#info').html()
 							});
-							Finishi();
 						}, 2000);
 					});
 					SocketSend("Turn-PC", "<%=UnionId%>", '抽奖状态', '开始抽奖', false);		//发送开始抽奖标识
@@ -316,6 +359,11 @@
 					mui.alert("游戏暂未配置");
 					return
 				}
+				GameMax = data.Data[0].GameMax;
+				GameDayPersonMax = data.Data[0].GameDayPersonMax;
+				$("#GameMax").html(GameMax);
+				$("#GameDayPersonMax").html(GameDayPersonMax);
+
 				var PulishTo = data.Data[0].PulishTo;		//手机端 1 PC端 2 手机+PC 3 手机PC同步 4
 				if (PulishTo == '4') {
 					//初始化WebSocket
@@ -408,6 +456,8 @@
 					if (!res.HasError) {
 						$('#TotalCount').html(res.Data.PersonalTotalCount);
 						$('#TodayCount').html(res.Data.PersonalTodayCount);
+						$('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+						$('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
 						if (res.Data.CanJoin) {
 							$('#CanJoin').html('您还可以继续抽奖哟！');
 							CanJoin = true;
@@ -499,12 +549,12 @@
 	}
 
 	//点击屏幕关闭弹出层
-	var Finishi = () => {
-		$(document).click(() => {
-			layer.closeAll();
-			SocketSend("Turn-PC", "<%=UnionId%>", '领奖信息', '点击领奖', false);
-
-			ReSet();
+	var ReceivePrize = () => {
+		layer.closeAll();
+		SocketSend("Turn-PC", "<%=UnionId%>", '领奖信息', '点击领奖', false);
+		ReSet();
+		$('#draw').find('a').bind('click', function () {
+			turn($('#draw'), 400, verticalOpts);
 		});
 	}
 

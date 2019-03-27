@@ -6,12 +6,33 @@
 <head runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title></title>
+	<style type="text/css">
+		body {
+			background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);
+		}
+
+		.QRCodeBox {
+			text-align: center;
+			width: 28%;
+			margin: 9% auto;
+			color: white;
+			background: #0e0f0f80;
+			padding: 1%;
+		}
+
+		.Logo {
+			padding: 1%;
+		}
+	</style>
 </head>
 <body>
-	<div style="text-align: center; margin-top: 10%; width: 100%;">
-		<h1>请扫描下方二维码</h1>
+	<div class="Logo">
+		<img src="images/kingkeyLog.png" />
+	</div>
+	<div class="QRCodeBox">
+		<h1>扫描登陆</h1>
 		<img src="images/Turn-WC.png" />
-		<h3>翻牌小游戏</h3>
+		<h4>请您打开微信，扫描二维码登录</h4>
 	</div>
 </body>
 </html>

@@ -21,7 +21,7 @@
 		}
 
 		main {
-			padding-top: 8%;
+			padding-top: 3%;
 		}
 
 		table {
@@ -153,11 +153,16 @@
 		.marTop {
 			margin-top: 50px;
 		}
+
+		.Logo {
+			padding: 1%;
+		}
 	</style>
 
 </head>
 <body ng-app="mainApp" ng-controller="indexCtrl" style="background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);">
-	<div class="headerWrapper container-fluid">
+	<div class="Logo">
+		<img src="images/kingkeyLog.png" />
 	</div>
 	<main>
 		<div style="width: 100%; overflow: hidden">
@@ -257,9 +262,6 @@
 			<div class="marTop">
 				<img src="#" id="PrizeIMG" />
 			</div>
-			<%--			<div class="marTop">
-				<button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
-			</div>--%>
 		</div>
 	</div>
 </body>

@@ -379,8 +379,7 @@
 					if (!res.HasError) {
 						$('#TotalCount').html(res.Data.PersonalTotalCount);
 						$('#TodayCount').html(res.Data.PersonalTodayCount);
-						$('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
-						$('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+					c
 						if (res.Data.CanJoin) {
 							$('#CanJoin').html('您还可以继续抽奖哟！');
 							CanJoin = true;

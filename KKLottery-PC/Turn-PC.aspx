@@ -22,8 +22,8 @@
 		}
 
 		.weui-grids {
-			width: 32%;
-			margin: 0 auto;
+			width: 60%;
+			margin-left: 5%;
 		}
 
 		.weui-grid:before {
@@ -67,12 +67,13 @@
 		/*-----------------*/
 
 		.textTemple {
-			margin: 0 auto;
-			padding: 0 1%;
+			margin: 0 20%;
+			padding: 2% 3%;
 			background-color: black;
 			opacity: 0.5;
-			border-radius: 5px;
+			border-radius: 12px;
 			width: 50%;
+			color: white;
 		}
 
 		.textStyle {
@@ -114,10 +115,31 @@
 			text-align: center;
 			font-size: 19px;
 		}
+
+		.PrizeInfo {
+			width: 380px;
+			height: 380px;
+			background: rgba(255,255,255,1);
+			opacity: 1;
+			border-radius: 20px;
+			text-align: center;
+			padding: 22px;
+		}
+
+		.marTop {
+			margin-top: 50px;
+		}
+
+		.Logo {
+			padding: 1%;
+		}
 	</style>
 </head>
 <body>
-	<div style="width: 100%; overflow: hidden">
+	<div class="Logo">
+		<img src="images/kingkeyLog.png" />
+	</div>
+	<div style="width: 100%; overflow: hidden; margin-top: 3%">
 		<div style="width: 40%; float: left;">
 			<div id="UserInfo" class="textTemple">
 				<h2>会员信息</h2>
@@ -145,47 +167,47 @@
 		<div style="width: 60%; float: left;">
 			<div class="weui-grids" id="draw">
 				<a href="javascript:;" id="a1" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/1.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a2" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/2.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a3" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/3.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a4" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/4.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a5" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/5.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a6" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/6.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a7" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/7.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a8" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/8.png" alt="" />
 				</a>
 				<a href="javascript:;" id="a9" class="weui-grid">
-					<span class="PrizeName">xixi</span>
+					<span class="PrizeName"></span>
 					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 					<img class="info" src="images/ldimg/jieguo/9.png" alt="" />
 				</a>
@@ -220,9 +242,13 @@
 	</div>--%>
 
 	<div id='info' style="display: none">
-		<a href="#">
-			<img src="images/tk_img.png" style="width: 100%;" /></a>
-		<h1 id="LayerH1">100元</h1>
+		<div class="PrizeInfo">
+			<div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
+			<div id="LayerH1" class="marTop" style="font-size: 20px"></div>
+			<div class="marTop">
+				<img src="#" id="PrizeIMG" />
+			</div>
+		</div>
 	</div>
 </body>
 </html>
@@ -249,12 +275,22 @@
 
 	var StartLottery = () => {
 		$(`#${LotteryFinalId}`).find('.img').stop().animate(verticalOpts[0], time, function () {
+			$(this).next().attr('src', ResourceUrl + LotteryFinalPrize.PrizeImg);
 			$(this).hide().next().show();
 			$(this).next().animate(verticalOpts[1], time);
-			$(this).parent().find('.PrizeName').html(LotteryFinalPrize.PrizeName);
-			$(this).parent().find('.PrizeName').show();
+			//$(this).parent().find('.PrizeName').html(LotteryFinalPrize.PrizeName);
+			//$(this).parent().find('.PrizeName').show();
+			console.log(LotteryFinalPrize);
+			if (LotteryFinalPrize.PrizeType == 4) {
+				$('#PrizeTitle').text("谢谢参与");
+				$('#LayerH1').text("很遗憾您未能获得奖品");
+				$('#PrizeIMG').attr('hidden', 'hidden');
+			}
+			else {
+				$('#LayerH1').text(LotteryFinalPrize.PrizeName);
+				$('#PrizeIMG').attr('src', 'images/PrizeIMG.png');
+			}
 
-			$('#info h1').text($(this).parent().find('.PrizeName').text());
 			setTimeout(function () {
 				layer.open({
 					type: 1,
@@ -300,7 +336,7 @@
 		//加载规则
 		$('#RuleText').html(GameRuleImg.RuleText);
 		//加载底图
-		$("body").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
+		//$("body").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
 
 	}
 

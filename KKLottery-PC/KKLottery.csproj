@@ -126,6 +126,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="images\kingkeyLog.png" />
     <Content Include="images\Roll-WC.png" />
     <Content Include="images\Turn-WC.png" />
     <Content Include="images\WXRegister.png" />
