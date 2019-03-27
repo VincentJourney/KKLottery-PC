@@ -41,7 +41,8 @@
 			padding: 51px;
 			background-image: url(images/bg.png);
 			background-repeat: no-repeat;
-			background-size: 100%;
+			background-size: 95%;
+			background-position: top;
 		}
 
 			.draw .item {
@@ -105,14 +106,8 @@
 				background-size: 96%;
 			}
 
-		h1#LayerH1 {
+		#LayerH1 {
 			color: #e04538;
-			position: absolute;
-			top: 26%;
-			width: 35%;
-			left: 50%;
-			margin-left: -16%;
-			text-align: center;
 			font-size: 5VW;
 		}
 
@@ -150,16 +145,31 @@
 		.hover :hover {
 			background-color: darkgreen;
 		}
+
+		p {
+			color: white;
+		}
+
+		.PrizeInfo {
+			width: 64vw;
+			height: 64vw;
+			background: rgba(255,255,255,1);
+			opacity: 1;
+			border-radius: 2vw;
+			text-align: center;
+			padding: 6VW;
+		}
+
+		.marTop {
+			margin-top: 3vw;
+		}
 	</style>
 
 </head>
-<body ng-app="mainApp" ng-controller="indexCtrl" style="background: #f02d2f;">
-
+<body ng-app="mainApp" ng-controller="indexCtrl" style="background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);">
 	<div class="headerWrapper container-fluid">
 	</div>
-
-	<main style="background: #f02d2f;">
-
+	<main>
 		<div id="UserInfo" class="textTemple">
 			<table class="textStyle">
 				<tr>
@@ -236,8 +246,10 @@
 		</div>
 
 		<div id="UserJoinInfo" class="textTemple textStyle">
-			<p>用户参与总次数：<span id="TotalCount"></span></p>
-			<p>用户当日参与次数：<span id="TodayCount"></span></p>
+			<p>活动期间最大参与次数：<span id="GameMax"></span></p>
+			<p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
+			<p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
+			<p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
 			<p>当前是否可参与：<span id="CanJoin"></span></p>
 		</div>
 
@@ -256,9 +268,16 @@
 	</main>
 
 	<div id='info' style="display: none">
-		<a href="#">
-			<img src="images/tk_img.png" style="width: 100%;" /></a>
-		<h1 id="LayerH1">100元</h1>
+		<div class="PrizeInfo">
+			<div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
+			<div id="LayerH1" class="marTop"></div>
+			<div class="marTop">
+				<img src="#" id="PrizeIMG" />
+			</div>
+			<div class="marTop">
+				<button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
+			</div>
+		</div>
 	</div>
 
 	<div id='Loading' style="display: none">
@@ -285,6 +304,8 @@
 	var PrizeList;				//奖品列表
 	var LotteryFinalNum = 0;	//实际抽奖的奖品序号
 	var CanJoin = false;
+	var GameMax = 0;			//活动期间最大参与次数
+	var GameDayPersonMax = 0;	//每人当日最大参与次数
 
 	$(function () {
 		SimpleTimer.Start();
@@ -297,6 +318,11 @@
 					mui.alert("游戏暂未配置");
 					return
 				}
+				GameMax = data.Data[0].GameMax;
+				GameDayPersonMax = data.Data[0].GameDayPersonMax;
+				$("#GameMax").html(GameMax);
+				$("#GameDayPersonMax").html(GameDayPersonMax);
+
 				var PulishTo = data.Data[0].PulishTo;		//手机端 1 PC端 2 手机+PC 3 手机PC同步 4
 				if (PulishTo == '4') {
 					//初始化WebSocket
@@ -328,20 +354,33 @@
 		}
 		GameJoinApi(res => {
 			console.log(res)
+			$('#PrizeIMG').removeAttr('hidden');
 			if (res.HasError)
 				mui.alert(res.ErrorMessage);
 			else {
+				if (res.Data.WinPrizeType == '4') {
+					$('#PrizeTitle').text("谢谢参与");
+					$('#LayerH1').text("很遗憾您未能获得奖品");
+					$('#PrizeIMG').attr('hidden', 'hidden');
+				}
+				else {
+					$('#LayerH1').text(res.Data.WinPrizeName);
+					$('#PrizeIMG').attr('src', 'images/PrizeIMG.png');
+				}
+
 				var WinPrizeName = res.Data.WinPrizeName;
 				for (var i = 0; i < PrizeList.length; i++) {
 					LotteryFinalNum = i;		//得到实际抽奖的奖品序号
 					if (PrizeList[i].PrizeName == WinPrizeName) break;
 				}
-				SocketSend("Roll-PC", "<%=UnionId%>", '抽奖结果', LotteryFinalNum, false);
+				SocketSend("Roll-PC", "<%=UnionId%>", '抽奖结果', res, false);
 				//查询游戏日志
 				GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
 					if (!res.HasError) {
 						$('#TotalCount').html(res.Data.PersonalTotalCount);
 						$('#TodayCount').html(res.Data.PersonalTodayCount);
+						$('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+						$('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
 						if (res.Data.CanJoin) {
 							$('#CanJoin').html('您还可以继续抽奖哟！');
 							CanJoin = true;
@@ -351,10 +390,12 @@
 						}
 
 						//发送游戏设置给PC端
-						SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
+						SocketSend("Roll-PC", "<%=UnionId%>", '游戏日志', {
 							TotalCount: res.Data.PersonalTotalCount,
 							TodayCount: res.Data.PersonalTodayCount,
-							CanJoin: res.Data.CanJoin
+							CanJoin: res.Data.CanJoin,
+							GameMax,
+							GameDayPersonMax
 						}, false);
 					}
 					else {
@@ -391,8 +432,8 @@
 				$units = $lottery.find('.lottery-unit');
 				this.obj = $lottery;
 				this.count = $units.length;
-				$lottery.find('.lottery-unit.lottery-unit-' + this.index).addClass('active');
-				$('#info h1').text($('.lottery-unit.active span').text());
+				//$lottery.find('.lottery-unit.lottery-unit-' + this.index).addClass('active');
+				//$('#info h1').text($('.lottery-unit.active span').text());
 			};
 		},
 		roll: function () {
@@ -405,7 +446,7 @@
 				index = 0;
 			};
 			$(lottery).find('.lottery-unit.lottery-unit-' + index).addClass('active');
-			$('#info h1').text($('.lottery-unit.active span').text());
+			//$('#info #LayerH1').text($('.lottery-unit.active span').text());
 			this.index = index;
 			return false;
 		},
@@ -529,6 +570,8 @@
 					if (!res.HasError) {
 						$('#TotalCount').html(res.Data.PersonalTotalCount);
 						$('#TodayCount').html(res.Data.PersonalTodayCount);
+						$('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+						$('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
 						if (res.Data.CanJoin) {
 							$('#CanJoin').html('您还可以继续抽奖哟！');
 							CanJoin = true;
@@ -541,7 +584,9 @@
 						SocketSend("Roll-PC","<%=UnionId%>", '游戏日志', {
 							TotalCount: res.Data.PersonalTotalCount,
 							TodayCount: res.Data.PersonalTodayCount,
-							CanJoin: res.Data.CanJoin
+							CanJoin: res.Data.CanJoin,
+							GameMax,
+							GameDayPersonMax
 						}, false);
 					}
 					else {
@@ -582,6 +627,16 @@
 		}
 	}
 
+	var FormatterPrizeType = Type => {
+		switch (Type) {
+			case '1': return '礼品';
+			case '2': return '礼券';
+			case '3': return '积分';
+			case '4': return '感谢参与';
+			default: return '';
+		}
+	}
+
 	/************工具 */
 
 	//递归查询是否已连接
@@ -591,10 +646,9 @@
 				SocketSend("Roll-PC","<%=UnionId%>", '登录信息', '已登录', false);
 				func();
 			}
-			else {
+			else
 				SelectLoginState(func);
-			}
-		}, 500);
+		}, 1000);
 	}
 
 
@@ -628,11 +682,12 @@
 			content: $('#Loading').html()
 		});
 	}
-	//点击屏幕关闭弹出层
-	$(document).click(() => {
+
+	//点击领奖
+	var ReceivePrize = () => {
 		layer.closeAll();
 		SocketSend("Roll-PC","<%=UnionId%>", '领奖信息', '点击领奖', false);
-	});
+	};
 
 	var SelectJoinInfo = () => {
 		if (isEmpty(SettingId) || isEmpty('<%=UnionId%>')) {

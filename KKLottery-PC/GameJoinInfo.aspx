@@ -6,20 +6,71 @@
 <head runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title></title>
+	<style type="text/css">
+		*, :after, :before {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-size: 3.5VW;
+			color: white;
+		}
+
+		.Title {
+			top: 0;
+			width: 100%;
+			overflow: hidden;
+			background-color: black;
+			opacity: 0.4;
+		}
+
+		.LogMode {
+			margin: 5VW auto;
+			overflow: hidden;
+			background: black;
+			opacity: 0.4;
+			height: 14vw;
+			width: 90%;
+			border-radius: 2vw;
+			text-align: center;
+			line-height: 7vw;
+		}
+
+		li {
+			list-style: none;
+		}
+	</style>
 </head>
-<body>
-	<div class="mui-card" style="margin: 0px;">
-		<div class="mui-card-header mui-row" style="margin: 6vw 0; font-size: 6VW">
-			<div class="mui-col-sm-4" onclick="Back()">返回</div>
-			<div class="mui-col-sm-8">日志列表</div>
+<body style="background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);">
+	<div class="Title">
+		<div style="float: left; width: 40%; line-height: 14vw; padding-left: 6%;" onclick="Back()">返回</div>
+		<div style="float: left; width: 60%; line-height: 14vw; padding-left: 2%;">日志列表</div>
+	</div>
+
+	<div id="LogList">
+		<div class="LogMode">
+			<div style="float: left; width: 20%; line-height: 19vw;">
+				<img src="images/PrizeIMG.png" />
+			</div>
+			<div style="float: left; width: 80%">
+				<ul>
+					<li>暂无历史记录</li>
+				</ul>
+			</div>
 		</div>
-		<div class="mui-card-content">
-			<ul class="mui-table-view" id="Log"></ul>
-		</div>
+
 	</div>
 </body>
 </html>
 <script src="Scripts/jquery-3.3.1.min.js"></script>
+<script src="Scripts/mui.min.js"></script>
 <script src="Scripts/Base.js"></script>
 <script src="Scripts/Service.js"></script>
 <script>
@@ -48,22 +99,31 @@
 				if (res.Data.length > 0) {
 					var Html = "";
 					res.Data.forEach(item => {
-						Html += `<li class="mui-table-view-cell" style="font-size:5VW;margin: 5VW 0;">
-			                     <a class="mui-navigate-right">
-                                    <div class="mui-row">
-                                        
-                                         <div class="mui-col-sm-6">礼品名称：${item.WinPrizeName}</div>
-                                         <div class="mui-col-sm-6">礼品类型：${FormatterType(item.WinPrizeType)}</div>
-                                         
-                                    </div>
-                                 </a>
-                             </li>`;
+						var ConsumptionType = item.ConsumptionType == '1' ? '积分' : '礼券';
+						Html += `<div class="LogMode">
+			                          <div style="float: left; width: 20%; line-height: 19vw;">
+			                       	       <img src="images/PrizeIMG.png" />
+			                          </div>
+			                          <div style="float: left; width: 80%"><ul>`;
+						switch (item.WinPrizeType) {
+							case '1':
+								Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
+								break;
+							case '2':
+								Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
+								break;
+							case '3':
+								Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeValue}${FormatterType(item.WinPrizeType)}</li>`;
+								break;
+							case '4':
+								Html += `<li>很遗憾，您消耗了${item.ConsumptionValue}${ConsumptionType}，什么都没有抽到...</li>`;
+								break;
+							default: break;
+						}
+						Html += ` <li>${item.AddedOn}</li></ul></div></div>`;
 					});
-					//<div class="mui-col-sm-3">消耗类型:${item.ConSumptionType}</div>
-					//<div class="mui-col-sm-3">礼品值：${item.WinPrizeValue}</div>
-
-					$('#Log').empty();
-					$('#Log').append(Html);
+					$('#LogList').empty();
+					$('#LogList').append(Html);
 				}
 			}
 			else {
@@ -71,4 +131,14 @@
 			}
 		})
 	})
+
+	var FormatterPrizeType = Type => {
+		switch (Type) {
+			case '1': return '礼品';
+			case '2': return '礼券';
+			case '3': return '积分';
+			case '4': return '感谢参与';
+			default: return '';
+		}
+	}
 </script>

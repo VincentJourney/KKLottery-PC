@@ -10,7 +10,7 @@
 	<link href="css/WeUI/weui.min.css" rel="stylesheet" />
 	<style type="text/css">
 		body {
-			background: #E7244B;
+			background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);
 		}
 
 		.top {
@@ -129,47 +129,47 @@
 	</div>
 	<div class="weui-grids" id="draw">
 		<a href="javascript:;" id="a1" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/1.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a2" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/2.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a3" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/3.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a4" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/4.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a5" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/5.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a6" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/6.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a7" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/7.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a8" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/8.png" alt="" />
 		</a>
 		<a href="javascript:;" id="a9" class="weui-grid">
-			<span class="PrizeName">xixi</span>
+			<span class="PrizeName"></span>
 			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
 			<img class="info" src="images/ldimg/jieguo/9.png" alt="" />
 		</a>

@@ -10,7 +10,7 @@
 	<link href="css/WeUI/weui.min.css" rel="stylesheet" />
 	<style type="text/css">
 		body {
-			background: #E7244B;
+			background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);
 		}
 
 		.top {
@@ -117,7 +117,82 @@
 	</style>
 </head>
 <body>
-	<div id="UserInfo" class="textTemple">
+	<div style="width: 100%; overflow: hidden">
+		<div style="width: 40%; float: left;">
+			<div id="UserInfo" class="textTemple">
+				<h2>会员信息</h2>
+				<hr />
+				<p>姓名：<span id="UserName"></span></p>
+				<p>性别：<span id="UserSex"></span></p>
+				<p>手机号码：<span id="UserPhone"></span></p>
+				<p>会员卡号：<span id="UserCardCode"></span></p>
+			</div>
+			<%--<div id="UserJoinInfo" class="textTemple textStyle">
+					<p>活动期间最大参与次数：<span id="GameMax"></span></p>
+					<p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
+					<p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
+					<p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
+					<p>当前是否可参与：<span id="CanJoin"></span></p>
+				</div>--%>
+			<div id="GameRule" class="textTemple textStyle">
+				<div id="RuleWrap">
+					<h3>游戏规则</h3>
+					<div id="RuleText"></div>
+				</div>
+			</div>
+		</div>
+
+		<div style="width: 60%; float: left;">
+			<div class="weui-grids" id="draw">
+				<a href="javascript:;" id="a1" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/1.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a2" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/2.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a3" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/3.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a4" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/4.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a5" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/5.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a6" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/6.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a7" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/7.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a8" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/8.png" alt="" />
+				</a>
+				<a href="javascript:;" id="a9" class="weui-grid">
+					<span class="PrizeName">xixi</span>
+					<img class="img" src="images/ldimg/fugai/1.png" alt="" />
+					<img class="info" src="images/ldimg/jieguo/9.png" alt="" />
+				</a>
+			</div>
+		</div>
+	</div>
+	<%--	<div id="UserInfo" class="textTemple">
 		<table class="textStyle">
 			<tr>
 				<td>姓名：<span id="UserName"></span></td>
@@ -128,55 +203,10 @@
 				<td>会员卡号：<span id="UserCardCode"></span></td>
 			</tr>
 		</table>
-	</div>
-	<div class="weui-grids" id="draw">
-		<a href="javascript:;" id="a1" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/1.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a2" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/2.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a3" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/3.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a4" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/4.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a5" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/5.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a6" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/6.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a7" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/7.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a8" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/8.png" alt="" />
-		</a>
-		<a href="javascript:;" id="a9" class="weui-grid">
-			<span class="PrizeName">xixi</span>
-			<img class="img" src="images/ldimg/fugai/1.png" alt="" />
-			<img class="info" src="images/ldimg/jieguo/9.png" alt="" />
-		</a>
-	</div>
-	<div id="UserJoinInfo" class="textTemple textStyle">
+	</div>--%>
+
+
+	<%--	<div id="UserJoinInfo" class="textTemple textStyle">
 		<p>用户参与总次数：<span id="TotalCount"></span></p>
 		<p>用户当日参与次数：<span id="TodayCount"></span></p>
 		<p>当前是否可参与：<span id="CanJoin"></span></p>
@@ -187,7 +217,7 @@
 			<h3>游戏规则</h3>
 			<div id="RuleText"></div>
 		</div>
-	</div>
+	</div>--%>
 
 	<div id='info' style="display: none">
 		<a href="#">

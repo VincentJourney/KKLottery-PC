@@ -21,8 +21,8 @@
 		}
 
 		main {
-			padding-top: 3em;
-		} 
+			padding-top: 8%;
+		}
 
 		table {
 			border-spacing: 0;
@@ -33,7 +33,7 @@
 		.draw {
 			width: 560px;
 			height: 600px;
-			margin: 0 auto;
+			/*margin: 0 auto;*/
 			padding: 51px;
 			background-image: url(images/bg.png);
 			background-repeat: no-repeat;
@@ -106,10 +106,11 @@
 
 		.textTemple {
 			margin: 0 20%;
-			padding: 0 1%;
+			padding: 2% 3%;
 			background-color: black;
 			opacity: 0.5;
-			border-radius: 5px;
+			border-radius: 12px;
+			color: white;
 		}
 
 		.textStyle {
@@ -134,112 +135,133 @@
 		#GameRule {
 			margin-top: 2%;
 		}
+
+		p {
+			color: white;
+		}
+
+		.PrizeInfo {
+			width: 380px;
+			height: 380px;
+			background: rgba(255,255,255,1);
+			opacity: 1;
+			border-radius: 20px;
+			text-align: center;
+			padding: 22px;
+		}
+
+		.marTop {
+			margin-top: 50px;
+		}
 	</style>
 
 </head>
-<body ng-app="mainApp" ng-controller="indexCtrl" style="background: #f02d2f;">
-
+<body ng-app="mainApp" ng-controller="indexCtrl" style="background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);">
 	<div class="headerWrapper container-fluid">
 	</div>
+	<main>
+		<div style="width: 100%; overflow: hidden">
+			<div style="width: 40%; float: left;">
+				<div id="UserInfo" class="textTemple">
+					<h2>会员信息</h2>
+					<hr />
+					<p>姓名：<span id="UserName"></span></p>
+					<p>性别：<span id="UserSex"></span></p>
+					<p>手机号码：<span id="UserPhone"></span></p>
+					<p>会员卡号：<span id="UserCardCode"></span></p>
+				</div>
+				<%--<div id="UserJoinInfo" class="textTemple textStyle">
+					<p>活动期间最大参与次数：<span id="GameMax"></span></p>
+					<p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
+					<p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
+					<p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
+					<p>当前是否可参与：<span id="CanJoin"></span></p>
+				</div>--%>
+				<div id="GameRule" class="textTemple textStyle">
+					<div id="RuleWrap">
+						<h3>游戏规则</h3>
+						<div id="RuleText"></div>
+					</div>
+				</div>
+			</div>
+			<div style="width: 60%; float: left">
+				<div class="draw" id="lottery">
+					<table>
+						<tr>
+							<td class="item lottery-unit lottery-unit-0">
+								<div class="img" id="PrizeImg_0"></div>
+								<span class="name" id="PrizeName_0"></span>
+							</td>
+							<td class="gap"></td>
+							<td class="item lottery-unit lottery-unit-1">
+								<div class="img" id="PrizeImg_1"></div>
+								<span class="name" id="PrizeName_1"></span>
+							</td>
+							<td class="gap"></td>
+							<td class="item lottery-unit lottery-unit-2">
+								<div class="img" id="PrizeImg_2"></div>
+								<span class="name" id="PrizeName_2"></span>
+							</td>
+						</tr>
 
-	<main style="background: #f02d2f;">
+						<tr>
+							<td class="gap-2" colspan="5"></td>
+						</tr>
 
-		<div id="UserInfo" class="textTemple">
-			<table class="textStyle">
-				<tr>
-					<td>姓名：<span id="UserName"></span></td>
-					<td>性别：<span id="UserSex"></span></td>
-				</tr>
-				<tr>
-					<td>手机号码：<span id="UserPhone"></span></td>
-					<td>会员卡号：<span id="UserCardCode"></span></td>
-				</tr>
-			</table>
-		</div>
+						<tr>
+							<td class="item lottery-unit lottery-unit-7">
+								<div class="img" id="PrizeImg_7"></div>
+								<span class="name" id="PrizeName_7"></span>
+							</td>
+							<td class="gap"></td>
+							<td class="">
+								<a class="draw-btn" href="javascript:"></a>
+							</td>
+							<td class="gap"></td>
+							<td class="item lottery-unit lottery-unit-3">
+								<div class="img" id="PrizeImg_3"></div>
+								<span class="name" id="PrizeName_3"></span>
+							</td>
+						</tr>
 
-		<div class="draw" id="lottery">
-			<table>
-				<tr>
-					<td class="item lottery-unit lottery-unit-0">
-						<div class="img" id="PrizeImg_0"></div>
-						<span class="name" id="PrizeName_0"></span>
-					</td>
-					<td class="gap"></td>
-					<td class="item lottery-unit lottery-unit-1">
-						<div class="img" id="PrizeImg_1"></div>
-						<span class="name" id="PrizeName_1"></span>
-					</td>
-					<td class="gap"></td>
-					<td class="item lottery-unit lottery-unit-2">
-						<div class="img" id="PrizeImg_2"></div>
-						<span class="name" id="PrizeName_2"></span>
-					</td>
-				</tr>
+						<tr>
+							<td class="gap-2" colspan="5"></td>
+						</tr>
 
-				<tr>
-					<td class="gap-2" colspan="5"></td>
-				</tr>
-
-				<tr>
-					<td class="item lottery-unit lottery-unit-7">
-						<div class="img" id="PrizeImg_7"></div>
-						<span class="name" id="PrizeName_7"></span>
-					</td>
-					<td class="gap"></td>
-					<td class="">
-						<a class="draw-btn" href="javascript:"></a>
-					</td>
-					<td class="gap"></td>
-					<td class="item lottery-unit lottery-unit-3">
-						<div class="img" id="PrizeImg_3"></div>
-						<span class="name" id="PrizeName_3"></span>
-					</td>
-				</tr>
-
-				<tr>
-					<td class="gap-2" colspan="5"></td>
-				</tr>
-
-				<tr>
-					<td class="item lottery-unit lottery-unit-6">
-						<div class="img" id="PrizeImg_6"></div>
-						<span class="name" id="PrizeName_6"></span>
-					</td>
-					<td class="gap"></td>
-					<td class="item lottery-unit lottery-unit-5">
-						<div class="img" id="PrizeImg_5"></div>
-						<span class="name" id="PrizeName_5"></span>
-					</td>
-					<td class="gap"></td>
-					<td class="item lottery-unit lottery-unit-4">
-						<div class="img" id="PrizeImg_4"></div>
-						<span class="name" id="PrizeName_4"></span>
-					</td>
-				</tr>
-			</table>
-		</div>
-
-		<div id="UserJoinInfo" class="textTemple textStyle">
-			<p>用户参与总次数：<span id="TotalCount"></span></p>
-			<p>用户当日参与次数：<span id="TodayCount"></span></p>
-			<p>当前是否可参与：<span id="CanJoin"></span></p>
-		</div>
-
-		<div id="GameRule" class="textTemple textStyle">
-			<div id="RuleWrap">
-				<h3>游戏规则</h3>
-				<div id="RuleText"></div>
+						<tr>
+							<td class="item lottery-unit lottery-unit-6">
+								<div class="img" id="PrizeImg_6"></div>
+								<span class="name" id="PrizeName_6"></span>
+							</td>
+							<td class="gap"></td>
+							<td class="item lottery-unit lottery-unit-5">
+								<div class="img" id="PrizeImg_5"></div>
+								<span class="name" id="PrizeName_5"></span>
+							</td>
+							<td class="gap"></td>
+							<td class="item lottery-unit lottery-unit-4">
+								<div class="img" id="PrizeImg_4"></div>
+								<span class="name" id="PrizeName_4"></span>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
-
 	</main>
 
 	<div id='info' style="display: none">
-		<a href="#">
-			<img src="images/tk_img.png" style="width: 100%;" /></a>
-		<h1 id="LayerH1">100元</h1>
+		<div class="PrizeInfo">
+			<div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
+			<div id="LayerH1" class="marTop" style="font-size: 20px"></div>
+			<div class="marTop">
+				<img src="#" id="PrizeIMG" />
+			</div>
+			<%--			<div class="marTop">
+				<button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
+			</div>--%>
+		</div>
 	</div>
-
 </body>
 </html>
 
@@ -256,6 +278,7 @@
 	var GameRuleImg;				// 游戏规则底图设置--  websocket消息长度拆分
 	var GamePrizeList;				// 游戏奖品设置
 	var GameJoinLog;				// 用户参加游戏记录
+	var LotteryResult;				// 抽奖信息
 	var LotteryFinalNum = 0;		// 实际抽奖的奖品序号
 	var OpenId;
 
@@ -284,7 +307,7 @@
 				this.obj = $lottery;
 				this.count = $units.length;
 				$lottery.find('.lottery-unit.lottery-unit-' + this.index).addClass('active');
-				$('#info h1').text($('.lottery-unit.active span').text());
+				//$('#info h1').text($('.lottery-unit.active span').text());
 			};
 		},
 		roll: function () {
@@ -293,9 +316,8 @@
 			var lottery = this.obj;
 			$(lottery).find('.lottery-unit.lottery-unit-' + index).removeClass('active');
 			index += 1;
-			if (index > count - 1) {
+			if (index > count - 1)
 				index = 0;
-			};
 			$(lottery).find('.lottery-unit.lottery-unit-' + index).addClass('active');
 			$('#info h1').text($('.lottery-unit.active span').text());
 			this.index = index;
@@ -322,7 +344,6 @@
 				area: ['893px', '600px'],
 				content: $('#info').html()
 			});
-			JSocket.sendMessage($('#info h1').text())
 
 			lottery.prize = -1;
 			lottery.times = 0;
@@ -378,8 +399,8 @@
 		//加载规则
 		$('#RuleText').html(GameRuleImg.RuleText);
 
-		//加载底图
-		$("main").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
+		////加载底图
+		//$("main").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
 
 	}
 
@@ -398,6 +419,10 @@
 	var ShowGameJoinLog = () => {
 		$('#TotalCount').html(GameJoinLog.TotalCount);
 		$('#TodayCount').html(GameJoinLog.TodayCount);
+		$('#GameMax').html(GameJoinLog.GameMax);
+		$('#GameDayPersonMax').html(GameJoinLog.GameDayPersonMax);
+		$('#TotalCount2').html(GameJoinLog.GameMax - GameJoinLog.TotalCount);
+		$('#TodayCount2').html(GameJoinLog.GameDayPersonMax - GameJoinLog.TodayCount);
 		if (GameJoinLog.CanJoin)
 			$('#CanJoin').html('您还可以继续抽奖哟！');
 		else
@@ -446,7 +471,22 @@
 						case "游戏日志": GameJoinLog = data.MesData;
 							ShowGameJoinLog();
 							break;
-						case "抽奖结果": LotteryFinalNum = data.MesData;
+						case "抽奖结果": LotteryResult = data.MesData;
+							for (var i = 0; i < GamePrizeList.length; i++) {
+								LotteryFinalNum = i;
+								if (GamePrizeList[i].PrizeName == LotteryResult.Data.WinPrizeName) break;
+							}
+
+							if (LotteryResult.Data.WinPrizeType == '4') {
+								$('#PrizeTitle').text("谢谢参与");
+								$('#LayerH1').text("很遗憾您未能获得奖品");
+								$('#PrizeIMG').attr('hidden', 'hidden');
+							}
+							else {
+								$('#LayerH1').text(LotteryResult.Data.WinPrizeName);
+								$('#PrizeIMG').attr('src', 'images/PrizeIMG.png');
+							}
+
 							break;
 						case "抽奖状态":
 							if (data.MesData == "开始抽奖")
@@ -459,7 +499,7 @@
 						case "连接信息":
 							if (data.MesData.indexOf("下线") != -1) {
 								//if (OpenId == data.MobileNo) {
-									window.location.href = "RollQRCode.aspx";
+								window.location.href = "RollQRCode.aspx";
 								//}
 							}
 							break;

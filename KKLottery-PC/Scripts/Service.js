@@ -59,7 +59,7 @@ function WcMessage(sendTo, mobileNo, mesTitle, mesData, result) {
 }
 
 /**
- *简易计时器
+ *简易计时器 暂时用来限制用户30秒误操作退出微信端
  */
 (() => {
 	var LimitTime = 0;		//限制时间
@@ -80,14 +80,4 @@ function WcMessage(sendTo, mobileNo, mesTitle, mesData, result) {
 	}
 })();
 
-/**
- *
- * */
-//function SimpleTimer() {
-//	this.limitTime = 0;
-//	this.timer = null;
-//	this.Start = () => this.timer = setInterval(() => { this.limitTime++ }, 1000);
-//	this.ReSet = () => this.limitTime = 0;
-//	this.Stop = () => clearInterval(this.timer);
-//}
 
