@@ -49,8 +49,8 @@
 		onclose: e => {
 			console.log(e);
 			if (e.code == 1006) {//当遇到不明状态websocket关闭。。
-				//JSocket.init(url);
-				window.location.reload();
+				JSocket.init(url);
+				//window.location.reload();
 			}
 		},
 		onerror: e => {

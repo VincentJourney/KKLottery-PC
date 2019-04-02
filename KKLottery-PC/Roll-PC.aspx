@@ -321,7 +321,7 @@
 			if (index > count - 1)
 				index = 0;
 			$(lottery).find('.lottery-unit.lottery-unit-' + index).addClass('active');
-			$('#info h1').text($('.lottery-unit.active span').text());
+			//$('#info h1').text($('.lottery-unit.active span').text());
 			this.index = index;
 			return false;
 		},
@@ -450,33 +450,35 @@
 			},
 			(e) => {
 				var data = JSON.parse(e.data);
-				console.log(data)
+				//console.log(data)
 				if (!data.Result) {
 					if (data.MesData == "Open")
 						WebSocketState = true;
 					switch (data.MesTitle) {
-						case "登录信息":
+						case '登录信息':
 							if (data.MesData == "已登录")
 								LoginState = true;
 							break;
-						case "用户信息":
+						case '用户信息':
 							UserInfo = data.MesData;
 							OpenId = data.MobileNo;
 							ShowUserInfo();
 							break;
-						case "规则底图设置": GameRuleImg = data.MesData;
+						case '规则底图设置': GameRuleImg = data.MesData;
 							ShowGameRuleImg();
 							break;
-						case "游戏奖品设置": GamePrizeList = data.MesData;
+						case '游戏奖品设置': GamePrizeList = data.MesData;
 							ShowGamePrizeList();
 							break;
-						case "游戏日志": GameJoinLog = data.MesData;
+						case '游戏日志': GameJoinLog = data.MesData;
 							ShowGameJoinLog();
 							break;
-						case "抽奖结果": LotteryResult = data.MesData;
-							for (var i = 0; i < GamePrizeList.length; i++) {
+						case '抽奖结果':
+							LotteryResult = data.MesData;
+							for (var i = 0; i < GamePrizeList.PrizeList.length; i++) {
 								LotteryFinalNum = i;
-								if (GamePrizeList[i].PrizeName == LotteryResult.Data.WinPrizeName) break;
+								if (GamePrizeList.PrizeList[i].PrizeName == LotteryResult.Data.WinPrizeName)
+									break;
 							}
 
 							if (LotteryResult.Data.WinPrizeType == '4') {
@@ -488,17 +490,16 @@
 								$('#LayerH1').text(LotteryResult.Data.WinPrizeName);
 								$('#PrizeIMG').attr('src', 'images/PrizeIMG.png');
 							}
-
 							break;
-						case "抽奖状态":
+						case '抽奖状态':
 							if (data.MesData == "开始抽奖")
 								BtnClick();
 							break;
-						case "领奖信息":
+						case '领奖信息':
 							if (data.MesData == "点击领奖")
 								layer.closeAll();
 							break;
-						case "连接信息":
+						case '连接信息':
 							if (data.MesData.indexOf("下线") != -1) {
 								//if (OpenId == data.MobileNo) {
 								window.location.href = "RollQRCode.aspx";

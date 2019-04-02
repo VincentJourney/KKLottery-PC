@@ -1,0 +1,142 @@
+body,html {
+	background: radial-gradient(ellipse, #9B4B4B, #29223D) ;
+	font-family: PingFang SC;
+	height: 100%;
+	margin: 0;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+header>img {
+	width: 2.36rem;
+	height: 0.8rem;
+	margin: .3rem 0 0 .3rem;
+}
+
+.infoWrapper {
+	position: fixed;
+	left: .5rem;
+	top: 1.3rem;
+}
+
+.infoWrapper>div {
+	padding: .3rem;
+	background: rgba(203, 123, 125, .7);
+	border-radius: .1rem;
+	color: #fff;
+	font-size: 0.2rem;
+	font-family: PingFang SC;
+	font-weight: 400;
+	line-height: 2em;
+	width: 4rem;
+}
+
+.infoWrapper>.info {
+	margin-bottom: 1em;
+}
+
+.infoWrapper>div ul>li:first-child {
+	font-size: .3rem;
+	width: 2em;
+	padding-bottom: .3em;
+	border-bottom: 2px solid #fff;
+	word-break: keep-all;
+	letter-spacing: .2em;
+}
+
+#lottery {
+	background:url(../images/转盘.png)  no-repeat;
+	background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-position: center center;
+    background-size: cover;
+	position: fixed;
+	width: 7rem;
+	height: 7rem;
+	margin-top: -0.5rem;
+	left: 65%;
+	margin-left: -4rem;
+	overflow: hidden;
+	font-size: 18px;
+	background-size: cover;
+}
+#lottery2 {	
+	padding: .1rem;
+	border-radius: .1rem;
+	background: rgba(203, 123, 125, .7);
+    height: 100%;
+    width: 100%;
+    position: relative;
+	position: fixed;
+	width: 5rem;
+	height: 0.8rem;
+	left: 65%;
+	margin-left: -3rem;
+	margin-top: 6.4rem;
+	overflow: hidden;
+	color: #fff;
+	font-size: 0.2rem;
+	font-family: PingFang SC;
+}
+
+#lottery table {
+    height: 80%;
+    width: 80%;
+	border-radius: 10px;
+	margin-top: 0.6rem;
+	margin-left: 0.7rem;
+}
+#lottery table tr{
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: .1rem;
+}
+#lottery table td {
+	position: relative;
+	width:1.7rem;
+	height:1.7rem;
+	border: 0;
+	background-color:rgba(255,255,255,0.1);
+	//color: #fff;
+	text-align: center;
+	//overflow: hidden;
+    font-size: 8px;
+    border-radius: 10px;
+    display: inline-block;
+    filter: grayscale(0%);		
+}
+#lottery table td>img{
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	//display: none;
+}
+#lottery table td>div>span{
+	 color: red;
+	 margin-top: 2rem;
+}
+#lottery table td.lottery-light {
+	background-color: rgba(0,0,0,.3);
+	color: #000;
+	z-index: 999;
+	filter: grayscale(100%);		
+	border-radius: 10px;
+    -webkit-box-shadow: 0 0 0px rgba(248,248,255,1);
+}
+
+#begin {
+    display: block;
+    margin: 0 auto;
+    color: #f1f1f1;
+    text-decoration: none;
+    font-size: 0.6rem;
+    line-height: 2.4rem;
+    background: rgba(41,34,61,.8);
+}

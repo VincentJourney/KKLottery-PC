@@ -127,11 +127,13 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="images\kingkeyLog.png" />
+    <Content Include="images\logo%402x.png" />
     <Content Include="images\Roll-WC.png" />
     <Content Include="images\Turn-WC.png" />
     <Content Include="images\WXRegister.png" />
     <Content Include="Register.aspx" />
     <Content Include="Scripts\need\layer.css" />
+    <Content Include="TurnPcLogin.aspx" />
     <Content Include="TurnQRCode.aspx" />
     <Content Include="RollQRCode.aspx" />
     <Content Include="Scripts\mui.min.js" />
@@ -250,6 +252,13 @@
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TurnPcLogin.aspx.cs">
+      <DependentUpon>TurnPcLogin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TurnPcLogin.aspx.designer.cs">
+      <DependentUpon>TurnPcLogin.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TurnQRCode.aspx.cs">
       <DependentUpon>TurnQRCode.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -303,7 +312,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="css\PennCss\" />
     <Folder Include="Log\" />
+    <Folder Include="Scripts\PennJs\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
