@@ -1,5 +1,4 @@
-﻿import { Math } from "core-js";
-
+﻿
 
 jQuery.axs = function (url, data, func) {
     $.ajax({
