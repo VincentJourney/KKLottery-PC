@@ -7,12 +7,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>登陆</title>
     <link rel="stylesheet" type="text/css" href="css/PennCss/css/login2.css" />
-    <link rel="stylesheet" type="text/css" href="css/PennCss/css/css/common.css" />
-    <script type="text/javascript" src="Script/PennJs/js/jquery.min.js"></script>
-    <script type="text/javascript" src="Script/PennJs/js/Rem.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/PennCss/css/common.css" />
+    <script type="text/javascript" src="Scripts/PennJs/js/jquery.min.js"></script>
+    <script type="text/javascript" src="Scripts/PennJs/js/Rem.js"></script>
     <script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
-    <script type="text/javascript" src="Script/PennJs/js/login.js"></script>
-    <script type="text/javascript" src="Script/PennJs/js/Tools.js"></script>
+    <script type="text/javascript" src="Scripts/PennJs/js/login.js"></script>
+    <script type="text/javascript" src="Scripts/PennJs/js/Tools.js"></script>
+    <script src="Scripts/Service.js"></script>
     <style type="text/css">
         .wrapper {
             position: fixed;
@@ -277,7 +278,8 @@
                             if (!res.Result.HasError) {
                                 var data = res.Data
                                 sessionStorage.setItem("user", JSON.stringify(data))
-                                window.location.href = "index.html"
+                                //加密手机号登录
+                                window.location.href = `TurnPcLogin.aspx?id=${Encrypt.EncryptPhone(MobileNo)}`
                             } else {
                                 alert(res.Result.ErrorMessage);
                             }

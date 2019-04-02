@@ -112,6 +112,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="css\layer.css" />
     <Content Include="css\mui.min.css" />
+    <Content Include="css\PennCss\css\common.css" />
+    <Content Include="css\PennCss\css\login2.css" />
+    <Content Include="css\PennCss\css\lottery.css" />
+    <Content Include="css\PennCss\css\qrcode.css" />
     <Content Include="css\WeUI\weui.min.css" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -133,6 +137,14 @@
     <Content Include="images\WXRegister.png" />
     <Content Include="Register.aspx" />
     <Content Include="Scripts\need\layer.css" />
+    <Content Include="Scripts\PennJs\js\core.js" />
+    <Content Include="Scripts\PennJs\js\jquery.min.js" />
+    <Content Include="Scripts\PennJs\js\login.js" />
+    <Content Include="Scripts\PennJs\js\plug.lottery.js" />
+    <Content Include="Scripts\PennJs\js\Rem.js" />
+    <Content Include="Scripts\PennJs\js\require.js" />
+    <Content Include="Scripts\PennJs\js\Tools.js" />
+    <Content Include="TurnOnlyPC.aspx" />
     <Content Include="TurnPcLogin.aspx" />
     <Content Include="TurnQRCode.aspx" />
     <Content Include="RollQRCode.aspx" />
@@ -252,6 +264,13 @@
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TurnOnlyPC.aspx.cs">
+      <DependentUpon>TurnOnlyPC.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TurnOnlyPC.aspx.designer.cs">
+      <DependentUpon>TurnOnlyPC.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TurnPcLogin.aspx.cs">
       <DependentUpon>TurnPcLogin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -312,9 +331,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="css\PennCss\" />
     <Folder Include="Log\" />
-    <Folder Include="Scripts\PennJs\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
