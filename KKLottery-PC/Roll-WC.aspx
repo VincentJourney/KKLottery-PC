@@ -312,7 +312,7 @@
         SimpleTimer.Start();
         SimpleTimer.Back();
 
-        GetGameSetting({ GameType: 1 }, data => {
+        GetGameSetting({ GameType: RollGameType }, data => {
             console.log(data);
             if (!data.HasError) {
                 if (data.Data.length == 0) {
@@ -529,7 +529,7 @@
             }
         });
         //查询游戏规则
-        GetGameSetting({ GameType: 1 }, data => {
+        GetGameSetting({ GameType: RollGameType }, data => {
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     mui.alert("游戏暂未配置");
@@ -666,6 +666,8 @@
     var GameApiServerUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["GameApiServerUrl"].ToString()%>' + 'api/';
     //获取资源Url
     var ResourceUrl ='<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
+    //获取GameType
+    var RollGameType = '<%=System.Configuration.ConfigurationManager.AppSettings["RollGameType"].ToString()%>';
 
     /**
      * WebSocket发送消息

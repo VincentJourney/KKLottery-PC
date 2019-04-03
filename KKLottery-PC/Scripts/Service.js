@@ -72,7 +72,7 @@ function WcMessage(sendTo, mobileNo, mesTitle, mesData, result) {
         Back: () => {						//30秒无操作，自动推出微信页面
             setInterval(() => {
                 if (LimitTime >= 30) {
-                    LimitTime = 0;
+                    LimitTime = 0;                
                     WeixinJSBridge.call('closeWindow');
                 }
             }, 1000)
@@ -80,7 +80,10 @@ function WcMessage(sendTo, mobileNo, mesTitle, mesData, result) {
     }
 })();
 
-//简单手机号加密
+/**
+ * 简单加密手机号
+ * 17671456101
+ * */
 var Encrypt = {
     //10位密文,可替换,不可重复
     ciphertext: 'qwertyuiop',

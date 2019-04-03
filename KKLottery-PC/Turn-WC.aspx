@@ -175,7 +175,7 @@
             <div id="RuleText"></div>
         </div>
     </div>
-<%--中奖纪录弹窗--%>
+    <%--中奖纪录弹窗--%>
     <div id='info' style="display: none">
         <div class="PrizeInfo">
             <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
@@ -313,7 +313,7 @@
 
         //$('.PrizeName').hide();
 
-        GetGameSetting({ GameType: 4 }, data => {
+        GetGameSetting({ GameType: TurnGameType }, data => {
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     mui.alert("游戏暂未配置");
@@ -387,7 +387,7 @@
         });
 
         //查询游戏规则
-        GetGameSetting({ GameType: 4 }, data => {
+        GetGameSetting({ GameType: TurnGameType }, data => {
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     mui.alert("游戏暂未配置");
@@ -512,10 +512,11 @@
     //获取WebSocketUrl
     var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-WC/<%=UnionId%>';
     //获取CRM接口Url
-    //获取CRM接口Url
     var GameApiServerUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["GameApiServerUrl"].ToString()%>' + 'api/';
     //获取资源Url
     var ResourceUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
+    //获取GameType
+    var TurnGameType = '<%=System.Configuration.ConfigurationManager.AppSettings["TurnGameType"].ToString()%>';
 
 	/**
      * WebSocket发送消息
