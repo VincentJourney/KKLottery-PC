@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="css/PennCss/css/common.css" />
     <script type="text/javascript" src="Scripts/PennJs/js/jquery.min.js"></script>
     <script type="text/javascript" src="Scripts/PennJs/js/Rem.js"></script>
-    <script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+    <%--    <script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>--%>
     <script type="text/javascript" src="Scripts/PennJs/js/login.js"></script>
     <script type="text/javascript" src="Scripts/PennJs/js/Tools.js"></script>
     <script src="Scripts/Service.js"></script>
@@ -138,6 +138,7 @@
 </body>
 
 <script type="text/javascript">
+    var GameId = '<%=Request.Params["GameId"]%>';
     function GetQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
@@ -177,17 +178,17 @@
         alert(data);
 
     }
-    const hrefStyle = "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDE1MHB4O21hcmdpbi10b3A6MmVtO30KLmltcG93ZXJCb3ggLnRpdGxlIHtkaXNwbGF5OiBub25lO30KLnN0YXR1c19pY29uIHtkaXNwbGF5OiBub25lfQouaW1wb3dlckJveCAuc3RhdHVzIHt0ZXh0LWFsaWduOiBjZW50ZXI7fQo=";
-    var obj = new WxLogin({
-        self_redirect: true,
-        id: "login_container",
-        appid: "wxbdc5610cc59c1631",
-        scope: "snsapi_login",
-        redirect_uri: "https%3a%2f%2fpassport.yhd.com%2fwechat%2fcallback.do",
-        state: "123",
-        style: "white",
-        href: hrefStyle,
-    });
+    //const hrefStyle = "data:text/css;base64,LmltcG93ZXJCb3ggLnFyY29kZSB7d2lkdGg6IDE1MHB4O21hcmdpbi10b3A6MmVtO30KLmltcG93ZXJCb3ggLnRpdGxlIHtkaXNwbGF5OiBub25lO30KLnN0YXR1c19pY29uIHtkaXNwbGF5OiBub25lfQouaW1wb3dlckJveCAuc3RhdHVzIHt0ZXh0LWFsaWduOiBjZW50ZXI7fQo=";
+    //var obj = new WxLogin({
+    //    self_redirect: true,
+    //    id: "login_container",
+    //    appid: "wxbdc5610cc59c1631",
+    //    scope: "snsapi_login",
+    //    redirect_uri: "https%3a%2f%2fpassport.yhd.com%2fwechat%2fcallback.do",
+    //    state: "123",
+    //    style: "white",
+    //    href: hrefStyle,
+    //});
     var countdown = 60;  // 时长 s
     // 获取验证码按钮点击事件
     function sendMsgCode() {
@@ -251,6 +252,7 @@
         }
 
         else if (!(/^1(3|4|5|7|8)\d{9}$/.test(MobileNo))) {
+
             alert("手机号码有误，请重填");
             return;
         }
@@ -279,7 +281,7 @@
                                 var data = res.Data
                                 sessionStorage.setItem("user", JSON.stringify(data))
                                 //加密手机号登录
-                                window.location.href = `TurnPcLogin.aspx?id=${Encrypt.EncryptPhone(MobileNo)}`
+                                window.location.href = `TurnOnlyPC.aspx?id=${Encrypt.EncryptPhone(MobileNo)}&GameId=${GameId}`
                             } else {
                                 alert(res.Result.ErrorMessage);
                             }

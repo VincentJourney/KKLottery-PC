@@ -201,15 +201,7 @@
                 <p>手机号码：<span id="UserPhone"></span></p>
                 <p>会员卡号：<span id="UserCardCode"></span></p>
             </div>
-            <div id="UserJoinInfo" class="textTemple textStyle">
-                <p>活动期间最大参与次数：<span id="GameMax"></span></p>
-                <p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
-                <p>用户参与总次数：<span id="TotalCount"></span></p>
-                <p>剩余总参与次数:<span id="TotalCount2"></span></p>
-                <p>用户当日参与次数：<span id="TodayCount"></span></p>
-                <p>剩余当日参与次数：<span id="TodayCount2"></span></p>
-                <p>当前是否可参与：<span id="CanJoin"></span></p>
-            </div>
+
             <div id="GameRule" class="textTemple textStyle">
                 <div id="RuleWrap">
                     <h3>游戏规则</h3>
@@ -221,6 +213,19 @@
         <%--奖品区--%>
         <div style="width: 60%; float: left;">
             <div class="weui-grids" id="draw">
+            </div>
+            <div id="UserJoinInfo" class="textTemple textStyle" style="margin: 0px 6%; width: 69%; font-size: 13px;">
+                <p>活动可参与次数：<span id="GameMax"></span>  已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
+                <p>当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+
+
+                <%--                <p>活动期间最大参与次数：<span id="GameMax"></span></p>
+                <p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
+                <p>用户参与总次数：<span id="TotalCount"></span></p>
+                <p>剩余总参与次数:<span id="TotalCount2"></span></p>
+                <p>用户当日参与次数：<span id="TodayCount"></span></p>
+                <p>剩余当日参与次数：<span id="TodayCount2"></span></p>--%>
+                <%--  <p>当前是否可参与：<span id="CanJoin"></span></p>--%>
             </div>
         </div>
     </div>
@@ -261,6 +266,7 @@
     var GameDayPersonMax = 0;	//每人当日最大参与次数
     var UserInfo;				//用户信息
     var RequestMobileNo = '<%=Request.Params["id"]%>';
+    var GameId = '<%=Request.Params["GameId"]%>';
     var DecMobileNo;
 
     var clickstate = 0;
@@ -353,22 +359,28 @@
         //解密手机号
         DecMobileNo = Encrypt.Deciphering(RequestMobileNo)
 
-        GetGameSetting({ GameType: 4 }, data => {
-            if (!data.HasError) {
-                if (data.Data.length == 0) {
-                    alert("游戏暂未配置");
-                    return
+        if (!isEmpty(DecMobileNo)) {
+            GetGameSetting({ GameType: TurnGameType, SettingID: GameId }, data => {
+                console.log(data)
+                if (!data.HasError) {
+                    if (data.Data.length == 0) {
+                        alert("游戏暂未配置");
+                        return
+                    }
+                    GameMax = data.Data[0].GameMax;
+                    GameDayPersonMax = data.Data[0].GameDayPersonMax;
+                    $("#GameMax").html(GameMax);
+                    $("#GameDayPersonMax").html(GameDayPersonMax);
+                    CrmLoad();
+                    turn($('#draw'), 400, verticalOpts);
+                } else {
+                    alert(data.ErrorMessage);
                 }
-                GameMax = data.Data[0].GameMax;
-                GameDayPersonMax = data.Data[0].GameDayPersonMax;
-                $("#GameMax").html(GameMax);
-                $("#GameDayPersonMax").html(GameDayPersonMax);
-                CrmLoad();
-                turn($('#draw'), 400, verticalOpts);
-            } else {
-                alert(data.ErrorMessage);
-            }
-        });
+            });
+        }
+        else {
+            alert('未正常登陆！');
+        }
     });
 
 
@@ -396,10 +408,10 @@
                 CustomerID = data.Data.MemberID;
                 CardID = data.Data.CardInfoList[0].CardID;
                 MobileNo = data.Data.MobileNo;
-                $('#UserName').html(data.Data.FullName);
+                $('#UserName').html(Desensitization(data.Data.FullName, '*', 1, 2));
                 $('#UserSex').html(FormatterSex(data.Data.Gender));
-                $('#UserPhone').html(data.Data.MobileNo);
-                $('#UserCardCode').html(data.Data.CardInfoList[0].CardCode);
+                $('#UserPhone').html(Desensitization(data.Data.MobileNo, '*', 4, 7));
+                $('#UserCardCode').html(Desensitization(data.Data.CardInfoList[0].CardCode, '*', 3, 6));
 
                 UserInfo = {
                     UserName: data.Data.FullName,
@@ -415,7 +427,7 @@
         });
 
         //查询游戏规则
-        GetGameSetting({ GameType: 4 }, data => {
+        GetGameSetting({ GameType: TurnGameType, SettingID: GameId }, data => {
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     alert("游戏暂未配置");
@@ -430,10 +442,10 @@
                 $('#RuleText').html(data.Data[0].GameRuleDesc);
 
                 //加载底图
-                //$("body").css({
-                //    'background': `url("${ResourceUrl}${data.Data[0].PCImg}") no-repeat`
-                //    , 'background-size': 'cover'
-                //});
+                $("body").css({
+                    'background': `url("${ResourceUrl}${data.Data[0].PCImg}") no-repeat`
+                    , 'background-size': 'cover'
+                });
 
                 //加载奖品图片
                 //$("#draw a").each(function (i, o) {
@@ -503,6 +515,8 @@
     var GameApiServerUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["GameApiServerUrl"].ToString()%>' + 'api/';
     //获取资源Url
     var ResourceUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
+    //获取GameType
+    var TurnGameType = parseInt('<%=System.Configuration.ConfigurationManager.AppSettings["TurnGameType"].ToString()%>');
 
 
     //点击屏幕关闭弹出层
@@ -515,7 +529,7 @@
     }
 
     var BackButtom = () => {
-        window.location.href = 'TurnPcLogin.aspx';
+        window.location.href = `TurnPcLogin.aspx?GameId=${GameId}`
     }
 
     //重置牌面

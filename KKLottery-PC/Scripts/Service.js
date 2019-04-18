@@ -38,6 +38,11 @@ var GameJoin = (data, func) => {
 var GetGameDrawLog = (data, func) => {
     $.axs('WebService.asmx/GetGameDrawLog', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })
 }
+//生成二维码
+var CreateQRCodeImg = (data, func) => {
+    console.log(JSON.stringify(data))
+    $.axs('WebService.asmx/CreateQRCodeImg', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })
+}
 
 /**
  * WebSocket  消息Model
@@ -72,7 +77,7 @@ function WcMessage(sendTo, mobileNo, mesTitle, mesData, result) {
         Back: () => {						//30秒无操作，自动推出微信页面
             setInterval(() => {
                 if (LimitTime >= 30) {
-                    LimitTime = 0;                
+                    LimitTime = 0;
                     WeixinJSBridge.call('closeWindow');
                 }
             }, 1000)
@@ -109,31 +114,22 @@ var Encrypt = {
     },
 }
 
-
-
-//class Encryption {
-//    str = 'qwertyuiop';
-
-//    static EncryptPhone(phone) {
-//        var newstr = "";
-//        for (var i of phone) {
-//            newstr += this.str.charAt(i)
-//        }
-//        console.log(newstr)
-//        return newstr;
-//    }
-
-//    static Deciphering(cryptograph) {
-//        var newstr = "";
-//        for (var i = 0; i < cryptograph.length; i++) {
-//            for (var j = 0; j < this.str.length; j++) {
-//                if (cryptograph[i] == str[j]) {
-//                    newstr += j;
-//                }
-//            }
-//        }
-//        console.log(newstr)
-//        return newstr;
-//    }
-
-//}
+/**
+ * 信息脱敏  ex: 15989328211 中间四位 4-7
+ * @param {string} text 需要脱敏的信息
+ * @param {string} mark 替换的标志
+ * @param {number} start 开始位置
+ * @param {number} end 结束位置
+ */
+var Desensitization = (text, mark, start, end) => {
+    console.log(text);
+    var text = text + '';
+    var StartStr = text.substr(0, start);
+    var EndStr = text.substr(end, text.length);
+    var MarkStr = "";
+    for (var i = 0; i < end - start; i++) {
+        MarkStr += mark;
+    }
+    console.log(StartStr + MarkStr + EndStr)
+    return StartStr + MarkStr + EndStr;
+}

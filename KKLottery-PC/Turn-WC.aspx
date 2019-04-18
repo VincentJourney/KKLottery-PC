@@ -133,6 +133,11 @@
             width: 20%;
             box-sizing: border-box;
         }
+
+        p {
+            margin-bottom: 2px;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -151,28 +156,31 @@
     </div>
 
     <%--奖品存放区--%>
-    <div class="weui-grids" id="draw" style="padding: 5%; border-left: 0;">
+    <div class="weui-grids" id="draw" style="padding: 5%; border-left: 0; margin-top: -10VW;">
     </div>
 
     <%--活动参与详情--%>
     <div id="UserJoinInfo" class="textTemple textStyle">
-        <p>活动期间最大参与次数：<span id="GameMax"></span></p>
-        <p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
-        <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
-        <p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
+        <p>活动可参与次数：<span id="GameMax"></span>  已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
+        <p>当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+
+        <%--        <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
+        <p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>--%>
         <p>当前是否可参与：<span id="CanJoin"></span></p>
     </div>
-    <%--抽奖日志--%>
-    <div id="GetGameJoinInfo" class="textTemple textStyle hover" style="margin-top: 2%;">
-        <div style="text-align: center">
-            <a onclick="SelectJoinInfo()">查询抽奖日志</a>
-        </div>
-    </div>
+
     <%--游戏规则--%>
     <div id="GameRule" class="textTemple textStyle">
         <div id="RuleWrap">
             <h3>游戏规则</h3>
             <div id="RuleText"></div>
+        </div>
+    </div>
+
+    <%--抽奖日志--%>
+    <div id="GetGameJoinInfo" class="textTemple textStyle hover" style="margin-top: 2%;">
+        <div style="text-align: center">
+            <a onclick="SelectJoinInfo()">查询抽奖日志</a>
         </div>
     </div>
     <%--中奖纪录弹窗--%>
@@ -210,7 +218,7 @@
     var GameMax = 0;			//活动期间最大参与次数
     var GameDayPersonMax = 0;	//每人当日最大参与次数
     var UserInfo;				//用户信息
-
+    var GameId = '<%=Request.Params["GameId"]%>';
     var clickstate = 0;
     var time = 400;
     var verticalOpts = [{ 'width': '0' }, { 'width': '90%' }];
@@ -312,19 +320,21 @@
         SimpleTimer.Back();
 
         //$('.PrizeName').hide();
-
-        GetGameSetting({ GameType: TurnGameType }, data => {
+        GetGameSetting({ GameType: TurnGameType, SettingID: GameId }, data => {
+            console.log(data)
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     mui.alert("游戏暂未配置");
                     return
                 }
+
+
                 GameMax = data.Data[0].GameMax;
                 GameDayPersonMax = data.Data[0].GameDayPersonMax;
                 $("#GameMax").html(GameMax);
                 $("#GameDayPersonMax").html(GameDayPersonMax);
 
-                var PulishTo = data.Data[0].PulishTo;		//手机端 1 PC端 2 手机+PC 3 手机PC同步 4
+                var PulishTo = data.Data[0].PulishTo;		// 1:手机端  2:PC端  3:手机+PC(不要)  4:手机PC同步
                 if (PulishTo == '4') {
                     //初始化WebSocket
                     JSocket.init(GetConfigUrl());
@@ -361,17 +371,18 @@
     var CrmLoad = () => {
         //请求会员信息
         MemberInfo({ QueryType: '4', Code: '<%= UnionId %>' }, data => {
+            console.log(data)
             if (!data.HasError) {
                 CustomerID = data.Data.MemberID;
                 CardID = data.Data.CardInfoList[0].CardID;
                 MobileNo = data.Data.MobileNo;
-                $('#UserName').html(data.Data.FullName);
+                $('#UserName').html(Desensitization(data.Data.FullName, '*', 1, 2));
                 $('#UserSex').html(FormatterSex(data.Data.Gender));
-                $('#UserPhone').html(data.Data.MobileNo);
-                $('#UserCardCode').html(data.Data.CardInfoList[0].CardCode);
+                $('#UserPhone').html(Desensitization(data.Data.MobileNo, '*', 4, 7));
+                $('#UserCardCode').html(Desensitization(data.Data.CardInfoList[0].CardCode, '*', 3, 6));
 
                 UserInfo = {
-                    UserName: data.Data.FullName,
+                    UserName: Desensitization(data.Data.FullName, '*', 1, 2),
                     UserSex: FormatterSex(data.Data.Gender),
                     UserPhone: data.Data.MobileNo,
                     UserCardCode: data.Data.CardInfoList[0].CardCode
@@ -387,7 +398,7 @@
         });
 
         //查询游戏规则
-        GetGameSetting({ GameType: TurnGameType }, data => {
+        GetGameSetting({ GameType: TurnGameType, SettingID: GameId }, data => {
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     mui.alert("游戏暂未配置");
@@ -402,7 +413,7 @@
                 $('#RuleText').html(data.Data[0].GameRuleDesc);
 
                 //加载底图
-                $("body").css("background", `url("${ResourceUrl}${data.Data[0].PCImg}") round`);
+                $("body").css("background", `url("${ResourceUrl}${data.Data[0].GameRuleImg}") round`);
 
                 //加载奖品图片
                 //$("#draw a").each(function (i, o) {
@@ -422,7 +433,7 @@
                         RuleText: data.Data[0].GameRuleDesc,
                         MainImg: data.Data[0].PCImg
                     }, false);
-
+                    SocketSend("Turn-PC", "<%=UnionId%>", 'GameId', GameId, false);
                     //发送游戏设置给PC端
                     SocketSend("Turn-PC", "<%=UnionId%>", '游戏奖品设置', {
                         PrizeList: PrizeList
@@ -432,6 +443,7 @@
 
                 //查询游戏日志
                 GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
+                    console.log(res)
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
@@ -516,7 +528,7 @@
     //获取资源Url
     var ResourceUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
     //获取GameType
-    var TurnGameType = '<%=System.Configuration.ConfigurationManager.AppSettings["TurnGameType"].ToString()%>';
+    var TurnGameType = parseInt('<%=System.Configuration.ConfigurationManager.AppSettings["TurnGameType"].ToString()%>');
 
 	/**
      * WebSocket发送消息
@@ -559,6 +571,6 @@
             mui.alert('用户信息不全,请刷新页面');
             return;
         }
-        window.location.href = `GameJoinInfo.aspx?SettingID=${SettingId}&OpenID=<%=UnionId%>&User=Turn-WC`
+        window.location.href = `GameJoinInfo.aspx?SettingID=${SettingId}&OpenID=<%=UnionId%>&User=Turn-WC&GameId=${GameId}`
     }
 </script>

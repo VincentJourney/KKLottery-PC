@@ -214,6 +214,7 @@
     var LotteryFinalPrize;		    // 实际抽奖的奖品
     var LotteryFinalId;             // 手机端点击的A标签
     var OpenId;
+    var GameId ='<%=Request.Params["GameId"]%>';
 
     var time = 400;
     var verticalOpts = [{ 'width': '0%' }, { 'width': '92%' }];
@@ -300,7 +301,7 @@
         //加载规则
         $('#RuleText').html(GameRuleImg.RuleText);
         //加载底图
-        //$("body").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
+        $("body").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
 
     }
 
@@ -334,7 +335,7 @@
             e => console.log(`Open`),
             e => {
                 var data = JSON.parse(e.data);
-                //console.log(data)
+                console.log(data)
                 if (!data.Result) {
                     if (data.MesData == "Open")
                         WebSocketState = true;
@@ -377,8 +378,11 @@
                         case "连接信息":
                             if (data.MesData.indexOf("下线") != -1) {
                                 if (OpenId == data.MobileNo)
-                                    window.location.href = "TurnQRCode.aspx";
+                                    window.location.href = `TurnQRCode.aspx?GameId=${GameId}`;
                             }
+                            break;
+                        case "GameId":
+                            //GameId = data.MesData.GameId;
                             break;
                     }
                 }

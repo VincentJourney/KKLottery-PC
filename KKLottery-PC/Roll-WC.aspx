@@ -36,7 +36,7 @@
 
         .draw {
             width: 100%;
-            height: 120vw;
+            height: 100vw;
             margin: 0 auto;
             padding: 51px;
             background-image: url(images/bg.png);
@@ -68,7 +68,7 @@
                 /*手机端*/
                 display: table-cell;
                 width: 25vw;
-                height: 16VW;
+                height: 21VW;
                 vertical-align: middle;
                 text-align: center;
                 clear: both;
@@ -163,6 +163,12 @@
         .marTop {
             margin-top: 3vw;
         }
+
+
+        p {
+            margin-bottom: 2px;
+            font-size: 12px;
+        }
     </style>
 
 </head>
@@ -246,23 +252,28 @@
         </div>
 
         <div id="UserJoinInfo" class="textTemple textStyle">
-            <p>活动期间最大参与次数：<span id="GameMax"></span></p>
+            <%--  <p>活动期间最大参与次数：<span id="GameMax"></span></p>
             <p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
             <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
-            <p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
+            <p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>--%>
+            <p>活动可参与次数：<span id="GameMax"></span>  已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
+            <p>当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+
             <p>当前是否可参与：<span id="CanJoin"></span></p>
         </div>
 
-        <div id="GetGameJoinInfo" class="textTemple textStyle hover" style="margin-top: 2%;">
-            <div style="text-align: center">
-                <a onclick="SelectJoinInfo()">查询抽奖日志</a>
-            </div>
-        </div>
+
 
         <div id="GameRule" class="textTemple textStyle">
             <div id="RuleWrap">
                 <h3>游戏规则</h3>
                 <div id="RuleText"></div>
+            </div>
+        </div>
+
+        <div id="GetGameJoinInfo" class="textTemple textStyle hover" style="margin-top: 2%; margin-bottom: 2%;">
+            <div style="text-align: center">
+                <a onclick="SelectJoinInfo()">查询抽奖日志</a>
             </div>
         </div>
     </main>
@@ -307,13 +318,13 @@
     var GameMax = 0;			//活动期间最大参与次数
     var GameDayPersonMax = 0;	//每人当日最大参与次数
     var UserInfo;				//用户信息
+    var GameId ='<%=Request.Params["GameId"]%>';
 
     $(function () {
         SimpleTimer.Start();
         SimpleTimer.Back();
 
-        GetGameSetting({ GameType: RollGameType }, data => {
-            console.log(data);
+        GetGameSetting({ GameType: RollGameType, SettingID: GameId }, data => {
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     mui.alert("游戏暂未配置");
@@ -503,20 +514,21 @@
     var CrmLoad = () => {
         //请求会员信息
         MemberInfo({ QueryType: '4', Code: '<%= UnionId %>' }, data => {
+
             if (!data.HasError) {
                 CustomerID = data.Data.MemberID;
                 CardID = data.Data.CardInfoList[0].CardID;
                 MobileNo = data.Data.MobileNo;
-                $('#UserName').html(data.Data.FullName);
+                $('#UserName').html(Desensitization(data.Data.FullName, '*', 1, 2));
                 $('#UserSex').html(FormatterSex(data.Data.Gender));
-                $('#UserPhone').html(data.Data.MobileNo);
-                $('#UserCardCode').html(data.Data.CardInfoList[0].CardCode);
+                $('#UserPhone').html(Desensitization(data.Data.MobileNo, '*', 4, 7));
+                $('#UserCardCode').html(Desensitization(data.Data.CardInfoList[0].CardCode, '*', 3, 6));
 
                 UserInfo = {
-                    UserName: data.Data.FullName,
+                    UserName: Desensitization(data.Data.FullName, '*', 1, 2),
                     UserSex: FormatterSex(data.Data.Gender),
-                    UserPhone: data.Data.MobileNo,
-                    UserCardCode: data.Data.CardInfoList[0].CardCode
+                    UserPhone: Desensitization(data.Data.MobileNo, '*', 4, 7),
+                    UserCardCode: Desensitization(data.Data.CardInfoList[0].CardCode, '*', 3, 6)
                 }
 
 
@@ -529,7 +541,8 @@
             }
         });
         //查询游戏规则
-        GetGameSetting({ GameType: RollGameType }, data => {
+        GetGameSetting({ GameType: RollGameType, SettingID: GameId }, data => {
+            console.log(data)
             if (!data.HasError) {
                 if (data.Data.length == 0) {
                     mui.alert("游戏暂未配置");
@@ -544,37 +557,27 @@
                 $('#RuleText').html(data.Data[0].GameRuleDesc);
 
                 //加载底图
-                $("main").css("background", `url("${ResourceUrl}${data.Data[0].PCImg}") round`);
+                $("main").css("background", `url("${ResourceUrl}${data.Data[0].GameRuleImg}") round`);
 
                 //加载奖品图片
-                $("td.item div.img").each(function (i, o) {
+                for (var i = 0; i < data.Data[0].WcGamePrizeList.length; i++) {
                     $(`#PrizeImg_${i}`).html(`<img src="${ResourceUrl}${data.Data[0].WcGamePrizeList[i].PrizeImg}" alt="" style="width:80%;height:100%"/>`)
-                })
+
+                    //$(`span#PrizeName_${i}`).html(data.Data[0].WcGamePrizeList[i].PrizeName)
+                }
+                //$("td.item div.img").each(function (i, o) {
+                //    console.log(i);
+                //    $(`#PrizeImg_${i}`).html(`<img src="${ResourceUrl}${data.Data[0].WcGamePrizeList[i].PrizeImg}" alt="" style="width:80%;height:100%"/>`)
+                //})
 
                 //加载奖品描述
-                $("td.item span").each(function (i, o) {
-                    $(`span#PrizeName_${i}`).html(data.Data[0].WcGamePrizeList[i].PrizeName)
-                })
-
-                setInterval(function () {
-                    //发送用户消息给PC端
-                    SocketSend("Roll-PC", "<%=UnionId%>", '用户信息', UserInfo, false);
-
-                    //发送游戏设置给PC端
-                    SocketSend("Roll-PC","<%=UnionId%>", '规则底图设置', {
-                        RuleText: data.Data[0].GameRuleDesc,
-                        MainImg: data.Data[0].PCImg
-                    }, false);
-
-                    //发送游戏设置给PC端
-                    SocketSend("Roll-PC", "<%=UnionId%>", '游戏奖品设置', {
-                        PrizeList: PrizeList
-                    }, false);
-                }, 2000)
-
+                //$("td.item span").each(function (i, o) {
+                //    $(`span#PrizeName_${i}`).html(data.Data[0].WcGamePrizeList[i].PrizeName)
+                //})
 
                 //查询游戏日志
                 GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
+                    console.log(res)
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
@@ -601,6 +604,24 @@
                         mui.alert(res.ErrorMessage);
                     }
                 })
+
+                SendMessageByCheckState(() => {
+
+                    //发送用户消息给PC端
+                    SocketSend("Roll-PC", "<%=UnionId%>", '用户信息', UserInfo, false);
+
+                    //发送游戏设置给PC端
+                    SocketSend("Roll-PC","<%=UnionId%>", '规则底图设置', {
+                        RuleText: data.Data[0].GameRuleDesc,
+                        MainImg: data.Data[0].PCImg
+                    }, false);
+                    SocketSend("Roll-PC", "<%=UnionId%>", 'GameId', GameId, false);
+                    //发送游戏设置给PC端
+                    SocketSend("Roll-PC", "<%=UnionId%>", '游戏奖品设置', {
+                        PrizeList: PrizeList
+                    }, false);
+                });
+
             }
             else {
                 mui.alert(data.ErrorMessage);
@@ -659,6 +680,19 @@
         }, 1000);
     }
 
+    //递归查询是否已连接
+    var SendMessageByCheckState = func => {
+        var doSend = setInterval(function () {
+            if (JSocket.getWebSocketState() == 1) {
+                func();
+                clearInterval(doSend);
+            }
+            else
+                SendMessageByCheckState(func);
+        }, 1000);
+    }
+
+
 
     //获取WebSocketUrl
     var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Roll-WC/<%=UnionId%>';
@@ -667,7 +701,7 @@
     //获取资源Url
     var ResourceUrl ='<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
     //获取GameType
-    var RollGameType = '<%=System.Configuration.ConfigurationManager.AppSettings["RollGameType"].ToString()%>';
+    var RollGameType = parseInt('<%=System.Configuration.ConfigurationManager.AppSettings["RollGameType"].ToString()%>');
 
     /**
      * WebSocket发送消息
@@ -704,6 +738,6 @@
             mui.alert('用户信息不全,请刷新页面');
             return;
         }
-        window.location.href = `GameJoinInfo.aspx?SettingID=${SettingId}&OpenID=<%=UnionId%>&User=Roll-WC`
+        window.location.href = `GameJoinInfo.aspx?SettingID=${SettingId}&OpenID=<%=UnionId%>&User=Roll-WC&GameId=${GameId}`
     }
 </script>
