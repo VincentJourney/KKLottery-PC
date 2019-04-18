@@ -365,7 +365,6 @@
             return;
         }
         GameJoinApi(res => {
-            console.log(res)
             $('#PrizeIMG').removeAttr('hidden');
             if (res.HasError)
                 mui.alert(res.ErrorMessage);
@@ -579,10 +578,37 @@
                 GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
                     console.log(res)
                     if (!res.HasError) {
+
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
-                        $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
-                        $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+
+                        //如果为礼券抽奖类型
+                        if (data.Data[0].RewardType == "4") {
+                            GetGameVoucher({ SettingID: SettingId, CardID: CardID }, info => {
+                                console.log(info)
+                                if (!info.HasError) {
+                                    var voucherValue = 0;
+                                    for (var j = 0; j < info.Data.length; j++) {
+                                        if (res2.Data[j].VoucherStauts == "4") {
+                                            voucherValue = voucherValue + 1;
+                                        }
+                                    }
+
+                                    $('#TotalCount2').html(voucherValue);
+                                    $('#TodayCount2').html(voucherValue);
+
+                                }
+                                else {
+                                    alert("礼券查询有误！");
+                                }
+                            });
+                        }
+                        else {
+                            $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                            $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                        }
+
+
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;

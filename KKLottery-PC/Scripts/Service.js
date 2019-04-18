@@ -40,8 +40,11 @@ var GetGameDrawLog = (data, func) => {
 }
 //生成二维码
 var CreateQRCodeImg = (data, func) => {
-    console.log(JSON.stringify(data))
     $.axs('WebService.asmx/CreateQRCodeImg', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })
+}
+//查询抽奖日志 WeChatPublic/GetGameVoucher
+var GetGameVoucher = (data, func) => {
+    $.axs('WebService.asmx/GetGameVoucher', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })
 }
 
 /**

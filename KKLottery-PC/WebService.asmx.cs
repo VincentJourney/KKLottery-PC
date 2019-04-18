@@ -155,6 +155,30 @@ namespace KKLottery_PC
             }
         }
 
+        /// <summary>
+        /// 查询礼券
+        /// </summary>
+        /// <param name="">查询条件</param>
+        /// <returns>是否成功、错误信息</returns>
+        [WebMethod(EnableSession = true)]
+        public string GetGameVoucher(string SettingID, string CardID)
+        {
+            try
+            {
+                var mes = new
+                {
+                    SettingID,
+                    CardID
+                };
+                return PubFunc(mes, "WeChatPublic/GetGameVoucher");
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"GetGameVoucher", ex);
+                return null;
+            }
+        }
+
 
         public string PubFunc(object a, string Url)
         {
