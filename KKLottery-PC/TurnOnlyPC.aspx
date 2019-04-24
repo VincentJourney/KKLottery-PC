@@ -233,7 +233,7 @@
     <%--中奖后弹窗--%>
     <div id='info' style="display: none">
         <div class="PrizeInfo">
-            <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
+            <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您，获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
                 <img src="#" id="PrizeIMG" />
@@ -313,9 +313,9 @@
                     var current = $(this);//当前a标签
                     turnImg = current;
                     $(this).find('.img').stop().animate(opts[0], time, function () {
-                        $(this).next().attr('src', ResourceUrl + LotteryFinalPrize.PrizeImg);
-                        $(this).hide().next().show();
-                        $(this).next().animate(opts[1], time);
+                        $(this).next().attr('src', ResourceUrl + LotteryFinalPrize.PrizeImg);//下层图片赋值
+                        $(this).hide().next().show();//上层隐藏 下层显示
+                        $(this).next().animate(opts[1], time); //下层出现
                         //$(this).parent().find('.PrizeName').html(WinPrizeName);
                         //$(this).parent().find('.PrizeName').show();
                         clickstate = 1;
@@ -459,6 +459,7 @@
 
                 //查询游戏日志
                 GetGameJoinInfo({ SettingID: SettingId, OpenID: CustomerID }, res => {
+                    console.log(res)
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
@@ -536,8 +537,9 @@
     var ReSet = () => {
         clickstate = 0;
         LotteryFinalPrize = null;
-        turnImg.find('.img').next().hide();
-        turnImg.find('.img').stop().animate(verticalOpts[1], time, function () {
+        turnImg.find('.img').next().hide(); //下层隐藏 
+        turnImg.find('.img').next().attr('src', '');
+        turnImg.find('.img').stop().animate(verticalOpts[1], time, function () { //下层消失 上层展示
             $(this).show();
         })
         turnImg = null;

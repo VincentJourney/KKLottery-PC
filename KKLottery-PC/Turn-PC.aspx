@@ -189,7 +189,7 @@
     <%--中奖后弹窗--%>
     <div id='info' style="display: none">
         <div class="PrizeInfo">
-            <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
+            <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您，获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
                 <img src="#" id="PrizeIMG" />
@@ -274,6 +274,8 @@
         LotteryFinalPrize = null;
         $(`#${LotteryFinalId}`).find('.img').next().hide();
         //$(`#${LotteryFinalId}`).parent().find('.PrizeName').html('');
+
+        $(`#${LotteryFinalId}`).find('.img').next().attr('src', '');
         //$(`#${LotteryFinalId}`).parent().find('.PrizeName').hide();
         $(`#${LotteryFinalId}`).find('.img').stop().animate(verticalOpts[1], time, function () {
             $(this).show();

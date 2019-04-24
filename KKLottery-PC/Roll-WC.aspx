@@ -280,7 +280,7 @@
 
     <div id='info' style="display: none">
         <div class="PrizeInfo">
-            <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您</div>
+            <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您，获得</div>
             <div id="LayerH1" class="marTop"></div>
             <div class="marTop">
                 <img src="#" id="PrizeIMG" />
@@ -578,37 +578,10 @@
                 GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
                     console.log(res)
                     if (!res.HasError) {
-
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
-
-                        //如果为礼券抽奖类型
-                        if (data.Data[0].RewardType == "4") {
-                            GetGameVoucher({ SettingID: SettingId, CardID: CardID }, info => {
-                                console.log(info)
-                                if (!info.HasError) {
-                                    var voucherValue = 0;
-                                    for (var j = 0; j < info.Data.length; j++) {
-                                        if (res2.Data[j].VoucherStauts == "4") {
-                                            voucherValue = voucherValue + 1;
-                                        }
-                                    }
-
-                                    $('#TotalCount2').html(voucherValue);
-                                    $('#TodayCount2').html(voucherValue);
-
-                                }
-                                else {
-                                    alert("礼券查询有误！");
-                                }
-                            });
-                        }
-                        else {
-                            $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
-                            $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
-                        }
-
-
+                        $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                        $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;
@@ -618,7 +591,7 @@
                         }
 
                         //发送游戏设置给PC端
-                        SocketSend("Roll-PC","<%=UnionId%>", '游戏日志', {
+                        SocketSend("Roll-PC", "<%=UnionId%>", '游戏日志', {
                             TotalCount: res.Data.PersonalTotalCount,
                             TodayCount: res.Data.PersonalTodayCount,
                             CanJoin: res.Data.CanJoin,
