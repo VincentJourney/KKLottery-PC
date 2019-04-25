@@ -139,6 +139,13 @@
 
 <script type="text/javascript">
     var GameId = '<%=Request.Params["GameId"]%>';
+    var CheckType = '<%=Request.Params["Type"]%>'; //type为2 不检查登陆
+
+    if (CheckType == '2') {
+        $("#moBtn").hide();
+        $("#Code").hide();
+    }
+
     function GetQueryString(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
@@ -246,21 +253,29 @@
             alert("手机号码不能为空")
             return
         }
-        if (VerificationCode == "") {
-            alert("验证码不能为空")
-            return
+
+
+        if (CheckType != '2') {
+            if (VerificationCode == "") {
+                alert("验证码不能为空")
+                return
+            }
         }
 
-        else if (!(/^1(3|4|5|7|8)\d{9}$/.test(MobileNo))) {
+
+        if (!(/^1(3|4|5|7|8)\d{9}$/.test(MobileNo))) {
 
             alert("手机号码有误，请重填");
             return;
         }
-        else {
-            //					var Confirm = confirm("您的登陆账号为："+MobileNo);
-            //					if(confirm){
+        //					var Confirm = confirm("您的登陆账号为："+MobileNo);
+        //					if(confirm){
 
-
+        const jsonData = {
+            "QueryType": 3,
+            "Code": MobileNo
+        }
+        if (CheckType != '2') {
             //验证短信验证码
             //请求字段
             const jsonDataCode = {
@@ -272,10 +287,7 @@
                 if (res) {
                     if (res.Data.CallStatus) {
                         //请求字段
-                        const jsonData = {
-                            "QueryType": 3,
-                            "Code": MobileNo
-                        }
+
                         aicAjax("MemberInfo", jsonData, function (res) {
                             if (!res.Result.HasError) {
                                 var data = res.Data
@@ -291,11 +303,25 @@
                     }
                 }
             })
-            //
-            //					}else{
-            //						return;
-            //					}
         }
+        else {
+
+            aicAjax("MemberInfo", jsonData, function (res) {
+                if (!res.Result.HasError) {
+                    var data = res.Data
+                    sessionStorage.setItem("user", JSON.stringify(data))
+                    //加密手机号登录
+                    window.location.href = `TurnOnlyPC.aspx?id=${Encrypt.EncryptPhone(MobileNo)}&GameId=${GameId}`
+                } else {
+                    alert(res.Result.ErrorMessage);
+                }
+            });
+
+        }
+        //
+        //					}else{
+        //						return;
+        //					}
     })
 
 </script>
