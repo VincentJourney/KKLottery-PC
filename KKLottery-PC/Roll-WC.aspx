@@ -262,8 +262,6 @@
             <p>当前是否可参与：<span id="CanJoin"></span></p>
         </div>
 
-
-
         <div id="GameRule" class="textTemple textStyle">
             <div id="RuleWrap">
                 <h3>游戏规则</h3>

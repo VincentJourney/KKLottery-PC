@@ -373,10 +373,10 @@
     }
     //点击抽奖事件
     var BtnClick = () => {
-        if (!GameJoinLog.CanJoin) {
-            alert("您的抽奖次数已经用完")
-            return false;
-        }
+        //if (!GameJoinLog.CanJoin) {
+        //    alert("您的抽奖次数已经用完")
+        //    return false;
+        //}
         if (click) { //click控制一次抽奖过程中不能重复点击抽奖按钮，后面的点击不响应
             return false;
 
