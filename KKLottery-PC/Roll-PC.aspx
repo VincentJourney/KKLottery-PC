@@ -31,66 +31,55 @@
         }
 
         .draw {
-            width: 560px;
-            height: 600px;
-            /*margin: 0 auto;*/
-            padding: 51px;
-            background-image: url(images/bg.png);
+            width: 550px;
+            height: 550px;
+            background-image: url(images/转盘.png);
             background-repeat: no-repeat;
-            background-size: 100%;
+            background-size: 95%;
+            background-position: top;
+            padding-top: 89px;
         }
 
-            .draw .item {
-                width: 150px;
-                height: 150px;
-                background-image: url(images/bg1.png);
-                background-repeat: no-repeat;
-                background-size: 96%;
+            .draw table {
+                height: 77%;
+                width: 77%;
+                border-radius: 10px;
+                margin-top: -51px;
+                margin-left: 63px;
             }
 
-                .draw .item.active {
-                    background-image: url(images/bg2.png);
-                    background-repeat: no-repeat;
-                    background-size: 100%;
+                .draw table tr {
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    display: flex;
                 }
 
-            .draw .img {
-                display: table-cell;
-                width: 150px;
-                height: 61px;
-                vertical-align: middle;
-                text-align: center;
-            }
-
-                .draw .img img {
-                    vertical-align: top;
+                .draw table td {
+                    position: relative;
+                    width: 135px;
+                    height: 135px;
+                    border: 0;
+                    background-color: rgba(255,255,255,0.1);
+                    text-align: center;
+                    font-size: 8px;
+                    border-radius: 10px;
+                    display: inline-block;
+                    filter: grayscale(0%);
                 }
 
-            .draw .gap {
-                width: 5px;
+            .draw .item img {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
             }
 
-            .draw .gap-2 {
-                height: 5px;
-            }
-
-            .draw .name {
-                display: block;
-                margin-top: 10px;
-                font-size: 14px;
-            }
-
-            .draw .draw-btn {
-                display: block;
-                height: 150px;
-                line-height: 150px;
-                border-radius: 20px;
-                font-size: 25px;
-                font-weight: 700;
-                text-decoration: none;
-                background-image: url(images/bg3.png);
-                background-repeat: no-repeat;
-                background-size: 96%;
+            .draw .item.active {
+                background-color: rgba(0,0,0,.3);
+                color: #000;
+                z-index: 999;
+                filter: grayscale(100%);
+                border-radius: 10px;
+                -webkit-box-shadow: 0 0 0px rgba(248,248,255,1);
             }
 
         h1#LayerH1 {
@@ -189,65 +178,34 @@
                     </div>
                 </div>
             </div>
-            <div style="width: 60%; float: left">
+
+            <div style="width: 60%; float: left; height: 100%">
                 <div class="draw" id="lottery">
                     <table>
                         <tr>
                             <td class="item lottery-unit lottery-unit-0">
-                                <div class="img" id="PrizeImg_0"></div>
-                                <span class="name" id="PrizeName_0"></span>
-                            </td>
-                            <td class="gap"></td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_0" /></td>
                             <td class="item lottery-unit lottery-unit-1">
-                                <div class="img" id="PrizeImg_1"></div>
-                                <span class="name" id="PrizeName_1"></span>
-                            </td>
-                            <td class="gap"></td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_1" /></td>
                             <td class="item lottery-unit lottery-unit-2">
-                                <div class="img" id="PrizeImg_2"></div>
-                                <span class="name" id="PrizeName_2"></span>
-                            </td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_2" /></td>
                         </tr>
-
-                        <tr>
-                            <td class="gap-2" colspan="5"></td>
-                        </tr>
-
                         <tr>
                             <td class="item lottery-unit lottery-unit-7">
-                                <div class="img" id="PrizeImg_7"></div>
-                                <span class="name" id="PrizeName_7"></span>
-                            </td>
-                            <td class="gap"></td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_7" /></td>
                             <td class="">
-                                <a class="draw-btn" href="javascript:"></a>
+                                <img src="images/开始抽奖.png" class="draw-btn" id="begin" style="width: 100%; height: 100%;" />
                             </td>
-                            <td class="gap"></td>
                             <td class="item lottery-unit lottery-unit-3">
-                                <div class="img" id="PrizeImg_3"></div>
-                                <span class="name" id="PrizeName_3"></span>
-                            </td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_3" /></td>
                         </tr>
-
-                        <tr>
-                            <td class="gap-2" colspan="5"></td>
-                        </tr>
-
                         <tr>
                             <td class="item lottery-unit lottery-unit-6">
-                                <div class="img" id="PrizeImg_6"></div>
-                                <span class="name" id="PrizeName_6"></span>
-                            </td>
-                            <td class="gap"></td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_6" /></td>
                             <td class="item lottery-unit lottery-unit-5">
-                                <div class="img" id="PrizeImg_5"></div>
-                                <span class="name" id="PrizeName_5"></span>
-                            </td>
-                            <td class="gap"></td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_5" /></td>
                             <td class="item lottery-unit lottery-unit-4">
-                                <div class="img" id="PrizeImg_4"></div>
-                                <span class="name" id="PrizeName_4"></span>
-                            </td>
+                                <img src="images/谢谢参与.png" id="PrizeImg_4" /></td>
                         </tr>
                     </table>
                 </div>
@@ -283,7 +241,7 @@
     var LotteryResult;				// 抽奖信息
     var LotteryFinalNum = 0;		// 实际抽奖的奖品序号
     var OpenId;
-    var GameId='<%=Request.Params["GameId"]%>';
+    var GameId ='<%=Request.Params["GameId"]%>';
 
     $(function () {
         //初始化WebSocket
@@ -310,19 +268,17 @@
                 this.obj = $lottery;
                 this.count = $units.length;
                 $lottery.find('.lottery-unit.lottery-unit-' + this.index).addClass('active');
-                //$('#info h1').text($('.lottery-unit.active span').text());
             };
         },
         roll: function () {
             var index = this.index;
             var count = this.count;
             var lottery = this.obj;
-            $(lottery).find('.lottery-unit.lottery-unit-' + index).removeClass('active');
+            $(lottery).find('.lottery-unit.lottery-unit-' + index).addClass('active');
             index += 1;
             if (index > count - 1)
                 index = 0;
-            $(lottery).find('.lottery-unit.lottery-unit-' + index).addClass('active');
-            //$('#info h1').text($('.lottery-unit.active span').text());
+            $(lottery).find('.lottery-unit.lottery-unit-' + index).removeClass('active');
             this.index = index;
             return false;
         },
@@ -409,14 +365,15 @@
 
     var ShowGamePrizeList = () => {
         //加载奖品图片
-        $("td.item div.img").each(function (i, o) {
-            $(`#PrizeImg_${i}`).html(`<img src="${ResourceUrl}${GamePrizeList.PrizeList[i].PrizeImg}" alt="" style="width:80%;height:100%"/>`)
+        $(".draw td").each(function (i, o) {
+            //$(`#PrizeImg_${i}`).html(`<img src="${ResourceUrl}${GamePrizeList.PrizeList[i].PrizeImg}" alt="" style="width:80%;height:100%"/>`)
+            $(`#PrizeImg_${i}`).attr('src', `${ResourceUrl}${GamePrizeList.PrizeList[i].PrizeImg}`)
         })
 
-        //加载奖品描述
-        $("td.item span").each(function (i, o) {
-            $(`span#PrizeName_${i}`).html(GamePrizeList.PrizeList[i].PrizeName)
-        })
+        ////加载奖品描述
+        //$("td.item span").each(function (i, o) {
+        //    $(`span#PrizeName_${i}`).html(GamePrizeList.PrizeList[i].PrizeName)
+        //})
     }
     //游戏参加日志
     var ShowGameJoinLog = () => {

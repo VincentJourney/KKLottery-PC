@@ -37,74 +37,55 @@
         .draw {
             width: 100%;
             height: 100vw;
-            margin: 0 auto;
-            padding: 51px;
-            background-image: url(images/bg.png);
+            background-image: url(images/转盘.png);
             background-repeat: no-repeat;
             background-size: 95%;
             background-position: top;
+            padding-top: 12%;
         }
 
-            .draw .item {
-                width: 33%;
-                height: 33%;
-                background-image: url(images/bg1.png);
-                background-repeat: no-repeat;
-                background-size: 96%;
+            .draw table {
+                height: 77%;
+                width: 77%;
+                border-radius: 10px;
+                margin-top: -5vw;
+                margin-left: 11vw;
             }
 
-                .draw .item.active {
-                    background-image: url(images/bg2.png);
-                    background-repeat: no-repeat;
-                    background-size: 100%;
+                .draw table tr {
+                    justify-content: space-between;
+                    margin-bottom: 1vw;
+                    display: flex;
                 }
 
-            .draw .img {
-                /*display: table-cell;
-				width: 50vw;
-				height: 10vw;
-				vertical-align: middle;
-				text-align: center;*/
-                /*手机端*/
-                display: table-cell;
-                width: 25vw;
-                height: 21VW;
-                vertical-align: middle;
-                text-align: center;
-                clear: both;
-                overflow: hidden;
-            }
-
-                .draw .img img {
-                    vertical-align: top;
+                .draw table td {
+                    position: relative;
+                    width: 25vw;
+                    height: 25vw;
+                    border: 0;
+                    background-color: rgba(255,255,255,0.1);
+                    text-align: center;
+                    font-size: 8px;
+                    border-radius: 10px;
+                    display: inline-block;
+                    filter: grayscale(0%);
                 }
 
-            .draw .gap {
-                width: 2VW;
+            .draw .item img {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
             }
 
-            .draw .gap-2 {
-                height: 2VW;
+            .draw .item.active {
+                background-color: rgba(0,0,0,.3);
+                color: #000;
+                z-index: 999;
+                filter: grayscale(100%);
+                border-radius: 10px;
+                -webkit-box-shadow: 0 0 0px rgba(248,248,255,1);
             }
 
-            .draw .name {
-                display: block;
-                margin-top: 1VW;
-                font-size: 3VW;
-            }
-
-            .draw .draw-btn {
-                display: block;
-                height: 23VW;
-                line-height: 23VW;
-                border-radius: 1vw;
-                font-size: 10VW;
-                font-weight: 700;
-                text-decoration: none;
-                background-image: url(images/bg3.png);
-                background-repeat: no-repeat;
-                background-size: 96%;
-            }
 
         #LayerH1 {
             color: #e04538;
@@ -169,6 +150,14 @@
             margin-bottom: 2px;
             font-size: 12px;
         }
+
+        .light {
+            background-color: rgba(0,0,0,.3);
+            color: #000;
+            z-index: 999;
+            filter: grayscale(100%);
+            border-radius: 10px;
+        }
     </style>
 
 </head>
@@ -193,60 +182,28 @@
             <table>
                 <tr>
                     <td class="item lottery-unit lottery-unit-0">
-                        <div class="img" id="PrizeImg_0"></div>
-                        <span class="name" id="PrizeName_0"></span>
-                    </td>
-                    <td class="gap"></td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_0" /></td>
                     <td class="item lottery-unit lottery-unit-1">
-                        <div class="img" id="PrizeImg_1"></div>
-                        <span class="name" id="PrizeName_1"></span>
-                    </td>
-                    <td class="gap"></td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_1" /></td>
                     <td class="item lottery-unit lottery-unit-2">
-                        <div class="img" id="PrizeImg_2"></div>
-                        <span class="name" id="PrizeName_2"></span>
-                    </td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_2" /></td>
                 </tr>
-
-                <tr>
-                    <td class="gap-2" colspan="5"></td>
-                </tr>
-
                 <tr>
                     <td class="item lottery-unit lottery-unit-7">
-                        <div class="img" id="PrizeImg_7"></div>
-                        <span class="name" id="PrizeName_7"></span>
-                    </td>
-                    <td class="gap"></td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_7" /></td>
                     <td class="">
-                        <a class="draw-btn" href="javascript:" onclick="drawFunc()"></a>
+                        <img src="images/开始抽奖.png" class="draw-btn" id="begin" style="width: 100%; height: 100%;" onclick="drawFunc()" />
                     </td>
-                    <td class="gap"></td>
                     <td class="item lottery-unit lottery-unit-3">
-                        <div class="img" id="PrizeImg_3"></div>
-                        <span class="name" id="PrizeName_3"></span>
-                    </td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_3" /></td>
                 </tr>
-
-                <tr>
-                    <td class="gap-2" colspan="5"></td>
-                </tr>
-
                 <tr>
                     <td class="item lottery-unit lottery-unit-6">
-                        <div class="img" id="PrizeImg_6"></div>
-                        <span class="name" id="PrizeName_6"></span>
-                    </td>
-                    <td class="gap"></td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_6" /></td>
                     <td class="item lottery-unit lottery-unit-5">
-                        <div class="img" id="PrizeImg_5"></div>
-                        <span class="name" id="PrizeName_5"></span>
-                    </td>
-                    <td class="gap"></td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_5" /></td>
                     <td class="item lottery-unit lottery-unit-4">
-                        <div class="img" id="PrizeImg_4"></div>
-                        <span class="name" id="PrizeName_4"></span>
-                    </td>
+                        <img src="images/谢谢参与.png" id="PrizeImg_4" /></td>
                 </tr>
             </table>
         </div>
@@ -441,21 +398,18 @@
                 $units = $lottery.find('.lottery-unit');
                 this.obj = $lottery;
                 this.count = $units.length;
-                //$lottery.find('.lottery-unit.lottery-unit-' + this.index).addClass('active');
-                //$('#info h1').text($('.lottery-unit.active span').text());
             };
         },
         roll: function () {
             var index = this.index;
             var count = this.count;
             var lottery = this.obj;
-            $(lottery).find('.lottery-unit.lottery-unit-' + index).removeClass('active');
+            $(lottery).find('.lottery-unit.lottery-unit-' + index).addClass('active');
             index += 1;
             if (index > count - 1) {
                 index = 0;
             };
-            $(lottery).find('.lottery-unit.lottery-unit-' + index).addClass('active');
-            //$('#info #LayerH1').text($('.lottery-unit.active span').text());
+            $(lottery).find('.lottery-unit.lottery-unit-' + index).removeClass('active');
             this.index = index;
             return false;
         },
@@ -558,7 +512,8 @@
 
                 //加载奖品图片
                 for (var i = 0; i < data.Data[0].WcGamePrizeList.length; i++) {
-                    $(`#PrizeImg_${i}`).html(`<img src="${ResourceUrl}${data.Data[0].WcGamePrizeList[i].PrizeImg}" alt="" style="width:80%;height:100%"/>`)
+                    //$(`#PrizeImg_${i}`).html(`<img src="${ResourceUrl}${data.Data[0].WcGamePrizeList[i].PrizeImg}" alt="" style="width:80%;height:100%"/>`)
+                    $(`#PrizeImg_${i}`).attr('src', `${ResourceUrl}${data.Data[0].WcGamePrizeList[i].PrizeImg}`)
 
                     //$(`span#PrizeName_${i}`).html(data.Data[0].WcGamePrizeList[i].PrizeName)
                 }

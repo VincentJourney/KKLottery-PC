@@ -138,6 +138,9 @@
     <Content Include="images\Roll-WC.png" />
     <Content Include="images\Turn-WC.png" />
     <Content Include="images\WXRegister.png" />
+    <Content Include="images\开始抽奖.png" />
+    <Content Include="images\谢谢参与.png" />
+    <Content Include="images\转盘.png" />
     <Content Include="Register.aspx" />
     <Content Include="Scripts\need\layer.css" />
     <Content Include="Scripts\PennJs\js\core.js" />
