@@ -162,6 +162,7 @@ namespace KKLottery_PC
             }
         }
 
+        private static object OnLine_Lock = new object();
         /// <summary>
         /// 当链接关闭，通知PC端用户下线，删除用户
         /// </summary>
@@ -174,18 +175,34 @@ namespace KKLottery_PC
             if (CONNECT_POOL.ContainsKey(UserName))
             {
                 var sendTo = "";
+                var userType = "";
                 if (UserName.Contains("Roll"))
-                    sendTo = "Roll-PC";
-                else
-                    sendTo = "Turn-PC";
-                var mes = new MesInfo2
                 {
-                    SendTo = sendTo,
-                    MobileNo = UserName.Split('/')[1],
-                    MesTitle = "连接信息",
-                    MesData = $"下线",
-                    Result = false,
-                };
+                    sendTo = "Roll-PC";
+                    userType = "Roll-WC";
+                }
+                else
+                {
+                    sendTo = "Turn-PC";
+                    userType = "Turn-WC";
+                }
+
+                //当同一类型在线人数大于1时 不能关闭 返回false
+                var HasOnLine = false;
+                var mes = new MesInfo2();
+                lock (OnLine_Lock)
+                {
+                    HasOnLine = CONNECT_POOL.Where(s => s.Key.Contains(userType)).Count() > 1 ? false : true;
+                    mes = new MesInfo2
+                    {
+                        SendTo = sendTo,
+                        MobileNo = UserName.Split('/')[1],
+                        MesTitle = "连接信息",
+                        MesData = $"下线-{HasOnLine}",
+                        Result = false,
+                    };
+                }
+                Log.Warn($"Lock UserCount: {JsonConvert.SerializeObject(mes)}", null);
                 await SendMes(mes, CONNECT_POOL[sendTo]);
                 CONNECT_POOL.Remove(UserName);//删除连接池
             }

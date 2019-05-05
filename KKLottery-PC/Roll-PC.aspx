@@ -460,10 +460,8 @@
                                 layer.closeAll();
                             break;
                         case '连接信息':
-                            if (data.MesData.indexOf("下线") != -1) {
-                                //if (OpenId == data.MobileNo) {
+                            if (data.MesData.indexOf("下线") != -1 && data.MesData.indexOf("True") != -1) {
                                 window.location.href = `RollQRCode.aspx?GameId=${GameId}`;
-                                //}
                             }
                             break;
                         //case "GameId":

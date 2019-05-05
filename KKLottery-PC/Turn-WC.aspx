@@ -171,7 +171,7 @@
 
     <%--游戏规则--%>
     <div id="GameRule" class="textTemple textStyle">
-        <div id="RuleWrap" style="word-break:break-all">
+        <div id="RuleWrap" style="word-break: break-all">
             <h3>游戏规则</h3>
             <div id="RuleText"></div>
         </div>
@@ -202,7 +202,7 @@
 <script src="Scripts/jquery-3.3.1.min.js"></script>
 <script src="Scripts/mui.min.js"></script>
 <script src="Scripts/layer.js"></script>
-<script src="Scripts/Base.js"></script>
+<script src="Scripts/Base.js?v=211"></script>
 <script src="Scripts/Service.js"></script>
 <script>
 

@@ -41,11 +41,20 @@
         },
         onmessage: e => {
             var data = JSON.parse(e.data);
+            console.log(data);
             if (data.MesTitle == "提示") {
+                ws.close();
                 $confirm(data.MesData, () => {
-                    ws.close();
+                    //var gameId = getQueryString("GameId");
+                    //var GameType = "";
+                    //if (data.SendTo.indexOf("Roll-WC") != -1)
+                    //    GameType = "Roll";
+                    //else
+                    //    GameType = "Turn";
+                    //window.location.href = `${GameType}QRCode.aspx?GameId=${gameId}`;
                     WeixinJSBridge.call('closeWindow');
                 })
+
             }
         },
         onclose: e => {
@@ -134,10 +143,24 @@ var isEmpty = str => {
 
 var $confirm = (mes, func) => {
     if (confirm(mes))
-        func()
+        func();
     else
-        func()
+        func();
 }
 
+
+function RndNum(n) {
+    var rnd = "";
+    for (var i = 0; i < n; i++)
+        rnd += Math.floor(Math.random() * 10);
+    return rnd;
+}
+
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return null;
+}
 
 

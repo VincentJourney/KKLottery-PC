@@ -256,7 +256,7 @@
 <script src="Scripts/mui.min.js"></script>
 <script src="Scripts/jquery-3.3.1.min.js"></script>
 <script src="Scripts/layer.js"></script>
-<script src="Scripts/Base.js"></script>
+<script src="Scripts/Base.js?v=21222"></script>
 <script src="Scripts/Service.js"></script>
 
 <script type="text/javascript">
