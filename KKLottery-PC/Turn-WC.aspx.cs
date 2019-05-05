@@ -23,7 +23,7 @@ namespace KKLottery_PC
                         if (string.IsNullOrEmpty(Request.QueryString["code"]))
                         {
                             var GameId = Request.Params["GameId"];
-                            string url = $@"https://open.weixin.qq.com/connect/oauth2/authorize?appid={Setting.AppID}&redirect_uri=https%3a%2f%2fcloud.ascentis.cn%2fKKLottery%2fTurn-WC?GameId={GameId}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+                            string url = $@"https://open.weixin.qq.com/connect/oauth2/authorize?appid={Setting.AppID}&redirect_uri=https://bi.kingkeybanner.com/Turn-WC?GameId={GameId}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
                             Response.Redirect(url);
                         }
                         else

@@ -172,7 +172,7 @@
 					<p>当前是否可参与：<span id="CanJoin"></span></p>
 				</div>--%>
                 <div id="GameRule" class="textTemple textStyle">
-                    <div id="RuleWrap">
+                    <div id="RuleWrap" style="word-break: break-all;">
                         <h3>游戏规则</h3>
                         <div id="RuleText"></div>
                     </div>
@@ -360,6 +360,8 @@
 
         ////加载底图
         $("body").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
+        $("body").css("background-size", `cover`);
+        $("body").css("background-repeat", `no-repeat`);
 
     }
 

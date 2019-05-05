@@ -172,7 +172,7 @@
                 <p>当前是否可参与：<span id="CanJoin"></span></p>
             </div>
             <div id="GameRule" class="textTemple textStyle">
-                <div id="RuleWrap">
+                <div id="RuleWrap" style="word-break: break-all;">
                     <h3>游戏规则</h3>
                     <div id="RuleText"></div>
                 </div>
@@ -303,7 +303,9 @@
         //加载规则
         $('#RuleText').html(GameRuleImg.RuleText);
         //加载底图
-        $("body").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}") round`);
+        $("body").css("background", `url("${ResourceUrl}${GameRuleImg.MainImg}")`);
+        $("body").css("background-size", `cover`);
+        $("body").css("background-repeat", `no-repeat`);
 
     }
 
@@ -379,8 +381,7 @@
                             break;
                         case "连接信息":
                             if (data.MesData.indexOf("下线") != -1) {
-                                if (OpenId == data.MobileNo)
-                                    window.location.href = `TurnQRCode.aspx?GameId=${GameId}`;
+                                window.location.href = `TurnQRCode.aspx?GameId=${GameId}`;
                             }
                             break;
                         case "GameId":

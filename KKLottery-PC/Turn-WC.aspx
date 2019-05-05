@@ -171,7 +171,7 @@
 
     <%--游戏规则--%>
     <div id="GameRule" class="textTemple textStyle">
-        <div id="RuleWrap">
+        <div id="RuleWrap" style="word-break:break-all">
             <h3>游戏规则</h3>
             <div id="RuleText"></div>
         </div>
@@ -413,7 +413,9 @@
                 $('#RuleText').html(data.Data[0].GameRuleDesc);
 
                 //加载底图
-                $("body").css("background", `url("${ResourceUrl}${data.Data[0].GameRuleImg}") round`);
+                $("body").css("background", `url("${ResourceUrl}${data.Data[0].GameRuleImg}")`);
+                $("body").css("background-size", `cover`);
+                $("body").css("background-repeat", `no-repeat`);
 
                 //加载奖品图片
                 //$("#draw a").each(function (i, o) {

@@ -220,7 +220,7 @@
         </div>
 
         <div id="GameRule" class="textTemple textStyle">
-            <div id="RuleWrap">
+            <div id="RuleWrap" style="word-break:break-all">
                 <h3>游戏规则</h3>
                 <div id="RuleText"></div>
             </div>
@@ -508,7 +508,9 @@
                 $('#RuleText').html(data.Data[0].GameRuleDesc);
 
                 //加载底图
-                $("main").css("background", `url("${ResourceUrl}${data.Data[0].GameRuleImg}") round`);
+                $("main").css("background", `url("${ResourceUrl}${data.Data[0].GameRuleImg}")`);
+                $("main").css("background-size", `cover`);
+                $("main").css("background-repeat", `no-repeat`);
 
                 //加载奖品图片
                 for (var i = 0; i < data.Data[0].WcGamePrizeList.length; i++) {

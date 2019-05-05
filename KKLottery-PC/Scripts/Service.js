@@ -79,7 +79,7 @@ function WcMessage(sendTo, mobileNo, mesTitle, mesData, result) {
         Stop: () => clearInterval(timer),	//计时暂停
         Back: () => {						//30秒无操作，自动推出微信页面
             setInterval(() => {
-                if (LimitTime >= 30) {
+                if (LimitTime >= 999999) {
                     LimitTime = 0;
                     WeixinJSBridge.call('closeWindow');
                 }

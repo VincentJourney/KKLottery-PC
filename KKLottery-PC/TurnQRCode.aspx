@@ -42,7 +42,7 @@
 <script src="Scripts/Service.js"></script>
 <script>
     var GameId = '<%=Request.Params["GameId"]%>';
-    var Url = `https://cloud.ascentis.cn/KKLottery/Turn-WC?GameId=${GameId}`;
+    var Url = `https://bi.kingkeybanner.com/Turn-WC?GameId=${GameId}`;
 
     $(() => {
         //动态创建二维码
