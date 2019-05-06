@@ -45,14 +45,11 @@
             if (data.MesTitle == "提示") {
                 ws.close();
                 $confirm(data.MesData, () => {
-                    //var gameId = getQueryString("GameId");
-                    //var GameType = "";
-                    //if (data.SendTo.indexOf("Roll-WC") != -1)
-                    //    GameType = "Roll";
-                    //else
-                    //    GameType = "Turn";
-                    //window.location.href = `${GameType}QRCode.aspx?GameId=${gameId}`;
-                    WeixinJSBridge.call('closeWindow');
+                    setTimeout(
+                        () => {
+                            WeixinJSBridge.call('closeWindow');
+                        }, 1500);
+                   
                 })
 
             }
