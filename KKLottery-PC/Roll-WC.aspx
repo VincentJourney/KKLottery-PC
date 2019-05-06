@@ -235,7 +235,7 @@
 
     <div id='info' style="display: none">
         <div class="PrizeInfo">
-            <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您，获得</div>
+            <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop"></div>
             <div class="marTop">
                 <img src="#" id="PrizeIMG" />
