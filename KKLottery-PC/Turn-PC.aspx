@@ -172,7 +172,7 @@
                 <p>当前是否可参与：<span id="CanJoin"></span></p>
             </div>
             <div id="GameRule" class="textTemple textStyle">
-                <div id="RuleWrap" style="word-break: break-all;">
+                <div id="RuleWrap" <%--style="word-break: break-all;--%>">
                     <h3>游戏规则</h3>
                     <div id="RuleText"></div>
                 </div>
@@ -322,6 +322,8 @@
         $('#TodayCount').html(GameJoinLog.TodayCount);
         $('#TotalCount2').html(GameJoinLog.TotalCount2);
         $('#TodayCount2').html(GameJoinLog.TodayCount2);
+        $('#GameMax').html(GameJoinLog.GameMax);
+        $('#GameDayPersonMax').html(GameJoinLog.GameDayPersonMax);
         if (GameJoinLog.CanJoin)
             $('#CanJoin').html('您还可以继续抽奖哟！');
         else

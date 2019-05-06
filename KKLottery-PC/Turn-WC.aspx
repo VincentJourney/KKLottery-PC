@@ -427,20 +427,7 @@
                 //    $(`#a${i + 1} span.PrizeName`).html(data.Data[0].WcGamePrizeList[i].PrizeName)
                 //})
 
-                setInterval(() => {
-                    //发送用户消息给PC端
-                    SocketSend("Turn-PC", "<%=UnionId%>", '用户信息', UserInfo, false);
-                    //发送游戏设置给PC端
-                    SocketSend("Turn-PC","<%=UnionId%>", '规则底图设置', {
-                        RuleText: data.Data[0].GameRuleDesc,
-                        MainImg: data.Data[0].PCImg
-                    }, false);
-                    SocketSend("Turn-PC", "<%=UnionId%>", 'GameId', GameId, false);
-                    //发送游戏设置给PC端
-                    SocketSend("Turn-PC", "<%=UnionId%>", '游戏奖品设置', {
-                        PrizeList: PrizeList
-                    }, false);
-                }, 2000);
+
 
 
                 //查询游戏日志
@@ -459,14 +446,32 @@
                             $('#CanJoin').html('不好意思，您的抽奖次数已用完');
                         }
 
-                        //发送游戏设置给PC端
-                        SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
-                            TotalCount: res.Data.PersonalTotalCount,
-                            TodayCount: res.Data.PersonalTodayCount,
-                            TotalCount2: GameMax - res.Data.PersonalTotalCount,
-                            TodayCount2: GameDayPersonMax - res.Data.PersonalTodayCount,
-                            CanJoin: res.Data.CanJoin
-                        }, false);
+                        setInterval(() => {
+                            //发送用户消息给PC端
+                            SocketSend("Turn-PC", "<%=UnionId%>", '用户信息', UserInfo, false);
+                            //发送游戏设置给PC端
+                            SocketSend("Turn-PC","<%=UnionId%>", '规则底图设置', {
+                                RuleText: data.Data[0].GameRuleDesc,
+                                MainImg: data.Data[0].PCImg
+                            }, false);
+                            SocketSend("Turn-PC", "<%=UnionId%>", 'GameId', GameId, false);
+                            //发送游戏设置给PC端
+                            SocketSend("Turn-PC", "<%=UnionId%>", '游戏奖品设置', {
+                                PrizeList: PrizeList
+                            }, false);
+                            //发送游戏设置给PC端
+                            SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
+                                TotalCount: res.Data.PersonalTotalCount,
+                                TodayCount: res.Data.PersonalTodayCount,
+                                TotalCount2: GameMax - res.Data.PersonalTotalCount,
+                                TodayCount2: GameDayPersonMax - res.Data.PersonalTodayCount,
+                                GameMax,
+                                GameDayPersonMax,
+                                CanJoin: res.Data.CanJoin
+                            }, false);
+                        }, 2000);
+
+
                     }
                     else {
                         mui.alert(res.ErrorMessage);
