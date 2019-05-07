@@ -337,7 +337,7 @@
                         if (!res.HasError) {
                             $('#TotalCount').html(res.Data.PersonalTotalCount);
                             $('#TodayCount').html(res.Data.PersonalTodayCount);
-                            $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                            $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                             if (res.Data.CanJoin) {
                                 $('#CanJoin').html('您还可以继续抽奖哟！');
                                 CanJoin = true;
@@ -369,7 +369,7 @@
                         return
                     }
                     GameMax = data.Data[0].GameMax;
-                    GameDayPersonMax = data.Data[0].GameDayPersonMax;
+                    GameDayPersonMax = data.Data[0].GamePersonMax;
                     $("#GameMax").html(GameMax);
                     $("#GameDayPersonMax").html(GameDayPersonMax);
                     CrmLoad();
@@ -415,10 +415,10 @@
                 $('#UserCardCode').html(Desensitization(data.Data.CardInfoList[0].CardCode, '*', 3, 6));
 
                 UserInfo = {
-                    UserName: data.Data.FullName,
+                    UserName: Desensitization(data.Data.FullName, '*', 1, 2),
                     UserSex: FormatterSex(data.Data.Gender),
-                    UserPhone: data.Data.MobileNo,
-                    UserCardCode: data.Data.CardInfoList[0].CardCode
+                    UserPhone: Desensitization(data.Data.MobileNo, '*', 4, 7),
+                    UserCardCode: Desensitization(data.Data.CardInfoList[0].CardCode, '*', 3, 6)
                 }
 
             }
@@ -464,7 +464,7 @@
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         //$('#TodayCount').html(res.Data.PersonalTodayCount);
-                        $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                        $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                         //$('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');

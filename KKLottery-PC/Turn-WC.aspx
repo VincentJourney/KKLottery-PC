@@ -286,7 +286,7 @@
                         if (!res.HasError) {
                             $('#TotalCount').html(res.Data.PersonalTotalCount);
                             //$('#TodayCount').html(res.Data.PersonalTodayCount);
-                            $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                            $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                             if (res.Data.CanJoin) {
                                 $('#CanJoin').html('您还可以继续抽奖哟！');
                                 CanJoin = true;
@@ -295,7 +295,7 @@
                                 $('#CanJoin').html('不好意思，您的抽奖次数已用完');
                             }
                             var TotalCount = res.Data.PersonalTotalCount;
-                            var TotalCount2 = GameMax - res.Data.PersonalTotalCount;
+                            var TotalCount2 = GameDayPersonMax - res.Data.PersonalTotalCount;
                             //发送游戏设置给PC端
                             SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
                                 TotalCount: TotalCount,
@@ -330,7 +330,7 @@
 
 
                 GameMax = data.Data[0].GameMax;
-                GameDayPersonMax = data.Data[0].GameDayPersonMax;
+                GameDayPersonMax = data.Data[0].GamePersonMax;
                 $("#GameMax").html(GameMax);
                 $("#GameDayPersonMax").html(GameDayPersonMax);
 
@@ -384,8 +384,8 @@
                 UserInfo = {
                     UserName: Desensitization(data.Data.FullName, '*', 1, 2),
                     UserSex: FormatterSex(data.Data.Gender),
-                    UserPhone: data.Data.MobileNo,
-                    UserCardCode: data.Data.CardInfoList[0].CardCode
+                    UserPhone: Desensitization(data.Data.MobileNo, '*', 4, 7),
+                    UserCardCode: Desensitization(data.Data.CardInfoList[0].CardCode, '*', 3, 6)
                 }
 
             }
@@ -436,7 +436,7 @@
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
-                        $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                        $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                         $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
@@ -467,7 +467,7 @@
                             SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
                                 TotalCount: res.Data.PersonalTotalCount,
                                 TodayCount: res.Data.PersonalTodayCount,
-                                TotalCount2: GameMax - res.Data.PersonalTotalCount,
+                                TotalCount2: GameDayPersonMax - res.Data.PersonalTotalCount,
                                 TodayCount2: GameDayPersonMax - res.Data.PersonalTodayCount,
                                 GameMax,
                                 GameDayPersonMax,

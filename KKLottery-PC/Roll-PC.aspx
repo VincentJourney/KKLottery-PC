@@ -118,7 +118,6 @@
         }
 
         #UserJoinInfo {
-            text-align: center;
         }
 
         #GameRule {
@@ -167,7 +166,7 @@
                 <div id="UserJoinInfo" class="textTemple" style="margin-top: 2%;">
                     <p hidden>活动期间最大参与次数：<span id="GameMax"></span></p>
                     <p hidden>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
-                    <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
+                    <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数：<span id="TotalCount2"></span></p>
                     <p hidden>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
                     <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
                 </div>
@@ -383,7 +382,7 @@
         $('#TodayCount').html(GameJoinLog.TodayCount);
         $('#GameMax').html(GameJoinLog.GameMax);
         $('#GameDayPersonMax').html(GameJoinLog.GameDayPersonMax);
-        $('#TotalCount2').html(GameJoinLog.GameMax - GameJoinLog.TotalCount);
+        $('#TotalCount2').html(GameJoinLog.GameDayPersonMax - GameJoinLog.TotalCount);
         $('#TodayCount2').html(GameJoinLog.GameDayPersonMax - GameJoinLog.TodayCount);
         if (GameJoinLog.CanJoin)
             $('#CanJoin').html('您还可以继续抽奖哟！');

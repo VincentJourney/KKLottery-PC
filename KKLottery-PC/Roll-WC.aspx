@@ -282,7 +282,7 @@
                     return
                 }
                 GameMax = data.Data[0].GameMax;
-                GameDayPersonMax = data.Data[0].GameDayPersonMax;
+                GameDayPersonMax = data.Data[0].GamePersonMax;
                 $("#GameMax").html(GameMax);
                 $("#GameDayPersonMax").html(GameDayPersonMax);
 
@@ -341,7 +341,7 @@
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
-                        $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                        $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                         $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
@@ -532,7 +532,7 @@
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
-                        $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
+                        $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                         $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');

@@ -92,7 +92,6 @@
         }
 
         #UserJoinInfo {
-            text-align: center;
             margin-top: 2%;
         }
 
@@ -166,7 +165,7 @@
                 <p hidden>活动期间最大参与次数：<span id="GameMax"></span></p>
                 <p hidden>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
                 <p>用户参与总次数：<span id="TotalCount"></span></p>
-                <p>剩余总参与次数: <span id="TotalCount2"></span></p>
+                <p>剩余总参与次数：<span id="TotalCount2"></span></p>
                 <p hidden>用户当日参与次数：<span id="TodayCount"></span></p>
                 <p hidden>剩余当日参与次数：<span id="TodayCount2"></span></p>
                 <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
