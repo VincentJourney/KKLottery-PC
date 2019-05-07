@@ -209,18 +209,14 @@
         </div>
 
         <div id="UserJoinInfo" class="textTemple textStyle">
-            <%--  <p>活动期间最大参与次数：<span id="GameMax"></span></p>
-            <p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
-            <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
-            <p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>--%>
-            <p>活动可参与次数：<span id="GameMax"></span>  已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
-            <p>当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+            <p>已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
+            <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
 
-            <p>当前是否可参与：<span id="CanJoin"></span></p>
+            <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
         </div>
 
         <div id="GameRule" class="textTemple textStyle">
-            <div id="RuleWrap" style="word-break:break-all">
+            <div id="RuleWrap" style="word-break: break-all">
                 <h3>游戏规则</h3>
                 <div id="RuleText"></div>
             </div>
@@ -359,10 +355,11 @@
                         SocketSend("Roll-PC", "<%=UnionId%>", '游戏日志', {
                             TotalCount: res.Data.PersonalTotalCount,
                             TodayCount: res.Data.PersonalTodayCount,
+                            TotalCount2:GameMax - res.Data.PersonalTotalCount,
                             CanJoin: res.Data.CanJoin,
                             GameMax,
                             GameDayPersonMax
-                        }, false);
+                        }, false); 
                     }
                     else {
                         mui.alert(res.ErrorMessage);

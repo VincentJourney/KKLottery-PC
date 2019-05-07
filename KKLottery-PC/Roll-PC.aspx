@@ -164,13 +164,13 @@
                     <p>手机号码：<span id="UserPhone"></span></p>
                     <p>会员卡号：<span id="UserCardCode"></span></p>
                 </div>
-                <%--<div id="UserJoinInfo" class="textTemple textStyle">
-					<p>活动期间最大参与次数：<span id="GameMax"></span></p>
-					<p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
-					<p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
-					<p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
-					<p>当前是否可参与：<span id="CanJoin"></span></p>
-				</div>--%>
+                <div id="UserJoinInfo" class="textTemple" style="margin-top: 2%;">
+                    <p hidden>活动期间最大参与次数：<span id="GameMax"></span></p>
+                    <p hidden>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
+                    <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
+                    <p hidden>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
+                    <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
+                </div>
                 <div id="GameRule" class="textTemple textStyle">
                     <div id="RuleWrap" style="word-break: break-all;">
                         <h3>游戏规则</h3>

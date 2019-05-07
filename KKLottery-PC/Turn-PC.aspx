@@ -163,16 +163,16 @@
                 <p>会员卡号：<span id="UserCardCode"></span></p>
             </div>
             <div id="UserJoinInfo" class="textTemple textStyle">
-                <p>活动期间最大参与次数：<span id="GameMax"></span></p>
-                <p>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
+                <p hidden>活动期间最大参与次数：<span id="GameMax"></span></p>
+                <p hidden>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
                 <p>用户参与总次数：<span id="TotalCount"></span></p>
-                <p>剩余总参与次数:<span id="TotalCount2"></span></p>
-                <p>用户当日参与次数：<span id="TodayCount"></span></p>
-                <p>剩余当日参与次数：<span id="TodayCount2"></span></p>
-                <p>当前是否可参与：<span id="CanJoin"></span></p>
+                <p>剩余总参与次数: <span id="TotalCount2"></span></p>
+                <p hidden>用户当日参与次数：<span id="TodayCount"></span></p>
+                <p hidden>剩余当日参与次数：<span id="TodayCount2"></span></p>
+                <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
             </div>
             <div id="GameRule" class="textTemple textStyle">
-                <div id="RuleWrap" <%--style="word-break: break-all;--%>">
+                <div id="RuleWrap" style="word-break: break-all;">
                     <h3>游戏规则</h3>
                     <div id="RuleText"></div>
                 </div>
@@ -319,11 +319,11 @@
     //游戏参加日志
     var ShowGameJoinLog = () => {
         $('#TotalCount').html(GameJoinLog.TotalCount);
-        $('#TodayCount').html(GameJoinLog.TodayCount);
+        //$('#TodayCount').html(GameJoinLog.TodayCount);
         $('#TotalCount2').html(GameJoinLog.TotalCount2);
-        $('#TodayCount2').html(GameJoinLog.TodayCount2);
-        $('#GameMax').html(GameJoinLog.GameMax);
-        $('#GameDayPersonMax').html(GameJoinLog.GameDayPersonMax);
+        // $('#TodayCount2').html(GameJoinLog.TodayCount2);
+        //$('#GameMax').html(GameJoinLog.GameMax);
+        // $('#GameDayPersonMax').html(GameJoinLog.GameDayPersonMax);
         if (GameJoinLog.CanJoin)
             $('#CanJoin').html('您还可以继续抽奖哟！');
         else

@@ -1,5 +1,6 @@
 ﻿
 
+
 //发送端
 (() => {
     var ws;
@@ -44,13 +45,16 @@
             console.log(data);
             if (data.MesTitle == "提示") {
                 ws.close();
-                $confirm(data.MesData, () => {
-                    setTimeout(
-                        () => {
-                            WeixinJSBridge.call('closeWindow');
-                        }, 1500);
-                   
-                })
+
+                let throttleFunc = throttle(() => {
+                    $confirm(data.MesData, () => {
+                        //alert("Close");
+                        WeixinJSBridge.call('closeWindow');
+                    })
+                }, 5000);
+
+                throttleFunc();
+
 
             }
         },
@@ -138,21 +142,10 @@ var isEmpty = str => {
 }
 
 
-var $confirm = (mes, func) => {
-    if (confirm(mes))
-        func();
-    else
-        func();
-}
-
-
-function RndNum(n) {
-    var rnd = "";
-    for (var i = 0; i < n; i++)
-        rnd += Math.floor(Math.random() * 10);
-    return rnd;
-}
-
+/**
+ * 获取url参数
+ * @param {any} name
+ */
 function getQueryString(name) {
     var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
     var r = window.location.search.substr(1).match(reg);
@@ -160,4 +153,38 @@ function getQueryString(name) {
     return null;
 }
 
+/**
+ * 对话框
+ * @param {any} mes 消息
+ * @param {any} func 回调
+ */
+var $confirm = (mes, func) => {
+    if (confirm(mes))
+        func();
+    else
+        func();
+}
+
+/**
+ * 节流
+ * @param {Function} callback 回调函数
+ * @param {Number} duration 延迟时间
+ */
+function throttle(callback, duration) {
+    let last, defer;
+    return arg => {
+        let now = + new Date();
+        if (last && now < last + duration) {
+            clearTimeout(defer);
+            defer = setTimeout(function () {
+                last = now;
+                callback.call(this, arg);
+            }, duration);
+        }
+        else {
+            last = now;
+            callback.call(this, arg);
+        }
+    }
+}
 

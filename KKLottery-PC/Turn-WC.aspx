@@ -161,12 +161,9 @@
 
     <%--活动参与详情--%>
     <div id="UserJoinInfo" class="textTemple textStyle">
-        <p>活动可参与次数：<span id="GameMax"></span>  已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
-        <p>当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
-
-        <%--        <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数:<span id="TotalCount2"></span></p>
-        <p>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>--%>
-        <p>当前是否可参与：<span id="CanJoin"></span></p>
+        <p>已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
+        <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+        <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
     </div>
 
     <%--游戏规则--%>
@@ -202,7 +199,7 @@
 <script src="Scripts/jquery-3.3.1.min.js"></script>
 <script src="Scripts/mui.min.js"></script>
 <script src="Scripts/layer.js"></script>
-<script src="Scripts/Base.js?v=212311"></script>
+<script src="Scripts/Base.js?v=1211"></script>
 <script src="Scripts/Service.js"></script>
 <script>
 
@@ -288,7 +285,8 @@
                     GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
                         if (!res.HasError) {
                             $('#TotalCount').html(res.Data.PersonalTotalCount);
-                            $('#TodayCount').html(res.Data.PersonalTodayCount);
+                            //$('#TodayCount').html(res.Data.PersonalTodayCount);
+                            $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
                             if (res.Data.CanJoin) {
                                 $('#CanJoin').html('您还可以继续抽奖哟！');
                                 CanJoin = true;
@@ -296,11 +294,13 @@
                             else {
                                 $('#CanJoin').html('不好意思，您的抽奖次数已用完');
                             }
-
+                            var TotalCount = res.Data.PersonalTotalCount;
+                            var TotalCount2 = GameMax - res.Data.PersonalTotalCount;
                             //发送游戏设置给PC端
                             SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
-                                TotalCount: res.Data.PersonalTotalCount,
+                                TotalCount: TotalCount,
                                 TodayCount: res.Data.PersonalTodayCount,
+                                TotalCount2: TotalCount2,
                                 CanJoin: res.Data.CanJoin
                             }, false);
                         }
@@ -460,6 +460,10 @@
                                 PrizeList: PrizeList
                             }, false);
                             //发送游戏设置给PC端
+
+                        }, 2000);
+
+                        setTimeout(() => {
                             SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
                                 TotalCount: res.Data.PersonalTotalCount,
                                 TodayCount: res.Data.PersonalTodayCount,
@@ -469,8 +473,7 @@
                                 GameDayPersonMax,
                                 CanJoin: res.Data.CanJoin
                             }, false);
-                        }, 2000);
-
+                        }, 4000)
 
                     }
                     else {

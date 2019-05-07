@@ -1,7 +1,7 @@
 //登入
 function aicAjaxCode(apiCommand, jsondata, func) {
     //var aicUrl = "http://183.62.205.27:8006/api/customer/"+apiCommand
-    var aicUrl = "https://cloud.ascentis.cn/KKApiServer/api/customer/" + apiCommand
+    var aicUrl = "https://crm.kingkeybanner.com:8016/api/customer/" + apiCommand
     var JShared = {
         "Shared": {
             "appid": "12345678",
@@ -25,7 +25,7 @@ function aicAjaxCode(apiCommand, jsondata, func) {
 }
 //会员
 function aicAjax(apiCommand, jsondata, func) {
-    var aicUrl = "https://cloud.ascentis.cn/KKApiServer/api/customer/" + apiCommand
+    var aicUrl = "https://crm.kingkeybanner.com:8016/api/customer/" + apiCommand
     var JShared = {
         "Shared": {
             "CorpCode": "c001",
@@ -52,7 +52,7 @@ function aicAjax(apiCommand, jsondata, func) {
 
 //抽奖
 function aicAjaxGame(apiCommand, jsondata, func) {
-    var aicUrl = "https://cloud.ascentis.cn/KKApiServer/api/WeChatPublic/" + apiCommand
+    var aicUrl = "https://crm.kingkeybanner.com:8016/api/WeChatPublic/" + apiCommand
     var JShared = {
         "Shared": {
             "CorpCode": "C001",

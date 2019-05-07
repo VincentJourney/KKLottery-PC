@@ -12,7 +12,7 @@
     <script type="text/javascript" src="Scripts/PennJs/js/Rem.js"></script>
     <%--    <script type="text/javascript" src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>--%>
     <script type="text/javascript" src="Scripts/PennJs/js/login.js"></script>
-    <script type="text/javascript" src="Scripts/PennJs/js/Tools.js"></script>
+    <script type="text/javascript" src="Scripts/PennJs/js/Tools.js?v=123"></script>
     <script src="Scripts/Service.js"></script>
     <style type="text/css">
         .wrapper {

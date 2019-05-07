@@ -203,7 +203,7 @@
             </div>
 
             <div id="GameRule" class="textTemple textStyle">
-                <div id="RuleWrap">
+                <div id="RuleWrap" style="word-break: break-all">
                     <h3>游戏规则</h3>
                     <div id="RuleText"></div>
                 </div>
@@ -215,8 +215,8 @@
             <div class="weui-grids" id="draw">
             </div>
             <div id="UserJoinInfo" class="textTemple textStyle" style="margin: 0px 6%; width: 69%; font-size: 13px;">
-                <p>活动可参与次数：<span id="GameMax"></span>  已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
-                <p>当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+                <p>已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
+                <p hidden>活动可参与次数：<span id="GameMax"></span> 当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
 
 
                 <%--                <p>活动期间最大参与次数：<span id="GameMax"></span></p>
@@ -337,6 +337,7 @@
                         if (!res.HasError) {
                             $('#TotalCount').html(res.Data.PersonalTotalCount);
                             $('#TodayCount').html(res.Data.PersonalTodayCount);
+                            $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
                             if (res.Data.CanJoin) {
                                 $('#CanJoin').html('您还可以继续抽奖哟！');
                                 CanJoin = true;
@@ -462,9 +463,9 @@
                     console.log(res)
                     if (!res.HasError) {
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
-                        $('#TodayCount').html(res.Data.PersonalTodayCount);
+                        //$('#TodayCount').html(res.Data.PersonalTodayCount);
                         $('#TotalCount2').html(GameMax - res.Data.PersonalTotalCount);
-                        $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                        //$('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;
