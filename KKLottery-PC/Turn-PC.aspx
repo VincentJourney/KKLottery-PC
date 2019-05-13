@@ -164,10 +164,11 @@
             <div id="UserJoinInfo" class="textTemple textStyle">
                 <p hidden>活动期间最大参与次数：<span id="GameMax"></span></p>
                 <p hidden>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
-                <p>用户参与总次数：<span id="TotalCount"></span></p>
-                <p>剩余总参与次数：<span id="TotalCount2"></span></p>
+                <p>您已参与抽奖<span id="TotalCount"></span>次</p>
+                <p>今日还可抽奖：<span id="TodayCount2"></span>次</p>
+                <p>活动还可参加<span id="TotalCount2"></span>次</p>
                 <p hidden>用户当日参与次数：<span id="TodayCount"></span></p>
-                <p hidden>剩余当日参与次数：<span id="TodayCount2"></span></p>
+                <p hidden>剩余当日参与次数：<span id="TodayCount2old"></span></p>
                 <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
             </div>
             <div id="GameRule" class="textTemple textStyle">
@@ -191,7 +192,7 @@
             <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" />
+                <img src="#" id="PrizeIMG" style="width:200px"/>
             </div>
         </div>
     </div>
@@ -252,7 +253,7 @@
             }
             else {
                 $('#LayerH1').text(LotteryFinalPrize.PrizeName);
-                $('#PrizeIMG').attr('src', 'images/PrizeIMG.png');
+                $('#PrizeIMG').attr('src', ResourceUrl + LotteryFinalPrize.PrizeImg);
             }
 
             setTimeout(function () {
@@ -320,7 +321,7 @@
         $('#TotalCount').html(GameJoinLog.TotalCount);
         //$('#TodayCount').html(GameJoinLog.TodayCount);
         $('#TotalCount2').html(GameJoinLog.TotalCount2);
-        // $('#TodayCount2').html(GameJoinLog.TodayCount2);
+        $('#TodayCount2').html(GameJoinLog.TodayCount2);
         //$('#GameMax').html(GameJoinLog.GameMax);
         // $('#GameDayPersonMax').html(GameJoinLog.GameDayPersonMax);
         if (GameJoinLog.CanJoin)

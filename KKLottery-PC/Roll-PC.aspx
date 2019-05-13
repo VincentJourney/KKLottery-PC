@@ -166,8 +166,10 @@
                 <div id="UserJoinInfo" class="textTemple" style="margin-top: 2%;">
                     <p hidden>活动期间最大参与次数：<span id="GameMax"></span></p>
                     <p hidden>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
-                    <p>用户参与总次数：<span id="TotalCount"></span>    剩余总参与次数：<span id="TotalCount2"></span></p>
-                    <p hidden>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2"></span></p>
+                    <p>您已参与抽奖<span id="TotalCount"></span>次</p>
+                    <p>今日还可抽奖<span id="TodayCount2"></span>次</p>
+                    <p>活动还可参加<span id="TotalCount2"></span>次</p>
+                    <p hidden>用户当日参与次数：<span id="TodayCount"></span>    剩余当日参与次数：<span id="TodayCount2old"></span></p>
                     <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
                 </div>
                 <div id="GameRule" class="textTemple textStyle">
@@ -436,8 +438,12 @@
                             LotteryResult = data.MesData;
                             for (var i = 0; i < GamePrizeList.PrizeList.length; i++) {
                                 LotteryFinalNum = i;
-                                if (GamePrizeList.PrizeList[i].PrizeName == LotteryResult.Data.WinPrizeName)
+                                var prizeImg = "";
+                                if (GamePrizeList.PrizeList[i].PrizeName == LotteryResult.Data.WinPrizeName) {
+                                    prizeImg = GamePrizeList.PrizeList[i].PrizeImg;
                                     break;
+                                }
+
                             }
 
                             if (LotteryResult.Data.WinPrizeType == '4') {
@@ -447,7 +453,7 @@
                             }
                             else {
                                 $('#LayerH1').text(LotteryResult.Data.WinPrizeName);
-                                $('#PrizeIMG').attr('src', 'images/PrizeIMG.png');
+                                $('#PrizeIMG').attr('src', ResourceUrl + prizeImg);
                             }
                             break;
                         case '抽奖状态':

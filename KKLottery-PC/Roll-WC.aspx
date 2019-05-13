@@ -209,8 +209,8 @@
         </div>
 
         <div id="UserJoinInfo" class="textTemple textStyle">
-            <p>已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
-            <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+            <p>您已参与<span id="TotalCount"></span>次，今日还可参与：<span id="TodayCount2"></span>次</p>
+            <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2old"></span></p>
 
             <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
         </div>
@@ -234,7 +234,7 @@
             <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" />
+                <img src="#" id="PrizeIMG" style="width: 16vw" />
             </div>
             <div class="marTop">
                 <button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
@@ -333,7 +333,10 @@
                 var WinPrizeName = res.Data.WinPrizeName;
                 for (var i = 0; i < PrizeList.length; i++) {
                     LotteryFinalNum = i;		//得到实际抽奖的奖品序号
-                    if (PrizeList[i].PrizeName == WinPrizeName) break;
+                    if (PrizeList[i].PrizeName == WinPrizeName) {
+                        $('#PrizeIMG').attr('src', ResourceUrl + PrizeList[i].PrizeImg);
+                        break;
+                    }
                 }
                 SocketSend("Roll-PC", "<%=UnionId%>", '抽奖结果', res, false);
                 //查询游戏日志
@@ -355,11 +358,11 @@
                         SocketSend("Roll-PC", "<%=UnionId%>", '游戏日志', {
                             TotalCount: res.Data.PersonalTotalCount,
                             TodayCount: res.Data.PersonalTodayCount,
-                            TotalCount2:GameMax - res.Data.PersonalTotalCount,
+                            TotalCount2: GameMax - res.Data.PersonalTotalCount,
                             CanJoin: res.Data.CanJoin,
                             GameMax,
                             GameDayPersonMax
-                        }, false); 
+                        }, false);
                     }
                     else {
                         mui.alert(res.ErrorMessage);

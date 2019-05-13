@@ -215,8 +215,10 @@
             <div class="weui-grids" id="draw">
             </div>
             <div id="UserJoinInfo" class="textTemple textStyle" style="margin: 0px 6%; width: 69%; font-size: 13px;">
-                <p>已参与次数：<span id="TotalCount"></span> 剩余次数：<span id="TotalCount2"></span></p>
-                <p hidden>活动可参与次数：<span id="GameMax"></span> 当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2"></span></p>
+                <p>您已参与抽奖<span id="TotalCount"></span>次</p>
+                <p>今日还可抽奖<span id="TodayCount2"></span>次</p>
+                <p>活动还可参加<span id="TotalCount2"></span>次</p>
+                <p hidden>活动可参与次数：<span id="GameMax"></span> 当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2old"></span></p>
 
 
                 <%--                <p>活动期间最大参与次数：<span id="GameMax"></span></p>
@@ -236,12 +238,12 @@
             <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" />
+                <img src="#" id="PrizeIMG" style="width: 200px" />
             </div>
-            <div class="marTop">
-                <button type="button" class="Receive" onclick="ReceivePrize()">继续抽奖</button>
-            </div>
+        <div class="marTop">
+            <button type="button" class="Receive" onclick="ReceivePrize()">继续抽奖</button>
         </div>
+    </div>
     </div>
 </body>
 </html>
@@ -310,6 +312,7 @@
                             break;
                         }
                     }
+                    $('#PrizeIMG').attr('src', ResourceUrl + LotteryFinalPrize.PrizeImg);
                     var current = $(this);//当前a标签
                     turnImg = current;
                     $(this).find('.img').stop().animate(opts[0], time, function () {
@@ -337,7 +340,8 @@
                         if (!res.HasError) {
                             $('#TotalCount').html(res.Data.PersonalTotalCount);
                             $('#TodayCount').html(res.Data.PersonalTodayCount);
-                            $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
+                            $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                            //$('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                             if (res.Data.CanJoin) {
                                 $('#CanJoin').html('您还可以继续抽奖哟！');
                                 CanJoin = true;
@@ -465,7 +469,7 @@
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         //$('#TodayCount').html(res.Data.PersonalTodayCount);
                         $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
-                        //$('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                        $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;
