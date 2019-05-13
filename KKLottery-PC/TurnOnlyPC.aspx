@@ -128,7 +128,7 @@
         }
 
         .marTop {
-            margin-top: 72px;
+            margin-top: 35px;
         }
 
 
@@ -202,19 +202,7 @@
                 <p>会员卡号：<span id="UserCardCode"></span></p>
             </div>
 
-            <div id="GameRule" class="textTemple textStyle">
-                <div id="RuleWrap" style="word-break: break-all">
-                    <h3>游戏规则</h3>
-                    <div id="RuleText"></div>
-                </div>
-            </div>
-        </div>
-
-        <%--奖品区--%>
-        <div style="width: 60%; float: left;">
-            <div class="weui-grids" id="draw">
-            </div>
-            <div id="UserJoinInfo" class="textTemple textStyle" style="margin: 0px 6%; width: 69%; font-size: 13px;">
+            <div id="UserJoinInfo" class="textTemple textStyle" style="font-size: 15px;text-align: left;">
                 <p>您已参与抽奖<span id="TotalCount"></span>次</p>
                 <p>今日还可抽奖<span id="TodayCount2"></span>次</p>
                 <p>活动还可参加<span id="TotalCount2"></span>次</p>
@@ -229,6 +217,20 @@
                 <p>剩余当日参与次数：<span id="TodayCount2"></span></p>--%>
                 <%--  <p>当前是否可参与：<span id="CanJoin"></span></p>--%>
             </div>
+
+
+            <div id="GameRule" class="textTemple textStyle">
+                <div id="RuleWrap" style="word-break: break-all">
+                    <h3>游戏规则</h3>
+                    <div id="RuleText"></div>
+                </div>
+            </div>
+        </div>
+
+        <%--奖品区--%>
+        <div style="width: 60%; float: left;">
+            <div class="weui-grids" id="draw">
+            </div>
         </div>
     </div>
 
@@ -238,12 +240,12 @@
             <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" style="width: 200px" />
+                <img src="#" id="PrizeIMG" style="width: 135px" />
             </div>
-        <div class="marTop">
-            <button type="button" class="Receive" onclick="ReceivePrize()">继续抽奖</button>
+            <div class="marTop">
+                <button type="button" class="Receive" onclick="ReceivePrize()">继续抽奖</button>
+            </div>
         </div>
-    </div>
     </div>
 </body>
 </html>
@@ -266,6 +268,7 @@
     var CanJoin = false;
     var GameMax = 0;			//活动期间最大参与次数
     var GameDayPersonMax = 0;	//每人当日最大参与次数
+    var GameDayPersonMax2 = 0;	//每人当日最大参与次数
     var UserInfo;				//用户信息
     var RequestMobileNo = '<%=Request.Params["id"]%>';
     var GameId = '<%=Request.Params["GameId"]%>';
@@ -340,7 +343,7 @@
                         if (!res.HasError) {
                             $('#TotalCount').html(res.Data.PersonalTotalCount);
                             $('#TodayCount').html(res.Data.PersonalTodayCount);
-                            $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                            $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTodayCount);
                             //$('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                             if (res.Data.CanJoin) {
                                 $('#CanJoin').html('您还可以继续抽奖哟！');
@@ -374,6 +377,7 @@
                     }
                     GameMax = data.Data[0].GameMax;
                     GameDayPersonMax = data.Data[0].GamePersonMax;
+                    GameDayPersonMax2 = data.Data[0].GameDayPersonMax;
                     $("#GameMax").html(GameMax);
                     $("#GameDayPersonMax").html(GameDayPersonMax);
                     CrmLoad();
@@ -469,7 +473,7 @@
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         //$('#TodayCount').html(res.Data.PersonalTodayCount);
                         $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
-                        $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                        $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;

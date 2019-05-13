@@ -165,7 +165,7 @@
                 <p hidden>活动期间最大参与次数：<span id="GameMax"></span></p>
                 <p hidden>每人当日最大参与次数：<span id="GameDayPersonMax"></span></p>
                 <p>您已参与抽奖<span id="TotalCount"></span>次</p>
-                <p>今日还可抽奖：<span id="TodayCount2"></span>次</p>
+                <p>今日还可抽奖<span id="TodayCount2"></span>次</p>
                 <p>活动还可参加<span id="TotalCount2"></span>次</p>
                 <p hidden>用户当日参与次数：<span id="TodayCount"></span></p>
                 <p hidden>剩余当日参与次数：<span id="TodayCount2old"></span></p>
@@ -192,7 +192,7 @@
             <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" style="width:200px"/>
+                <img src="#" id="PrizeIMG" style="width: 200px; height: 200px;" />
             </div>
         </div>
     </div>

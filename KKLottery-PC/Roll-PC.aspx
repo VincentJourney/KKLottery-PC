@@ -219,7 +219,7 @@
             <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" />
+                <img src="#" id="PrizeIMG" style="width: 200px;height: 200px;"/>
             </div>
         </div>
     </div>
@@ -384,8 +384,8 @@
         $('#TodayCount').html(GameJoinLog.TodayCount);
         $('#GameMax').html(GameJoinLog.GameMax);
         $('#GameDayPersonMax').html(GameJoinLog.GameDayPersonMax);
-        $('#TotalCount2').html(GameJoinLog.GameDayPersonMax - GameJoinLog.TotalCount);
-        $('#TodayCount2').html(GameJoinLog.GameDayPersonMax - GameJoinLog.TodayCount);
+        $('#TotalCount2').html(GameJoinLog.GameMax - GameJoinLog.TotalCount);
+        $('#TodayCount2').html(GameJoinLog.GameDayPersonMax2 - GameJoinLog.TodayCount);
         if (GameJoinLog.CanJoin)
             $('#CanJoin').html('您还可以继续抽奖哟！');
         else

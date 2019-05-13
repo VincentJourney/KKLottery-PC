@@ -121,6 +121,7 @@
 
         #GameRule {
             margin-top: 2VW;
+               padding: 5%;
         }
 
         .hover :hover {
@@ -158,6 +159,12 @@
             filter: grayscale(100%);
             border-radius: 10px;
         }
+
+        a {
+            text-decoration: none;
+            color: black;
+            font-size: 4vw;
+        }
     </style>
 
 </head>
@@ -165,7 +172,7 @@
     <div class="headerWrapper container-fluid">
     </div>
     <main>
-        <div id="UserInfo" class="textTemple">
+        <%--        <div id="UserInfo" class="textTemple">
             <table class="textStyle">
                 <tr>
                     <td>姓名：<span id="UserName"></span></td>
@@ -176,7 +183,7 @@
                     <td>会员卡号：<span id="UserCardCode"></span></td>
                 </tr>
             </table>
-        </div>
+        </div>--%>
 
         <div class="draw" id="lottery">
             <table>
@@ -208,23 +215,28 @@
             </table>
         </div>
 
-        <div id="UserJoinInfo" class="textTemple textStyle">
-            <p>您已参与<span id="TotalCount"></span>次，今日还可参与：<span id="TodayCount2"></span>次</p>
-            <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2old"></span></p>
 
-            <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
-        </div>
 
         <div id="GameRule" class="textTemple textStyle">
             <div id="RuleWrap" style="word-break: break-all">
-                <h3>游戏规则</h3>
-                <div id="RuleText"></div>
+                <h3 style="text-align: center;">— 游戏规则 —</h3>
+                <div id="RuleText" style="padding-bottom: 5%; padding-top: 5%;font-size: 4vw;"></div>
             </div>
+
+            
+            <p style="text-align: center">您已参与<span id="TotalCount"></span>次，今日还可参与<span id="TodayCount2"></span>次</p>
         </div>
 
-        <div id="GetGameJoinInfo" class="textTemple textStyle hover" style="margin-top: 2%; margin-bottom: 2%;">
+<%--        <div id="UserJoinInfo" class="textTemple textStyle">
+            <p>您已参与<span id="TotalCount"></span>次，今日还可参与<span id="TodayCount2"></span>次</p>
+            <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2old"></span></p>
+
+            <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
+        </div>--%>
+
+        <div id="GetGameJoinInfo" class="textStyle hover" style="margin-top: 3%; margin-bottom: 2%;">
             <div style="text-align: center">
-                <a onclick="SelectJoinInfo()">查询抽奖日志</a>
+                <a onclick="SelectJoinInfo()">— 中奖纪录 —</a>
             </div>
         </div>
     </main>
@@ -234,7 +246,7 @@
             <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" style="width: 16vw" />
+                <img src="#" id="PrizeIMG" style="width: 30vw" />
             </div>
             <div class="marTop">
                 <button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
@@ -268,6 +280,7 @@
     var CanJoin = false;
     var GameMax = 0;			//活动期间最大参与次数
     var GameDayPersonMax = 0;	//每人当日最大参与次数
+    var GameDayPersonMax2 = 0;	//每人当日最大参与次数
     var UserInfo;				//用户信息
     var GameId ='<%=Request.Params["GameId"]%>';
 
@@ -283,6 +296,7 @@
                 }
                 GameMax = data.Data[0].GameMax;
                 GameDayPersonMax = data.Data[0].GamePersonMax;
+                GameDayPersonMax2 = data.Data[0].GameDayPersonMax;
                 $("#GameMax").html(GameMax);
                 $("#GameDayPersonMax").html(GameDayPersonMax);
 
@@ -345,7 +359,7 @@
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
                         $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
-                        $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                        $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;
@@ -361,7 +375,7 @@
                             TotalCount2: GameMax - res.Data.PersonalTotalCount,
                             CanJoin: res.Data.CanJoin,
                             GameMax,
-                            GameDayPersonMax
+                            GameDayPersonMax2
                         }, false);
                     }
                     else {
@@ -536,7 +550,7 @@
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         $('#TodayCount').html(res.Data.PersonalTodayCount);
                         $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
-                        $('#TodayCount2').html(GameDayPersonMax - res.Data.PersonalTodayCount);
+                        $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTodayCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;
@@ -551,7 +565,7 @@
                             TodayCount: res.Data.PersonalTodayCount,
                             CanJoin: res.Data.CanJoin,
                             GameMax,
-                            GameDayPersonMax
+                            GameDayPersonMax2
                         }, false);
                     }
                     else {
