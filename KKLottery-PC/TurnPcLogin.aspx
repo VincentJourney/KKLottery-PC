@@ -136,7 +136,8 @@
     <footer></footer>
 
 </body>
-
+<script src="Scripts/Base.js?v=21222"></script>
+<script src="Scripts/Service.js"></script>
 <script type="text/javascript">
     var GameId = '<%=Request.Params["GameId"]%>';
     var CheckType = '<%=Request.Params["Type"]%>'; //type为2 不检查登陆
@@ -323,6 +324,32 @@
         //						return;
         //					}
     })
+
+
+    $("#switch_login").click(() => {
+
+        let UnionId = '<%= UnionId %>';
+        if (isEmpty(UnionId)) {
+            alert('获取用户信息失败，导致原因可能为未授权！');
+            return;
+        }
+        MemberInfo({ QueryType: '4', Code: UnionId }, data => {
+            if (!data.HasError) {
+                let EncryptMobileNo = Encrypt.EncryptPhone(data.Data.MobileNo);
+                let Appid = '<%=AppId %>';
+                const href = `https://open.weixin.qq.com/connect/qrconnect?appid=${Appid}&scope=snsapi_login&redirect_uri=https%3a%2f%2fbi.kingkeybanner.com%2fTurnOnlyOC?GameId={GameId}&id=${EncryptMobileNo}&login_type=jssdk&self_redirect=true&style=white`
+                window.location.href = href;
+
+            }
+            else {
+                if (data.ErrorMessage.includes('会员不存在'))
+                    window.location.href = 'Register.aspx'
+                else
+                    mui.alert(data.ErrorMessage);
+            }
+        });
+
+    });
 
 </script>
 

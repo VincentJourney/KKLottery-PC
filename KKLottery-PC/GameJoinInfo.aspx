@@ -113,11 +113,14 @@
                             case '2':
                                 Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
                                 break;
-                            case '3':
+                            case '3': 
                                 Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeValue}${FormatterType(item.WinPrizeType)}</li>`;
                                 break;
-                            case '4':
+                            case '4'://谢谢参与
                                 Html += `<li>很遗憾，您消耗了${item.ConsumptionValue}${ConsumptionType}，什么都没有抽到...</li>`;
+                                break;
+                            case '5':
+                                Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeValue}</li>`;
                                 break;
                             default: break;
                         }
@@ -135,10 +138,11 @@
 
     var FormatterPrizeType = Type => {
         switch (Type) {
-            case '1': return '礼品';
+            case '1': return '礼品券';
             case '2': return '礼券';
             case '3': return '积分';
             case '4': return '感谢参与';
+            case '5': return '礼品';
             default: return '';
         }
     }
