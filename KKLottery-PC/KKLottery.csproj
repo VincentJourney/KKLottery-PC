@@ -136,7 +136,10 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="images\kingkeyLog.png" />
+    <Content Include="images\KKONEQRIMG.jpg" />
+    <Content Include="images\ldimg\fugai\TurnBGimg.jpg" />
     <Content Include="images\logo%402x.png" />
+    <Content Include="images\QRBGIMG.jpg" />
     <Content Include="images\Roll-WC.png" />
     <Content Include="images\Turn-WC.png" />
     <Content Include="images\WXRegister.png" />
@@ -161,6 +164,7 @@
     <Content Include="fonts\mui.ttf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile10.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile2.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile3.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile4.pubxml" />

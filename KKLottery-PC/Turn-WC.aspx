@@ -180,7 +180,7 @@
     </div>
 
     <%--活动参与详情--%>
-<%--    <div id="UserJoinInfo" class="textTemple textStyle">
+    <%--    <div id="UserJoinInfo" class="textTemple textStyle">
         <p style="text-align: center">您已参与<span id="TotalCount"></span>次，今日还可参与<span id="TodayCount2"></span>次</p>
         <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2old"></span></p>
         <p hidden>当前是否可参与：<span id="CanJoin"></span></p>
@@ -330,7 +330,7 @@
         });
     }
 
-    $(() => {
+    $(function () {
         ShowMain();
 
         SimpleTimer.Start();
@@ -376,7 +376,7 @@
         for (var i = 1; i <= 15; i++) {
             html += `<a href="javascript:;" id="a${i}" class="NewGrid">
                          <span class="PrizeName"></span>
-                         <img class="img" src="images/ldimg/fugai/1.png" alt="" />
+                         <img class="img" src="images/ldimg/fugai/TurnBGimg.jpg" alt="" />
                          <img class="info" src="images/ldimg/jieguo/1.png" alt="" />
                      </a>`;
         }
@@ -464,23 +464,6 @@
                             $('#CanJoin').html('不好意思，您的抽奖次数已用完');
                         }
 
-                        setInterval(() => {
-                            //发送用户消息给PC端
-                            SocketSend("Turn-PC", "<%=UnionId%>", '用户信息', UserInfo, false);
-                            //发送游戏设置给PC端
-                            SocketSend("Turn-PC","<%=UnionId%>", '规则底图设置', {
-                                RuleText: data.Data[0].GameRuleDesc,
-                                MainImg: data.Data[0].PCImg
-                            }, false);
-                            SocketSend("Turn-PC", "<%=UnionId%>", 'GameId', GameId, false);
-                            //发送游戏设置给PC端
-                            SocketSend("Turn-PC", "<%=UnionId%>", '游戏奖品设置', {
-                                PrizeList: PrizeList
-                            }, false);
-                            //发送游戏设置给PC端
-
-                        }, 2000);
-
                         setTimeout(() => {
                             SocketSend("Turn-PC", "<%=UnionId%>", '游戏日志', {
                                 TotalCount: res.Data.PersonalTotalCount,
@@ -498,6 +481,24 @@
                         mui.alert(res.ErrorMessage);
                     }
                 })
+
+                setInterval(() => {
+                    //发送用户消息给PC端
+                    SocketSend("Turn-PC", "<%=UnionId%>", '用户信息', UserInfo, false);
+                    //发送游戏设置给PC端
+                    SocketSend("Turn-PC","<%=UnionId%>", '规则底图设置', {
+                        RuleText: data.Data[0].GameRuleDesc,
+                        MainImg: data.Data[0].PCImg
+                    }, false);
+                    SocketSend("Turn-PC", "<%=UnionId%>", 'GameId', GameId, false);
+                    //发送游戏设置给PC端
+                    SocketSend("Turn-PC", "<%=UnionId%>", '游戏奖品设置', {
+                        PrizeList: PrizeList
+                    }, false);
+                    //发送游戏设置给PC端
+
+                }, 2000);
+
             }
             else {
                 mui.alert(data.ErrorMessage);
@@ -546,8 +547,24 @@
             else {
                 SelectLoginState(func);
             }
-        }, 500);
+        }, 1000);
     }
+
+    //递归查询是否已连接
+    var SendMessageByCheckState = func => {
+        var doSend = setInterval(function () {
+            if (JSocket.getWebSocketState() == 1) {
+                func();
+                clearInterval(doSend);
+            }
+            else
+                SendMessageByCheckState(func);
+        }, 1000);
+    }
+
+
+
+
 
     //获取WebSocketUrl
     var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-WC/<%=UnionId%>';

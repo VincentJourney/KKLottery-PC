@@ -113,14 +113,14 @@
                             case '2':
                                 Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
                                 break;
-                            case '3': 
-                                Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeValue}${FormatterType(item.WinPrizeType)}</li>`;
+                            case '3':/* ${ item.ConsumptionValue }*/
+                                Html += `<li>您消耗了${ConsumptionType}，抽中了${item.WinPrizeValue}${FormatterType(item.WinPrizeType)}</li>`;
                                 break;
-                            case '4'://谢谢参与
-                                Html += `<li>很遗憾，您消耗了${item.ConsumptionValue}${ConsumptionType}，什么都没有抽到...</li>`;
+                            case '4'://谢谢参与   ${item.ConsumptionValue}
+                                Html += `<li>很遗憾，您消耗了${ConsumptionType}，什么都没有抽到...</li>`;
                                 break;
                             case '5':
-                                Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeValue}</li>`;
+                                Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
                                 break;
                             default: break;
                         }

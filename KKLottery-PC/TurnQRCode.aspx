@@ -8,13 +8,18 @@
     <title></title>
     <style type="text/css">
         body {
-            background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);
+            background: url("images/QRBGIMG.jpg") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
         }
+
 
         .QRCodeBox {
             text-align: center;
             width: 28%;
-            margin: 9% auto;
+            margin: 8% auto;
             color: white;
             background: #0e0f0f80;
             padding: 1%;
@@ -26,9 +31,9 @@
     </style>
 </head>
 <body>
-    <div class="Logo">
+    <%--    <div class="Logo">
         <img src="images/kingkeyLog.png" />
-    </div>
+    </div>--%>
     <div class="QRCodeBox">
         <h1>微信扫码登陆</h1>
         <img src="images/Turn-WC.png" id="QRImg" />
@@ -43,8 +48,33 @@
 <script>
     var GameId = '<%=Request.Params["GameId"]%>';
     var Url = `https://bi.kingkeybanner.com/Turn-WC?GameId=${GameId}`;
+    var width = window.screen.width;
+    var height = window.screen.height;
+    //获取GameType
+    var RollGameType = parseInt('<%=System.Configuration.ConfigurationManager.AppSettings["RollGameType"].ToString()%>');
+    //获取GameType
+    var TurnGameType = parseInt('<%=System.Configuration.ConfigurationManager.AppSettings["TurnGameType"].ToString()%>');
 
     $(() => {
+        //$("body").css({
+        //    'background-image': url("images/QRBGIMG.jpg")
+        //})
+
+        GetGameSetting({ GameType: TurnGameType, SettingID: GameId }, data => {
+            if (data.Data.length > 0) {
+                console.log(data);
+                if (data.Data[0].OrgID == "1f90fb71-8fe4-4a8d-84be-61307b05554c") {
+                    $("body").css({
+                        'background': 'url("images/KKONEQRIMG.jpg") no-repeat center center fixed',
+                        '-webkit-background-size': 'cover',
+                        '-moz-background-size': 'cover',
+                        '-o-background-size': 'cover',
+                        'background-size': 'cover',
+                    });
+                }
+            }
+        });
+
         //动态创建二维码
         if (!isEmpty(GameId)) {
             CreateQRCodeImg({ text: Url, size: 4 }, data => {
@@ -74,6 +104,7 @@
             e => console.log(`Open`),
             e => {
                 var data = JSON.parse(e.data);
+                console.log(data);
                 if (data.SendTo == WebSocketUser) {
                     console.log(data)
                     if (data.MesTitle == '用户信息')

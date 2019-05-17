@@ -121,7 +121,7 @@
 
         #GameRule {
             margin-top: 2VW;
-               padding: 5%;
+            padding: 5%;
         }
 
         .hover :hover {
@@ -220,14 +220,14 @@
         <div id="GameRule" class="textTemple textStyle">
             <div id="RuleWrap" style="word-break: break-all">
                 <h3 style="text-align: center;">— 游戏规则 —</h3>
-                <div id="RuleText" style="padding-bottom: 5%; padding-top: 5%;font-size: 4vw;"></div>
+                <div id="RuleText" style="padding-bottom: 5%; padding-top: 5%; font-size: 4vw;"></div>
             </div>
 
-            
+
             <p style="text-align: center">您已参与<span id="TotalCount"></span>次，今日还可参与<span id="TodayCount2"></span>次</p>
         </div>
 
-<%--        <div id="UserJoinInfo" class="textTemple textStyle">
+        <%--        <div id="UserJoinInfo" class="textTemple textStyle">
             <p>您已参与<span id="TotalCount"></span>次，今日还可参与<span id="TodayCount2"></span>次</p>
             <p hidden>活动可参与次数：<span id="GameMax"></span>  当日可参与次数：<span id="GameDayPersonMax"></span> 已参与次数：<span id="TodayCount"></span> 剩余次数：<span id="TodayCount2old"></span></p>
 

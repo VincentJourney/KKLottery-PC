@@ -214,14 +214,20 @@
     var LotteryFinalPrize;		    // 实际抽奖的奖品
     var LotteryFinalId;             // 手机端点击的A标签
     var OpenId;
-    var GameId ='<%=Request.Params["GameId"]%>';
+    var GameId = '<%=Request.Params["GameId"]%>';
 
     var time = 400;
     var verticalOpts = [{ 'width': '0%' }, { 'width': '92%' }];
     var turnImg;
 
     $(() => {
-        ShowMain()
+
+        WsInit();
+
+        $('.PrizeName').hide();
+
+        ShowMain();
+        
     })
 
     //展示页面奖品图片
@@ -231,7 +237,7 @@
         for (var i = 1; i <= 15; i++) {
             html += `<a href="javascript:;" id="a${i}" class="NewGrid">
                          <span class="PrizeName"></span>
-                         <img class="img" src="images/ldimg/fugai/1.png" alt="" />
+                         <img class="img" src="images/ldimg/fugai/TurnBGimg.jpg" alt="" />
                          <img class="info" src="images/ldimg/jieguo/1.png" alt="" />
                      </a>`;
         }
@@ -283,12 +289,6 @@
         LotteryFinalId = null;
     }
 
-    $(() => {
-        //WebSocket初始化  
-        WsInit();
-
-        $('.PrizeName').hide();
-    });
 
     /**业务 */
     //用户信息

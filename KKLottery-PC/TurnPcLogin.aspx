@@ -141,6 +141,8 @@
 <script type="text/javascript">
     var GameId = '<%=Request.Params["GameId"]%>';
     var CheckType = '<%=Request.Params["Type"]%>'; //type为2 不检查登陆
+<%--    var code = '<%=Request.Params["code"] %>';
+    alert(code);--%>
 
     if (CheckType == '2') {
         $("#moBtn").hide();
@@ -327,18 +329,20 @@
 
 
     $("#switch_login").click(() => {
+        let Appid = '<%=AppId %>';
+        let url = `https%3a%2f%2fbi.kingkeybanner.com%2fTurnPcLogin?GameId=${GameId}&Type=${CheckType}`;
+        const href = `https://open.weixin.qq.com/connect/qrconnect?appid=${Appid}&redirect_uri=${url}&response_type=code&scope=snsapi_base&self_redirect=true&style=white`
+        window.location.href = href;
 
-        let UnionId = '<%= UnionId %>';
+<%--        let UnionId = '<%= UnionId %>';
         if (isEmpty(UnionId)) {
             alert('获取用户信息失败，导致原因可能为未授权！');
             return;
-        }
-        MemberInfo({ QueryType: '4', Code: UnionId }, data => {
+        }--%>
+<%--        MemberInfo({ QueryType: '4', Code: UnionId }, data => {
             if (!data.HasError) {
                 let EncryptMobileNo = Encrypt.EncryptPhone(data.Data.MobileNo);
-                let Appid = '<%=AppId %>';
-                const href = `https://open.weixin.qq.com/connect/qrconnect?appid=${Appid}&scope=snsapi_login&redirect_uri=https%3a%2f%2fbi.kingkeybanner.com%2fTurnOnlyOC?GameId={GameId}&id=${EncryptMobileNo}&login_type=jssdk&self_redirect=true&style=white`
-                window.location.href = href;
+
 
             }
             else {
@@ -347,7 +351,7 @@
                 else
                     mui.alert(data.ErrorMessage);
             }
-        });
+        });--%>
 
     });
 

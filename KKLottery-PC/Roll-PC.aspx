@@ -245,6 +245,7 @@
     var GameId ='<%=Request.Params["GameId"]%>';
 
     $(function () {
+        //setTimeout(() => { window.location.reload() }, 2000);
         //初始化WebSocket
         WsInit();
 
