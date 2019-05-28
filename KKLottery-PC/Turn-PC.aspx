@@ -132,6 +132,7 @@
 
         .Logo {
             padding: 1%;
+            height: 70px;
         }
 
 
@@ -147,7 +148,7 @@
 <body>
     <%--页面LOGO--%>
     <div class="Logo">
-        <img src="images/kingkeyLog.png" />
+        <img src="images/kingkeyLog.png" hidden />
     </div>
 
     <%--会员信息展示--%>
@@ -227,7 +228,7 @@
         $('.PrizeName').hide();
 
         ShowMain();
-        
+
     })
 
     //展示页面奖品图片
@@ -332,7 +333,7 @@
 
     //工具
 
-    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-PC' + GameId;
+    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-PC/' + GameId;
     //获取资源Url
     var ResourceUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
 

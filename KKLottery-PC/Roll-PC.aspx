@@ -140,6 +140,7 @@
 
         .marTop {
             margin-top: 50px;
+            height: 70px;
         }
 
         .Logo {
@@ -150,7 +151,7 @@
 </head>
 <body ng-app="mainApp" ng-controller="indexCtrl" style="background: radial-gradient(circle,rgba(155,75,75,1) 0%,rgba(41,34,61,1) 100%);">
     <div class="Logo">
-        <img src="images/kingkeyLog.png" />
+        <img src="images/kingkeyLog.png" hidden />
     </div>
     <main>
         <div style="width: 100%; overflow: hidden">
@@ -219,7 +220,7 @@
             <div style="font-size: 45px; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop" style="font-size: 20px"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" style="width: 200px;height: 200px;"/>
+                <img src="#" id="PrizeIMG" style="width: 200px; height: 200px;" />
             </div>
         </div>
     </div>
@@ -396,7 +397,7 @@
 
     /**工具 */
 
-    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Roll-PC';
+    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Roll-PC/' + GameId;
     //获取资源Url
     var ResourceUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
 

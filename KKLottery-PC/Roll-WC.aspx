@@ -246,7 +246,7 @@
             <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" style="width: 30vw" />
+                <img src="#" id="PrizeIMG" style="width: 30vw; height: 30VW" />
             </div>
             <div class="marTop">
                 <button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
@@ -352,7 +352,7 @@
                         break;
                     }
                 }
-                SocketSend("Roll-PC", "<%=UnionId%>", '抽奖结果', res, false);
+                SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '抽奖结果', res, false);
                 //查询游戏日志
                 GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
                     if (!res.HasError) {
@@ -369,7 +369,7 @@
                         }
 
                         //发送游戏设置给PC端
-                        SocketSend("Roll-PC", "<%=UnionId%>", '游戏日志', {
+                        SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '游戏日志', {
                             TotalCount: res.Data.PersonalTotalCount,
                             TodayCount: res.Data.PersonalTodayCount,
                             TotalCount2: GameMax - res.Data.PersonalTotalCount,
@@ -385,7 +385,7 @@
                 if (click)				//click控制一次抽奖过程中不能重复点击抽奖按钮，后面的点击不响应
                     return false;
                 else {
-                    SocketSend("Roll-PC","<%=UnionId%>", '抽奖状态', '开始抽奖', false);		//发送开始抽奖标识
+                    SocketSend("Roll-PC/" + GameId,"<%=UnionId%>", '抽奖状态', '开始抽奖', false);		//发送开始抽奖标识
                     lottery.speed = 100;
                     lottery.prize = 0;
                     roll();				//转圈过程不响应click事件，会将click置为false
@@ -560,7 +560,7 @@
                         }
 
                         //发送游戏设置给PC端
-                        SocketSend("Roll-PC", "<%=UnionId%>", '游戏日志', {
+                        SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '游戏日志', {
                             TotalCount: res.Data.PersonalTotalCount,
                             TodayCount: res.Data.PersonalTodayCount,
                             CanJoin: res.Data.CanJoin,
@@ -576,18 +576,19 @@
                 SendMessageByCheckState(() => {
 
                     //发送用户消息给PC端
-                    SocketSend("Roll-PC", "<%=UnionId%>", '用户信息', UserInfo, false);
+                    SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '用户信息', UserInfo, false);
 
                     //发送游戏设置给PC端
-                    SocketSend("Roll-PC","<%=UnionId%>", '规则底图设置', {
+                    SocketSend("Roll-PC/" + GameId,"<%=UnionId%>", '规则底图设置', {
                         RuleText: data.Data[0].GameRuleDesc,
                         MainImg: data.Data[0].PCImg
                     }, false);
-                    SocketSend("Roll-PC", "<%=UnionId%>", 'GameId', GameId, false);
+                    SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", 'GameId', GameId, false);
                     //发送游戏设置给PC端
-                    SocketSend("Roll-PC", "<%=UnionId%>", '游戏奖品设置', {
+                    SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '游戏奖品设置', {
                         PrizeList: PrizeList
                     }, false);
+                    SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '心跳检测', 'nice', false);
                 });
 
             }
@@ -640,7 +641,7 @@
     var SelectLoginState = func => {
         setTimeout(function () {
             if (JSocket.getWebSocketState() == 1) {
-                SocketSend("Roll-PC","<%=UnionId%>", '登录信息', '已登录', false);
+                SocketSend("Roll-PC/" + GameId,"<%=UnionId%>", '登录信息', '已登录', false);
                 func();
             }
             else
@@ -663,7 +664,7 @@
 
 
     //获取WebSocketUrl
-    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Roll-WC/<%=UnionId%>';
+    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Roll-WC/' + GameId + '/<%=UnionId%>';
     //获取CRM接口Url
     var GameApiServerUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["GameApiServerUrl"].ToString()%>' + 'api/';
     //获取资源Url
@@ -698,7 +699,7 @@
     //点击领奖
     var ReceivePrize = () => {
         layer.closeAll();
-        SocketSend("Roll-PC","<%=UnionId%>", '领奖信息', '点击领奖', false);
+        SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '领奖信息', '点击领奖', false);
     };
 
     var SelectJoinInfo = () => {
@@ -708,4 +709,9 @@
         }
         window.location.href = `GameJoinInfo.aspx?SettingID=${SettingId}&OpenID=<%=UnionId%>&User=Roll-WC&GameId=${GameId}`
     }
+
+    window.onbeforeunload = function () {
+        SocketSend("Roll-PC/" + GameId, "<%=UnionId%>", '连接信息', '下线-True', false);
+        JSocket.disconnect();
+    } 
 </script>

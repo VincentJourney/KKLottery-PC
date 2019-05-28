@@ -198,7 +198,7 @@
             <div style="font-size: 7vw; color: red" class="marTop" id="PrizeTitle">恭喜您获得</div>
             <div id="LayerH1" class="marTop"></div>
             <div class="marTop">
-                <img src="#" id="PrizeIMG" style="width: 30vw" />
+                <img src="#" id="PrizeIMG" style="width: 30vw; height: 30VW" />
             </div>
             <div class="marTop">
                 <button type="button" class="mui-btn mui-btn-danger" onclick="ReceivePrize()">继续抽奖</button>
@@ -271,7 +271,7 @@
                         }
                     }
                     var current = $(this);//当前a标签
-                    SocketSend("Turn-PC" + GameId, "<%=UnionId%>", '抽奖结果', { LotteryFinalPrize, Id: this.id }, false);
+                    SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '抽奖结果', { LotteryFinalPrize, Id: this.id }, false);
                     turnImg = current;
                     $(this).find('.img').stop().animate(opts[0], time, function () {
                         $(this).next().attr('src', ResourceUrl + LotteryFinalPrize.PrizeImg);
@@ -294,7 +294,7 @@
                             });
                         }, 2000);
                     });
-                    SocketSend("Turn-PC" + GameId, "<%=UnionId%>", '抽奖状态', '开始抽奖', false);		//发送开始抽奖标识
+                    SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '抽奖状态', '开始抽奖', false);		//发送开始抽奖标识
                     //查询游戏日志
                     GetGameJoinInfo({ SettingID: SettingId, OpenID: '<%= UnionId%>' }, res => {
                         if (!res.HasError) {
@@ -313,7 +313,7 @@
                             var TotalCount2 = GameDayPersonMax - res.Data.PersonalTotalCount;
                             var TodayCount2 = GameDayPersonMax2 - res.Data.PersonalTodayCount;
                             //发送游戏设置给PC端
-                            SocketSend("Turn-PC" + GameId, "<%=UnionId%>", '游戏日志', {
+                            SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '游戏日志', {
                                 TotalCount: TotalCount,
                                 TodayCount: res.Data.PersonalTodayCount,
                                 TotalCount2: TotalCount2,
@@ -465,7 +465,7 @@
                         }
 
                         setTimeout(() => {
-                            SocketSend("Turn-PC" + GameId, "<%=UnionId%>", '游戏日志', {
+                            SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '游戏日志', {
                                 TotalCount: res.Data.PersonalTotalCount,
                                 TodayCount: res.Data.PersonalTodayCount,
                                 TotalCount2: GameDayPersonMax - res.Data.PersonalTotalCount,
@@ -484,13 +484,14 @@
 
                 setInterval(() => {
                     //发送用户消息给PC端
-                    SocketSend("Turn-PC" + GameId, "<%=UnionId%>", '用户信息', UserInfo, false);
+                    SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '用户信息', UserInfo, false);
                     //发送游戏设置给PC端
-                    SocketSend("Turn-PC" + GameId,"<%=UnionId%>", '规则底图设置', {
+                    SocketSend("Turn-PC/" + GameId,"<%=UnionId%>", '规则底图设置', {
                         RuleText: data.Data[0].GameRuleDesc,
                         MainImg: data.Data[0].PCImg
                     }, false);
-                    SocketSend("Turn-PC" + GameId, "<%=UnionId%>", 'GameId', GameId, false);
+                    SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", 'GameId', GameId, false);
+                    SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '心跳检测', 'nice', false);
                     //发送游戏设置给PC端
         <%--            SocketSend("Turn-PC", "<%=UnionId%>", '游戏奖品设置', {
                         PrizeList: PrizeList
@@ -541,7 +542,7 @@
     var SelectLoginState = func => {
         setTimeout(function () {
             if (JSocket.getWebSocketState() == 1) {
-                SocketSend("Turn-PC" + GameId, "<%=UnionId%>", '登录信息', '已登录', false);
+                SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '登录信息', '已登录', false);
                 func();
             }
             else {
@@ -567,7 +568,7 @@
 
 
     //获取WebSocketUrl
-    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-WC' + GameId+'/<%=UnionId%>';
+    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-WC/' + GameId +'/<%=UnionId%>';
     //获取CRM接口Url
     var GameApiServerUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["GameApiServerUrl"].ToString()%>' + 'api/';
     //获取资源Url
@@ -590,7 +591,7 @@
     //点击屏幕关闭弹出层
     var ReceivePrize = () => {
         layer.closeAll();
-        SocketSend("Turn-PC", "<%=UnionId%>", '领奖信息', '点击领奖', false);
+        SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '领奖信息', '点击领奖', false);
         ReSet();
         $('#draw').find('a').bind('click', function () {
             turn($('#draw'), 400, verticalOpts);
@@ -619,4 +620,9 @@
         }
         window.location.href = `GameJoinInfo.aspx?SettingID=${SettingId}&OpenID=<%=UnionId%>&User=Turn-WC&GameId=${GameId}`
     }
+
+    window.onbeforeunload = function () {
+        SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '连接信息', '下线-True', false);
+        JSocket.disconnect();
+    } 
 </script>

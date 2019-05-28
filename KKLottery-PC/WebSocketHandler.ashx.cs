@@ -17,6 +17,7 @@ namespace KKLottery_PC
     public class WebSocketHandler : IHttpHandler
     {
         private static Dictionary<string, WebSocket> CONNECT_POOL = new Dictionary<string, WebSocket>();//用户连接池
+        private static Dictionary<string, DateTime> UserTimePool = new Dictionary<string, DateTime>();//用户时间连接池
         private static Dictionary<string, List<MessageInfo>> MESSAGE_POOL = new Dictionary<string, List<MessageInfo>>();//离线消息池	
 
 
@@ -60,20 +61,28 @@ namespace KKLottery_PC
                 #endregion
 
                 #region 离线消息处理
-                if (MESSAGE_POOL.ContainsKey(user))
-                {
-                    List<MessageInfo> msgs = MESSAGE_POOL[user];
-                    foreach (MessageInfo item in msgs)
-                    {
-                        await socket.SendAsync(item.MsgContent, WebSocketMessageType.Text, true, CancellationToken.None);
-                    }
-                    MESSAGE_POOL.Remove(user);//移除离线消息
-                }
+                //if (MESSAGE_POOL.ContainsKey(user))
+                //{
+                //    List<MessageInfo> msgs = MESSAGE_POOL[user];
+                //    foreach (MessageInfo item in msgs)
+                //    {
+                //        await socket.SendAsync(item.MsgContent, WebSocketMessageType.Text, true, CancellationToken.None);
+                //    }
+                //    MESSAGE_POOL.Remove(user);//移除离线消息
+                //}
                 #endregion
 
                 string descUser = string.Empty;//目的用户
                 while (true)
                 {
+                    #region 关闭Socket处理，删除连接池
+                    //if (socket.State != WebSocketState.Open)//连接关闭
+                    //{
+                    //    await SendToPCOut(CONNECT_POOL, user);
+                    //    break;
+                    //}
+                    #endregion
+
                     if (socket.State == WebSocketState.Open)
                     {
                         ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[12000]);
@@ -81,6 +90,7 @@ namespace KKLottery_PC
                         #region 消息处理（字符截取、消息转发）
                         try
                         {
+                            //CheckUserHeart();
                             #region 关闭Socket处理，删除连接池
                             if (socket.State != WebSocketState.Open)//连接关闭
                             {
@@ -92,6 +102,13 @@ namespace KKLottery_PC
                             string userMsg = Encoding.UTF8.GetString(buffer.Array, 0, 12000);//发送过来的消息
                             userMsg = userMsg.Replace("\0", "").TrimStart('"').TrimEnd('"').Replace(@"\", "");
                             var mesInfo = JsonConvert.DeserializeObject<MesInfo>(userMsg);
+
+                            var mes2 = JsonConvert.DeserializeObject<MesInfo2>(userMsg);
+                            //if (mes2.MesTitle == "心跳检测")
+                            //{
+                            //    UserTimePool[user] = DateTime.Now;
+                            //}
+
                             if (mesInfo != null)
                             {
                                 descUser = mesInfo.SendTo;//记录消息目的用户
@@ -146,30 +163,30 @@ namespace KKLottery_PC
         /// <returns></returns>
         private async Task Limit(Dictionary<string, WebSocket> UserPool, string UserName, string LimitUser)
         {
-            var userNameList = UserPool.Select(s => s.Key).Where(s => s.Contains(LimitUser)).ToList();
-            if (userNameList.Count > 1)
+            var GameId = UserName.Split('/')[1];//GameId
+            var userNameList = UserPool.Select(s => s.Key).Where(s => s.Contains(LimitUser) && s.Contains(GameId)).ToList();  //手机端翻牌或者转盘 同一游戏用户池
+            if (userNameList.Count() > 1)
             {
-                foreach (var user in userNameList)
+                var mes = new MesInfo2
                 {
-                    if (user.Split('/')[0] == UserName.Split('/')[0])
-                    {
-                        var mes = new MesInfo2
-                        {
-                            SendTo = UserName,
-                            MobileNo = "",
-                            MesTitle = "提示",
-                            MesData = $"已有用户登陆，须排队等待",
-                            Result = false,
-                        };
-                        await SendMes(mes, CONNECT_POOL[UserName]);
-                    }
-                }
+                    SendTo = UserName,
+                    MobileNo = "",
+                    MesTitle = "提示",
+                    MesData = $"已有用户登陆，须排队等待",
+                    Result = false,
+                };
+                await SendMes(mes, UserPool[UserName]);
+            }
+        }
+
+        private async void CheckUserHeart()
+        {
+            var DieUser = UserTimePool.Where(s => (s.Value - DateTime.Now).Seconds > 4);
+            foreach (var item in DieUser)
+            {
+                await SendToPCOut(CONNECT_POOL, item.Key);
             }
 
-            //if (UserPool.Where(s => s.Key.Contains(LimitUser)).Count() > 1 && UserName.Contains(LimitUser))
-            //{
-
-            //}
         }
 
         private static object OnLine_Lock = new object();
@@ -183,20 +200,22 @@ namespace KKLottery_PC
         {
             try
             {
+                Log.Warn($"连接关闭时 监听到UserName:{UserName}", null);
                 //手机端下线时，通知PC端
-                if (CONNECT_POOL.ContainsKey(UserName))
+                if (UserPool.ContainsKey(UserName))
                 {
+                    var GameId = UserName.Split('/')[1];  //当前用户的游戏GameId
                     var sendTo = "";
                     var userType = "";
                     if (UserName.Contains("Roll"))
                     {
-                        sendTo = "Roll-PC";
-                        userType = "Roll-WC";
+                        sendTo = $"Roll-PC/{GameId}";
+                        userType = $"Roll-WC/{GameId}";
                     }
                     else
                     {
-                        sendTo = "Turn-PC";
-                        userType = "Turn-WC";
+                        sendTo = $"Turn-PC/{GameId}";
+                        userType = $"Turn-WC/{GameId}";
                     }
 
                     //当同一类型在线人数大于1时 不能关闭 返回false
@@ -204,18 +223,20 @@ namespace KKLottery_PC
                     var mes = new MesInfo2();
                     lock (OnLine_Lock)
                     {
-                        HasOnLine = CONNECT_POOL.Where(s => s.Key.Contains(userType)).Count() > 1 ? false : true;
+                        HasOnLine = UserPool.Where(s => s.Key.Contains(userType)).Count() > 1 ? false : true;
                         mes = new MesInfo2
                         {
                             SendTo = sendTo,
-                            MobileNo = UserName.Split('/')[1],
+                            MobileNo = "",
                             MesTitle = "连接信息",
                             MesData = $"下线-{HasOnLine}",
                             Result = false,
                         };
                     }
-                    await SendMes(mes, CONNECT_POOL[sendTo]);
-                    CONNECT_POOL.Remove(UserName);//删除连接池 
+                    await SendMes(mes, UserPool[sendTo]);
+
+                    UserPool.Remove(UserName);//删除连接池 
+
                 }
             }
             catch (Exception ex)
@@ -236,6 +257,8 @@ namespace KKLottery_PC
             await ws.SendAsync(ts, WebSocketMessageType.Text, true, CancellationToken.None);
 
         }
+
+
 
         /// <summary>
         /// 离线消息

@@ -56,24 +56,32 @@
     var TurnGameType = parseInt('<%=System.Configuration.ConfigurationManager.AppSettings["TurnGameType"].ToString()%>');
 
     $(() => {
-        //$("body").css({
-        //    'background-image': url("images/QRBGIMG.jpg")
-        //})
 
-        GetGameSetting({ GameType: TurnGameType, SettingID: GameId }, data => {
-            if (data.Data.length > 0) {
-                console.log(data);
-                if (data.Data[0].OrgID == "1f90fb71-8fe4-4a8d-84be-61307b05554c") {
-                    $("body").css({
-                        'background': 'url("images/KKONEQRIMG.jpg") no-repeat center center fixed',
-                        '-webkit-background-size': 'cover',
-                        '-moz-background-size': 'cover',
-                        '-o-background-size': 'cover',
-                        'background-size': 'cover',
-                    });
-                }
-            }
-        });
+        if (GameId == 'd2b2542d-ea68-4de0-b426-1da4690af628' || GameId == '1965d307-3252-4934-8373-4a22f7550508'
+            || GameId == '354123a4-cc12-4e7b-a7d0-61fabe594996' || GameId == '00356ba5-556c-444c-ba7d-af9c16e22a75') {
+            $("body").css({
+                'background': 'url("images/QRCodeBG_kk.png") no-repeat center center fixed',
+                '-webkit-background-size': 'cover',
+                '-moz-background-size': 'cover',
+                '-o-background-size': 'cover',
+                'background-size': 'cover',
+            });
+        }
+
+        //GetGameSetting({ GameType: TurnGameType, SettingID: GameId }, data => {
+        //    if (data.Data.length > 0) {
+        //        console.log(data);
+        //        if (data.Data[0].OrgID == "1f90fb71-8fe4-4a8d-84be-61307b05554c") {
+        //            $("body").css({
+        //                'background': 'url("images/KKONEQRIMG.jpg") no-repeat center center fixed',
+        //                '-webkit-background-size': 'cover',
+        //                '-moz-background-size': 'cover',
+        //                '-o-background-size': 'cover',
+        //                'background-size': 'cover',
+        //            });
+        //        }
+        //    }
+        //});
 
         //动态创建二维码
         if (!isEmpty(GameId)) {
@@ -95,7 +103,7 @@
         WsInit();
     });
 
-    var WebSocketUser = 'Turn-PC';
+    var WebSocketUser = 'Turn-PC/' + GameId;
 
     var GetConfigUrl = () => `<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>?user=${WebSocketUser}`;
 
@@ -108,7 +116,7 @@
                 if (data.SendTo == WebSocketUser) {
                     console.log(data)
                     if (data.MesTitle == '用户信息')
-                        window.location.href = `${WebSocketUser}.aspx?GameId=${GameId}`;
+                        window.location.href = `Turn-PC.aspx?GameId=${GameId}`;
                 }
                 else
                     alert(data.MesData)

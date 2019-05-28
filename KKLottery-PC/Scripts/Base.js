@@ -31,8 +31,8 @@
         },
         disconnect: () => {
             if (ws != null && ws.readyState === WebSocket.OPEN) {
-                console.log('连接已关闭');
                 ws.close();  //关闭TCP连接
+                console.log('连接已关闭');
             }
         },
         onopen: e => {
@@ -51,7 +51,7 @@
                         //alert("Close");
                         WeixinJSBridge.call('closeWindow');
                     })
-                }, 5000);
+                }, 10000);
 
                 throttleFunc();
 

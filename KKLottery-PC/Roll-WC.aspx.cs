@@ -25,11 +25,9 @@ namespace KKLottery_PC
                         }
                         else
                         {
-                            Log.Warn($"GET Roll_WC Code:{Request.QueryString["code"]}", null);
                             var obj = Setting.CodeGetOpenid(Request.QueryString["code"]);
                             var obj2 = (JObject)JsonConvert.DeserializeObject(obj);
                             UnionId = obj2["unionid"].ToString();
-                            Log.Warn($"GET WC UnionId:{UnionId}", null);
                         }
                     }
                 }
