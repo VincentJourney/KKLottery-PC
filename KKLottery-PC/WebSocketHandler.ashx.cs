@@ -120,7 +120,6 @@ namespace KKLottery_PC
                         {
                             //消息转发异常处理，本次消息忽略 继续监听接下来的消息
                             Log.Error("WebSocketHandler  消息处理（字符截取、消息转发）", exs);
-                            throw new Exception(exs.Message);
                         }
                         #endregion
                     }
@@ -135,7 +134,6 @@ namespace KKLottery_PC
                 //整体异常处理
                 if (CONNECT_POOL.ContainsKey(user)) CONNECT_POOL.Remove(user);
                 Log.Error("WebSocketHandler 整体异常处理", ex);
-                throw new Exception(ex.Message);
             }
         }
 
@@ -148,18 +146,30 @@ namespace KKLottery_PC
         /// <returns></returns>
         private async Task Limit(Dictionary<string, WebSocket> UserPool, string UserName, string LimitUser)
         {
-            if (UserPool.Where(s => s.Key.Contains(LimitUser)).Count() > 1 && UserName.Contains(LimitUser))
+            var userNameList = UserPool.Select(s => s.Key).Where(s => s.Contains(LimitUser)).ToList();
+            if (userNameList.Count > 1)
             {
-                var mes = new MesInfo2
+                foreach (var user in userNameList)
                 {
-                    SendTo = UserName,
-                    MobileNo = "",
-                    MesTitle = "提示",
-                    MesData = $"已有用户登陆，须排队等待",
-                    Result = false,
-                };
-                await SendMes(mes, CONNECT_POOL[UserName]);
+                    if (user.Split('/')[0] == UserName.Split('/')[0])
+                    {
+                        var mes = new MesInfo2
+                        {
+                            SendTo = UserName,
+                            MobileNo = "",
+                            MesTitle = "提示",
+                            MesData = $"已有用户登陆，须排队等待",
+                            Result = false,
+                        };
+                        await SendMes(mes, CONNECT_POOL[UserName]);
+                    }
+                }
             }
+
+            //if (UserPool.Where(s => s.Key.Contains(LimitUser)).Count() > 1 && UserName.Contains(LimitUser))
+            //{
+
+            //}
         }
 
         private static object OnLine_Lock = new object();
@@ -171,40 +181,46 @@ namespace KKLottery_PC
         /// <returns></returns>
         private async Task SendToPCOut(Dictionary<string, WebSocket> UserPool, string UserName)
         {
-            //手机端下线时，通知PC端
-            if (CONNECT_POOL.ContainsKey(UserName))
+            try
             {
-                var sendTo = "";
-                var userType = "";
-                if (UserName.Contains("Roll"))
+                //手机端下线时，通知PC端
+                if (CONNECT_POOL.ContainsKey(UserName))
                 {
-                    sendTo = "Roll-PC";
-                    userType = "Roll-WC";
-                }
-                else
-                {
-                    sendTo = "Turn-PC";
-                    userType = "Turn-WC";
-                }
-
-                //当同一类型在线人数大于1时 不能关闭 返回false
-                var HasOnLine = false;
-                var mes = new MesInfo2();
-                lock (OnLine_Lock)
-                {
-                    HasOnLine = CONNECT_POOL.Where(s => s.Key.Contains(userType)).Count() > 1 ? false : true;
-                    mes = new MesInfo2
+                    var sendTo = "";
+                    var userType = "";
+                    if (UserName.Contains("Roll"))
                     {
-                        SendTo = sendTo,
-                        MobileNo = UserName.Split('/')[1],
-                        MesTitle = "连接信息",
-                        MesData = $"下线-{HasOnLine}",
-                        Result = false,
-                    };
+                        sendTo = "Roll-PC";
+                        userType = "Roll-WC";
+                    }
+                    else
+                    {
+                        sendTo = "Turn-PC";
+                        userType = "Turn-WC";
+                    }
+
+                    //当同一类型在线人数大于1时 不能关闭 返回false
+                    var HasOnLine = false;
+                    var mes = new MesInfo2();
+                    lock (OnLine_Lock)
+                    {
+                        HasOnLine = CONNECT_POOL.Where(s => s.Key.Contains(userType)).Count() > 1 ? false : true;
+                        mes = new MesInfo2
+                        {
+                            SendTo = sendTo,
+                            MobileNo = UserName.Split('/')[1],
+                            MesTitle = "连接信息",
+                            MesData = $"下线-{HasOnLine}",
+                            Result = false,
+                        };
+                    }
+                    await SendMes(mes, CONNECT_POOL[sendTo]);
+                    CONNECT_POOL.Remove(UserName);//删除连接池 
                 }
-                Log.Warn($"Lock UserCount: {JsonConvert.SerializeObject(mes)}", null);
-                await SendMes(mes, CONNECT_POOL[sendTo]);
-                CONNECT_POOL.Remove(UserName);//删除连接池
+            }
+            catch (Exception ex)
+            {
+                Log.Error("SendToPCOut", ex);
             }
         }
 

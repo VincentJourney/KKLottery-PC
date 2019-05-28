@@ -332,7 +332,7 @@
 
     //工具
 
-    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-PC';
+    var GetConfigUrl = () => '<%=System.Configuration.ConfigurationManager.AppSettings["WebSocketUrl"].ToString()%>' + '?user=Turn-PC' + GameId;
     //获取资源Url
     var ResourceUrl = '<%=System.Configuration.ConfigurationManager.AppSettings["ResourceUrl"].ToString()%>';
 
@@ -360,8 +360,8 @@
                             ShowGameRuleImg();
                             break;
                         case "游戏奖品设置":
-                            GamePrizeList = data.MesData;
-                            ShowGamePrizeList();
+                            //GamePrizeList = data.MesData;
+                            //ShowGamePrizeList();
                             break;
                         case "游戏日志":
                             GameJoinLog = data.MesData;
