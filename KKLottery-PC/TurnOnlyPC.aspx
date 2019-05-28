@@ -182,8 +182,8 @@
 <body>
     <%--页面LOGO--%>
     <div class="TopShow">
-        <div class="Logo LogoButtom">
-            <img src="images/kingkeyLog.png" />
+        <div class="Logo LogoButtom" style="height: 70px;">
+            <img src="images/kingkeyLog.png" hidden />
         </div>
         <div class="BackButtom LogoButtom">
             <button type="button" class="BackButtom2" onclick="BackButtom()">返回</button>
@@ -202,7 +202,7 @@
                 <p>会员卡号：<span id="UserCardCode"></span></p>
             </div>
 
-            <div id="UserJoinInfo" class="textTemple textStyle" style="font-size: 15px;text-align: left;">
+            <div id="UserJoinInfo" class="textTemple textStyle" style="font-size: 15px; text-align: left;">
                 <p>您已参与抽奖<span id="TotalCount"></span>次</p>
                 <p>今日还可抽奖<span id="TodayCount2"></span>次</p>
                 <p>活动还可参加<span id="TotalCount2"></span>次</p>
