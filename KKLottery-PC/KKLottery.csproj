@@ -140,6 +140,7 @@
     <Content Include="images\ldimg\fugai\TurnBGimg.jpg" />
     <Content Include="images\logo%402x.png" />
     <Content Include="images\QRBGIMG.jpg" />
+    <Content Include="images\QRCodeBG_kk.jpg" />
     <Content Include="images\QRCodeBG_kk.png" />
     <Content Include="images\Roll-WC.png" />
     <Content Include="images\Turn-WC.png" />

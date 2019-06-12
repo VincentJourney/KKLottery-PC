@@ -343,7 +343,7 @@
                         if (!res.HasError) {
                             $('#TotalCount').html(res.Data.PersonalTotalCount);
                             $('#TodayCount').html(res.Data.PersonalTodayCount);
-                            $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTodayCount);
+                            $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTotalCount);
                             //$('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
                             if (res.Data.CanJoin) {
                                 $('#CanJoin').html('您还可以继续抽奖哟！');
@@ -473,7 +473,7 @@
                         $('#TotalCount').html(res.Data.PersonalTotalCount);
                         //$('#TodayCount').html(res.Data.PersonalTodayCount);
                         $('#TotalCount2').html(GameDayPersonMax - res.Data.PersonalTotalCount);
-                        $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTodayCount);
+                        $('#TodayCount2').html(GameDayPersonMax2 - res.Data.PersonalTotalCount);
                         if (res.Data.CanJoin) {
                             $('#CanJoin').html('您还可以继续抽奖哟！');
                             CanJoin = true;

@@ -60,7 +60,7 @@
         if (GameId == 'd2b2542d-ea68-4de0-b426-1da4690af628' || GameId == '1965d307-3252-4934-8373-4a22f7550508'
             || GameId == '354123a4-cc12-4e7b-a7d0-61fabe594996' || GameId == '00356ba5-556c-444c-ba7d-af9c16e22a75') {
             $("body").css({
-                'background': 'url("images/QRCodeBG_kk.png") no-repeat center center fixed',
+                'background': 'url("images/QRCodeBG_kk.jpg") no-repeat center center fixed',
                 '-webkit-background-size': 'cover',
                 '-moz-background-size': 'cover',
                 '-o-background-size': 'cover',
