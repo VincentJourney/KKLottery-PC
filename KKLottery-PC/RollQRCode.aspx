@@ -62,7 +62,15 @@
                 'background-size': 'cover',
             });
         }
-
+        if (GameId == '4be5e64c-f66e-4c8b-bc86-564596a6b26a') {
+            $("body").css({
+                'background': 'url("images/qrcodeKK2.jpg") no-repeat center center fixed',
+                '-webkit-background-size': 'cover',
+                '-moz-background-size': 'cover',
+                '-o-background-size': 'cover',
+                'background-size': 'cover',
+            });
+        }
         //GetGameSetting({ GameType: RollGameType, SettingID: GameId }, data => {
         //    if (data.Data.length > 0) {
         //        console.log(data);
