@@ -627,7 +627,7 @@
 
     var FormatterPrizeType = Type => {
         switch (Type) {
-            case '1': return '礼品';
+            case '1': return '礼品';  
             case '2': return '礼券';
             case '3': return '积分';
             case '4': return '感谢参与';

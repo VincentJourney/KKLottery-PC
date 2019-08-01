@@ -42,9 +42,9 @@ var GetGameDrawLog = (data, func) => {
 var CreateQRCodeImg = (data, func) => {
     $.axs('WebService.asmx/CreateQRCodeImg', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })
 }
-//查询抽奖日志 WeChatPublic/GetGameVoucher
-var GetGameVoucher = (data, func) => {
-    $.axs('WebService.asmx/GetGameVoucher', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })
+//查询抽奖日志 Customer/VoucherInfo
+var VoucherInfo = (data, func) => {
+    $.axs('WebService.asmx/VoucherInfo', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })
 }
 
 /**

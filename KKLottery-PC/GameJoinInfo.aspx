@@ -100,30 +100,37 @@
                 if (res.Data.length > 0) {
                     var Html = "";
                     res.Data.forEach(item => {
-                        var ConsumptionType = item.ConsumptionType == '1' ? '积分' : '礼券';
                         Html += `<div class="LogMode">
 			                          <div style="float: left; width: 20%; line-height: 19vw;">
 			                       	       <img src="images/PrizeIMG.png" />
 			                          </div>
 			                          <div style="float: left; width: 80%"><ul>`;
-                        switch (item.WinPrizeType) {
-                            case '1':
-                                Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
-                                break;
-                            case '2':
-                                Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
-                                break;
-                            case '3':
-                                Html += `<li>您消耗了${item.ConsumptionValue}${ConsumptionType}，抽中了${item.WinPrizeValue}${FormatterType(item.WinPrizeType)}</li>`;
-                                break;
-                            case '4'://谢谢参与   ${item.ConsumptionValue}
-                                Html += `<li>很遗憾，您消耗了${ConsumptionType}，什么都没有抽到...</li>`;
-                                break;
-                            case '5':
-                                Html += `<li>您消耗了${ConsumptionType}，抽中了${item.WinPrizeName}</li>`;
-                                break;
-                            default: break;
+
+                        var ConsumptionType = item.ConsumptionType == '1' ? '积分' : '张礼券';
+                        var ConsumptionValue = item.ConsumptionValue;
+                        if (item.ConsumptionType != '1') {
+                            VoucherInfo({ VoucherID: item.ConsumptionValue, VoucherCode: "" }, data => {
+                                if (data.HasError) {
+                                    Html += ReturnLi(item.WinPrizeType, ConsumptionValue, '张礼券', item.WinPrizeName);
+                                }
+                                else {
+                                    if (data.Data.length > 0) {
+                                        ConsumptionType = data.Data[0].VoucherName;
+                                        Html += ReturnLi(item.WinPrizeType, ConsumptionValue, `张${ConsumptionType}`, item.WinPrizeName);
+                                    }
+                                    else {
+                                        Html += ReturnLi(item.WinPrizeType, ConsumptionValue, '张礼券', item.WinPrizeName);
+                                    }
+                                }
+
+                            });
                         }
+                        else {
+                            Html += ReturnLi(item.WinPrizeType, ConsumptionValue, ConsumptionType, item.WinPrizeName);
+                        }
+
+
+
                         Html += ` <li>${item.AddedOn}</li></ul></div></div>`;
                     });
                     $('#LogList').empty();
@@ -135,6 +142,19 @@
             }
         })
     })
+
+    var ReturnLi = (pType, vValue, cType, pname) => {
+        var Html = "";
+        if (pType == '4') {
+            Html = `<li>很遗憾，您消耗了${vValue}${cType}，什么都没有抽到...</li>`;
+        }
+        else {
+            Html = `<li>您消耗了${vValue}${cType}，抽中了${pname}</li>`;
+        }
+        return Html;
+    }
+
+
 
     var FormatterPrizeType = Type => {
         switch (Type) {

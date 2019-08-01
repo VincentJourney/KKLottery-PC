@@ -331,7 +331,7 @@
     }
 
     $(function () {
-        ShowMain();
+        ShowMain("");
 
         SimpleTimer.Start();
         SimpleTimer.Back();
@@ -344,8 +344,9 @@
                     mui.alert("游戏暂未配置");
                     return
                 }
-
-
+                if (!isEmpty(data.Data[0].Flop)) {
+                    ShowMain(ResourceUrl + data.Data[0].Flop);
+                }
                 GameMax = data.Data[0].GameMax;
                 GameDayPersonMax = data.Data[0].GamePersonMax;
                 GameDayPersonMax2 = data.Data[0].GameDayPersonMax;
@@ -370,13 +371,17 @@
     });
 
     //展示页面奖品图片
-    var ShowMain = () => {
+    var ShowMain = (url) => {
         $("#draw").empty();
         var html = "";
+        var imgurl = "images/ldimg/fugai/TurnBGimg.jpg";
+        if (!isEmpty(url)) {
+            imgurl = url;
+        }
         for (var i = 1; i <= 15; i++) {
             html += `<a href="javascript:;" id="a${i}" class="NewGrid">
                          <span class="PrizeName"></span>
-                         <img class="img" src="images/ldimg/fugai/TurnBGimg.jpg" alt="" />
+                         <img class="img" src="${imgurl}" alt="" />
                          <img class="info" src="images/ldimg/jieguo/1.png" alt="" />
                      </a>`;
         }
@@ -488,7 +493,8 @@
                     //发送游戏设置给PC端
                     SocketSend("Turn-PC/" + GameId,"<%=UnionId%>", '规则底图设置', {
                         RuleText: data.Data[0].GameRuleDesc,
-                        MainImg: data.Data[0].PCImg
+                        MainImg: data.Data[0].PCImg,
+                        Flop: data.Data[0].Flop,
                     }, false);
                     SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", 'GameId', GameId, false);
                     SocketSend("Turn-PC/" + GameId, "<%=UnionId%>", '心跳检测', 'nice', false);
