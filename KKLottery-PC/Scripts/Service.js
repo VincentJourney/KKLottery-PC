@@ -17,7 +17,6 @@ jQuery.axs = function (url, data, func) {
     });
 };
 
-
 //获取会员信息 Customer/MemberInfo
 var MemberInfo = (data, func) => {
     $.axs('WebService.asmx/MemberInfo', JSON.stringify(data), data => { func(eval('(' + data.d + ')')) })

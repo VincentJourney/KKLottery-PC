@@ -106,20 +106,20 @@
 			                          </div>
 			                          <div style="float: left; width: 80%"><ul>`;
 
-                        var ConsumptionType = item.ConsumptionType == '1' ? '积分' : '张礼券';
+                        var ConsumptionType = item.ConsumptionType == '1' ? '积分' : '礼券';
                         var ConsumptionValue = item.ConsumptionValue;
                         if (item.ConsumptionType != '1') {
                             VoucherInfo({ VoucherID: item.ConsumptionValue, VoucherCode: "" }, data => {
                                 if (data.HasError) {
-                                    Html += ReturnLi(item.WinPrizeType, ConsumptionValue, '张礼券', item.WinPrizeName);
+                                    Html += ReturnLi(item.WinPrizeType, ConsumptionValue, ConsumptionType, item.WinPrizeName);
                                 }
                                 else {
                                     if (data.Data.length > 0) {
                                         ConsumptionType = data.Data[0].VoucherName;
-                                        Html += ReturnLi(item.WinPrizeType, ConsumptionValue, `张${ConsumptionType}`, item.WinPrizeName);
+                                        Html += ReturnLi(item.WinPrizeType, ConsumptionValue, ConsumptionType, item.WinPrizeName);
                                     }
                                     else {
-                                        Html += ReturnLi(item.WinPrizeType, ConsumptionValue, '张礼券', item.WinPrizeName);
+                                        Html += ReturnLi(item.WinPrizeType, ConsumptionValue, ConsumptionType, item.WinPrizeName);
                                     }
                                 }
 
@@ -146,10 +146,11 @@
     var ReturnLi = (pType, vValue, cType, pname) => {
         var Html = "";
         if (pType == '4') {
-            Html = `<li>很遗憾，您消耗了${vValue}${cType}，什么都没有抽到...</li>`;
+            //Html = `<li>很遗憾，您消耗了${vValue}${cType}，什么都没有抽到...</li>`;
+            Html = `<li>很遗憾，您消耗了${cType}，什么都没有抽到...</li>`;
         }
         else {
-            Html = `<li>您消耗了${vValue}${cType}，抽中了${pname}</li>`;
+            Html = `<li>您消耗了${cType}，抽中了${pname}</li>`;
         }
         return Html;
     }

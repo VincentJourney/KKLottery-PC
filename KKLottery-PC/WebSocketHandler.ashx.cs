@@ -60,27 +60,15 @@ namespace KKLottery_PC
 
                 #endregion
 
-                #region 离线消息处理
-                //if (MESSAGE_POOL.ContainsKey(user))
-                //{
-                //    List<MessageInfo> msgs = MESSAGE_POOL[user];
-                //    foreach (MessageInfo item in msgs)
-                //    {
-                //        await socket.SendAsync(item.MsgContent, WebSocketMessageType.Text, true, CancellationToken.None);
-                //    }
-                //    MESSAGE_POOL.Remove(user);//移除离线消息
-                //}
-                #endregion
-
                 string descUser = string.Empty;//目的用户
                 while (true)
                 {
                     #region 关闭Socket处理，删除连接池
-                    //if (socket.State != WebSocketState.Open)//连接关闭
-                    //{
-                    //    await SendToPCOut(CONNECT_POOL, user);
-                    //    break;
-                    //}
+                    if (socket.State != WebSocketState.Open)//连接关闭
+                    {
+                        await SendToPCOut(CONNECT_POOL, user);
+                        break;
+                    }
                     #endregion
 
                     if (socket.State == WebSocketState.Open)
@@ -90,7 +78,6 @@ namespace KKLottery_PC
                         #region 消息处理（字符截取、消息转发）
                         try
                         {
-                            //CheckUserHeart();
                             #region 关闭Socket处理，删除连接池
                             if (socket.State != WebSocketState.Open)//连接关闭
                             {
@@ -102,12 +89,6 @@ namespace KKLottery_PC
                             string userMsg = Encoding.UTF8.GetString(buffer.Array, 0, 12000);//发送过来的消息
                             userMsg = userMsg.Replace("\0", "").TrimStart('"').TrimEnd('"').Replace(@"\", "");
                             var mesInfo = JsonConvert.DeserializeObject<MesInfo>(userMsg);
-
-                            var mes2 = JsonConvert.DeserializeObject<MesInfo2>(userMsg);
-                            //if (mes2.MesTitle == "心跳检测")
-                            //{
-                            //    UserTimePool[user] = DateTime.Now;
-                            //}
 
                             if (mesInfo != null)
                             {
@@ -123,15 +104,6 @@ namespace KKLottery_PC
                                 if (destSocket != null && destSocket.State == WebSocketState.Open)
                                     await destSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                             }
-                            else
-                            {
-                                await Task.Run(() =>
-                                {
-                                    if (!MESSAGE_POOL.ContainsKey(descUser))//将用户添加至离线消息池中
-                                        MESSAGE_POOL.Add(descUser, new List<MessageInfo>());
-                                    MESSAGE_POOL[descUser].Add(new MessageInfo(DateTime.Now, buffer));//添加离线消息
-                                });
-                            }
                         }
                         catch (Exception exs)
                         {
@@ -142,6 +114,7 @@ namespace KKLottery_PC
                     }
                     else
                     {
+                        await SendToPCOut(CONNECT_POOL, user);
                         break;
                     }
                 }//while end
