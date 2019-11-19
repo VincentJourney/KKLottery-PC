@@ -17,7 +17,6 @@ namespace KKLottery_PC
     public class WebSocketHandler : IHttpHandler
     {
         private static Dictionary<string, WebSocket> CONNECT_POOL = new Dictionary<string, WebSocket>();//用户连接池
-        private static Dictionary<string, DateTime> UserTimePool = new Dictionary<string, DateTime>();//用户时间连接池
         private static Dictionary<string, List<MessageInfo>> MESSAGE_POOL = new Dictionary<string, List<MessageInfo>>();//离线消息池	
 
 
@@ -150,16 +149,6 @@ namespace KKLottery_PC
                 };
                 await SendMes(mes, UserPool[UserName]);
             }
-        }
-
-        private async void CheckUserHeart()
-        {
-            var DieUser = UserTimePool.Where(s => (s.Value - DateTime.Now).Seconds > 4);
-            foreach (var item in DieUser)
-            {
-                await SendToPCOut(CONNECT_POOL, item.Key);
-            }
-
         }
 
         private static object OnLine_Lock = new object();
